@@ -1,0 +1,151 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <ui:Template name="SkillTree" src="SkillTree.uxml" />
+    <Style src="project://database/Assets/02.%20UI/GameHUD.uss?fileID=7433441132597879392&amp;guid=1e49878dd5c84a34bafcbd2d345f89ef&amp;type=3#GameHUD"/>
+    <ui:VisualElement name="game-root" class="game-root">
+        <ui:VisualElement name="grid-background" picking-mode="Ignore" class="grid-background">
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 64px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 128px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 192px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 256px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 320px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 384px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 448px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 512px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 576px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 640px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 704px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 768px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 832px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 896px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 960px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1024px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1088px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1152px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1216px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1280px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1344px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1408px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1472px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1536px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1600px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1664px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1728px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1792px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1856px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1920px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1984px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2048px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2112px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2176px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2240px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2304px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2368px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2432px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2496px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 64px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 128px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 192px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 256px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 320px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 384px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 448px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 512px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 576px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 640px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 704px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 768px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 832px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 896px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 960px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1024px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1088px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1152px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1216px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1280px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1344px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1408px;"/>
+            <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1472px;"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="assignment-layer" authoring-id="1950127882" class="assignment-layer">
+            <ui:Button name="assignment-0" class="assignment-card" style="left: 18%; top: 29%; rotate: 4deg;">
+                <ui:VisualElement class="paper">
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line short"/>
+                </ui:VisualElement>
+                <ui:Label text="과제" class="assignment-title"/>
+                <ui:VisualElement picking-mode="Ignore" class="hp-background">
+                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="assignment-1" class="assignment-card" style="left: 47%; top: 46%; rotate: -1deg;">
+                <ui:VisualElement class="paper">
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line short"/>
+                </ui:VisualElement>
+                <ui:Label text="과제" class="assignment-title"/>
+                <ui:VisualElement picking-mode="Ignore" class="hp-background">
+                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="assignment-2" class="assignment-card" style="left: 77%; top: 31%; rotate: 2deg;">
+                <ui:VisualElement class="paper">
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line short"/>
+                </ui:VisualElement>
+                <ui:Label text="과제" class="assignment-title"/>
+                <ui:VisualElement picking-mode="Ignore" class="hp-background">
+                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="assignment-3" class="assignment-card" style="left: 28%; top: 73%; rotate: -2deg;">
+                <ui:VisualElement class="paper">
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line short"/>
+                </ui:VisualElement>
+                <ui:Label text="과제" class="assignment-title"/>
+                <ui:VisualElement picking-mode="Ignore" class="hp-background">
+                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button name="golden-assignment" class="assignment-card golden" style="left: 65%; top: 70%; rotate: 3deg;">
+                <ui:VisualElement class="paper">
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line"/>
+                    <ui:VisualElement class="paper-line short"/>
+                </ui:VisualElement>
+                <ui:Label text="황금 과제" class="assignment-title"/>
+                <ui:VisualElement picking-mode="Ignore" class="hp-background">
+                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
+                </ui:VisualElement>
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:VisualElement name="grade-panel" class="hud-panel grade-panel">
+            <ui:Label text="현재 학점" class="hud-caption"/>
+            <ui:VisualElement class="grade-row">
+                <ui:Label name="grade-value" text="F" authoring-id="1802387712" class="grade-value"/>
+                <ui:Label text="→" class="grade-arrow"/>
+                <ui:Label name="next-grade-value" text="D" authoring-id="412978709" class="next-grade"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Label name="score-value" text="성적 0" authoring-id="-1435151242" class="score-value"/>
+        <ui:VisualElement name="timer-panel" authoring-id="-1604143358" class="hud-panel timer-panel">
+            <ui:Label text="마감까지" class="hud-caption"/>
+            <ui:Label name="timer-value" text="00:15.0" authoring-id="548011892" class="timer-value"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="result-overlay" enabled="true" authoring-id="-127498042" class="result-overlay" style="display: none; opacity: 1;">
+            <ui:VisualElement authoring-id="1225570544" focusable="false" class="result-panel">
+                <ui:Label text="과제 마감!" authoring-id="-1007573469" class="result-title"/>
+                <ui:Label name="final-points" text="최종 포인트 0" authoring-id="-183056100" class="result-grade"/>
+                <ui:Button name="restart-button" text="재시작" authoring-id="714389688" class="restart-button"/>
+                <ui:Button name="skill-tree-button" text="스킬 트리" class="skill-button"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Instance template="SkillTree" name="skill-tree-host" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: none;" />
+    </ui:VisualElement>
+</ui:UXML>
+
+

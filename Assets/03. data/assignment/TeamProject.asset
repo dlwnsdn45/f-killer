@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
+  m_Name: TeamProject
+  m_EditorClassIdentifier: 
+  title: '팀 프로젝트'
+  icon: {fileID: 2800000, guid: f1418eb648934bf7a12570d6d918de51, type: 3}
+  maxHp: 10
+  durability: 1
+  workload: 3
+  points: 30
+  size: {x: 84, y: 86}
+  spawnWeight: 25
+  goldChance: 0.15
+
+  kind: 1
+  durability: 1
+  workload: 3
+

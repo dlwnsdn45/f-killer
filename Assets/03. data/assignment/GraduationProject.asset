@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
+  m_Name: GraduationProject
+  m_EditorClassIdentifier: 
+  title: '졸업 작품'
+  icon: {fileID: 2800000, guid: 04253e33a73e439a9ad85f46aa88bc48, type: 3}
+  maxHp: 60
+  durability: 4
+  workload: 20
+  points: 70
+  size: {x: 84, y: 86}
+  spawnWeight: 4
+  goldChance: 0.15
+
+  kind: 3
+  durability: 4
+  workload: 20
+

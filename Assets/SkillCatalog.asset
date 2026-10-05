@@ -1,0 +1,286 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4ae6bad4a1e4c9e97e0087caaa31d7c, type: 3}
+  m_Name: SkillCatalog
+  m_EditorClassIdentifier:
+  skills:
+  - id: skill-0
+    title: '시작점'
+    description: '연결된 이전 노드를 구매하면 다음 노드가 해금됩니다. 과제를 파괴하여 획득한 포인트(P)로 구매합니다.'
+    cost: 0
+    prerequisiteId: ''
+    maxLevel: 1
+  - id: skill-1
+    title: '과제 폭탄'
+    description: '과제 등장 간격 -3%'
+    cost: 50
+    prerequisiteId: 'skill-0'
+    maxLevel: 1
+  - id: skill-2
+    title: '시험'
+    description: '과제 등장 간격 -5%'
+    cost: 150
+    prerequisiteId: 'skill-1'
+    maxLevel: 1
+  - id: skill-3
+    title: '조별 과제'
+    description: '한 번에 나오는 과제 +1'
+    cost: 400
+    prerequisiteId: 'skill-2'
+    maxLevel: 1
+  - id: skill-4
+    title: '팀 프로젝트'
+    description: '과제 등장 간격 -8%'
+    cost: 500
+    prerequisiteId: 'skill-3'
+    maxLevel: 1
+  - id: skill-5
+    title: '계절 학기'
+    description: '과제 등장 간격 -10%'
+    cost: 800
+    prerequisiteId: 'skill-4'
+    maxLevel: 1
+  - id: skill-6
+    title: '공모전 준비'
+    description: '한 번에 나오는 과제 +2'
+    cost: 1200
+    prerequisiteId: 'skill-5'
+    maxLevel: 1
+  - id: skill-7
+    title: '학기 작품'
+    description: '과제 등장 간격 -15%'
+    cost: 1500
+    prerequisiteId: 'skill-6'
+    maxLevel: 1
+  - id: skill-8
+    title: '졸업 작품'
+    description: '과제 등장 간격 -20%'
+    cost: 2000
+    prerequisiteId: 'skill-7'
+    maxLevel: 1
+  - id: skill-9
+    title: '샤프심 교체'
+    description: '클릭 파워 +1'
+    cost: 100
+    prerequisiteId: 'skill-0'
+    maxLevel: 1
+  - id: skill-10
+    title: '타블렛 펜촉 교체'
+    description: '클릭 파워 +2'
+    cost: 300
+    prerequisiteId: 'skill-9'
+    maxLevel: 1
+  - id: skill-11
+    title: '마우스'
+    description: '클릭 파워 +3'
+    cost: 650
+    prerequisiteId: 'skill-10'
+    maxLevel: 1
+  - id: skill-12
+    title: '키보드'
+    description: '치명타 확률 10% 증가 (피해 ×3)'
+    cost: 700
+    prerequisiteId: 'skill-11'
+    maxLevel: 1
+  - id: skill-13
+    title: '투 모니터'
+    description: '클릭할 때 주변 과제에도 피해를 줍니다.'
+    cost: 1000
+    prerequisiteId: 'skill-12'
+    maxLevel: 1
+  - id: skill-14
+    title: '오토마우스'
+    description: '치명타 확률 20% 증가 (피해 ×3)'
+    cost: 1500
+    prerequisiteId: 'skill-13'
+    maxLevel: 1
+  - id: skill-15
+    title: '수업 올 출석'
+    description: '획득 포인트 ×1.25'
+    cost: 300
+    prerequisiteId: 'skill-10'
+    maxLevel: 1
+  - id: skill-16
+    title: '장학금 헌터'
+    description: '획득 포인트 ×1.5'
+    cost: 700
+    prerequisiteId: 'skill-15'
+    maxLevel: 1
+  - id: skill-17
+    title: '수석의 길'
+    description: '획득 포인트 ×2'
+    cost: 1000
+    prerequisiteId: 'skill-16'
+    maxLevel: 1
+  - id: skill-18
+    title: '교수님의 방'
+    description: '학점이 오를 때마다 보너스 포인트를 받습니다. 성적이 높을수록 증가합니다.'
+    cost: 1200
+    prerequisiteId: 'skill-17'
+    maxLevel: 1
+  - id: skill-19
+    title: '에너지 드링크'
+    description: '마감 시간 +3초'
+    cost: 200
+    prerequisiteId: 'skill-0'
+    maxLevel: 1
+  - id: skill-20
+    title: '손목 보호대'
+    description: '과부하 한도 +3'
+    cost: 500
+    prerequisiteId: 'skill-19'
+    maxLevel: 1
+  - id: skill-21
+    title: '밤샘'
+    description: '마감 시간 +5초'
+    cost: 800
+    prerequisiteId: 'skill-20'
+    maxLevel: 1
+  - id: skill-22
+    title: '실습실 신청'
+    description: '마감 시간 +7초'
+    cost: 1400
+    prerequisiteId: 'skill-21'
+    maxLevel: 1
+  - id: skill-23
+    title: '과제 연장'
+    description: '과부하 한도 +5'
+    cost: 1600
+    prerequisiteId: 'skill-22'
+    maxLevel: 1
+  - id: skill-24
+    title: '휴강'
+    description: '마감 시간 +10초'
+    cost: 2000
+    prerequisiteId: 'skill-23'
+    maxLevel: 1
+  - id: skill-25
+    title: '추가 학점'
+    description: '성적이 오를 때마다 +3초'
+    cost: 2500
+    prerequisiteId: 'skill-24'
+    maxLevel: 1
+  - id: skill-26
+    title: '연속 제출'
+    description: '1.3초 안에 처리하면 콤보가 생깁니다. 25콤보당 획득 포인트 +5% (최대 25%)'
+    cost: 500
+    prerequisiteId: 'skill-21'
+    maxLevel: 1
+  - id: skill-27
+    title: '콤보 타임'
+    description: '콤보 유지 시간 +2초 콤보 보너스 100% 증가'
+    cost: 700
+    prerequisiteId: 'skill-26'
+    maxLevel: 1
+  - id: skill-28
+    title: '피버 타임'
+    description: '25콤보마다 2초 동안 클릭 파워 ×2'
+    cost: 1000
+    prerequisiteId: 'skill-27'
+    maxLevel: 1
+  - id: skill-29
+    title: '도서관 자리'
+    description: '황금 과제 등장 확률 5% 과제 ×2, 포인트 ×5'
+    cost: 400
+    prerequisiteId: 'skill-26'
+    maxLevel: 1
+  - id: skill-30
+    title: '스터디 그룹'
+    description: '황금 과제 등장 확률 10% 과제 ×2, 포인트 ×5'
+    cost: 800
+    prerequisiteId: 'skill-29'
+    maxLevel: 1
+  - id: skill-31
+    title: '좋은 팀원'
+    description: '황금 팀 프로젝트 등장 확률 15% 과제 ×2, 포인트 ×5'
+    cost: 1200
+    prerequisiteId: 'skill-30'
+    maxLevel: 1
+  - id: skill-32
+    title: '황금 학기 작품'
+    description: '황금 학기 작품 등장 확률 20% 과제 ×2, 포인트 ×5'
+    cost: 1200
+    prerequisiteId: 'skill-31'
+    maxLevel: 1
+  - id: skill-33
+    title: '황금 졸업 작품'
+    description: '황금 졸업 작품 등장 확률 25% 과제 ×2, 포인트 ×5'
+    cost: 1600
+    prerequisiteId: 'skill-32'
+    maxLevel: 1
+  - id: skill-34
+    title: '과제 로봇'
+    description: '로봇이 3초마다 무작위 과제에 피해 1을 줍니다.'
+    cost: 250
+    prerequisiteId: 'skill-0'
+    maxLevel: 1
+  - id: skill-35
+    title: '오버클럭'
+    description: '로봇 작동 간격 -0.5초'
+    cost: 500
+    prerequisiteId: 'skill-34'
+    maxLevel: 1
+  - id: skill-36
+    title: '무료 AI'
+    description: '로봇 피해 +1'
+    cost: 800
+    prerequisiteId: 'skill-35'
+    maxLevel: 1
+  - id: skill-37
+    title: '유료 AI 결제'
+    description: '로봇 피해 +2'
+    cost: 1000
+    prerequisiteId: 'skill-36'
+    maxLevel: 1
+  - id: skill-38
+    title: '로봇 개발'
+    description: '로봇 +2대'
+    cost: 2000
+    prerequisiteId: 'skill-37'
+    maxLevel: 1
+  - id: skill-39
+    title: '디버그 발견'
+    description: '버그가 도망가지 않습니다.'
+    cost: 300
+    prerequisiteId: 'skill-35'
+    maxLevel: 1
+  - id: skill-40
+    title: '술 약속 캔슬'
+    description: '술 약속을 한 번 파괴해도 막아줍니다.'
+    cost: 500
+    prerequisiteId: 'skill-39'
+    maxLevel: 1
+  - id: skill-41
+    title: '코드 수정'
+    description: '버그, 수정의 내구도 -1'
+    cost: 700
+    prerequisiteId: 'skill-40'
+    maxLevel: 1
+  - id: skill-42
+    title: '지인 찬스'
+    description: '과제, 팀 프로젝트, 학기 작품, 졸업 작품, 공모전 내구도 -1'
+    cost: 800
+    prerequisiteId: 'skill-41'
+    maxLevel: 1
+  - id: skill-43
+    title: '일어나!'
+    description: '잠을 클릭하여 한 번 파괴해도 팀원의 전화 찬스로 일어납니다.'
+    cost: 1000
+    prerequisiteId: 'skill-42'
+    maxLevel: 1
+  - id: skill-44
+    title: '자동 테스트'
+    description: '버그 처치 시 주변 과제 모두의 내구도 -2'
+    cost: 1200
+    prerequisiteId: 'skill-43'
+    maxLevel: 1
+
