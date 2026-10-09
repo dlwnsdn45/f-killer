@@ -1,4 +1,6 @@
 .game-root { flex-grow: 1; width: 100%; height: 100%; background-color: rgb(35, 43, 47); -unity-font-definition: url("Malgun.ttf"); }
+.background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); }
+.game-content { position: absolute; left: 0; right: 0; top: 0; bottom: 0; scale: 0.72 0.72; }
 .assignment-layer { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
 .hud-panel { position: absolute; top: 10px; width: 180px; height: 80px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; padding-left: 16px; padding-top: 9px; }
 .grade-panel { left: 10px; }
@@ -32,7 +34,9 @@
 .grid-horizontal { position: absolute; left: 0; right: 0; height: 1px; background-color: rgb(48, 56, 60); }
 
 .score-value { position: absolute; left: 50%; translate: -50% 0; top: 10px; padding: 10px 18px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; color: rgb(255, 210, 66); font-size: 16px; -unity-font-style: bold; }
-.score-popup { position: absolute; color: rgb(255, 210, 66); font-size: 20px; -unity-font-style: bold; }
+.add-points-button { position: absolute; right: 12px; bottom: 58px; height: 38px; padding-left: 14px; padding-right: 14px; background-color: rgb(39, 91, 66); border-width: 1px; border-color: rgb(92, 177, 126); border-radius: 5px; color: rgb(231, 255, 236); font-size: 13px; -unity-font-style: bold; }
+.add-points-button:hover { background-color: rgb(51, 119, 84); }
+.add-points-button:active { scale: 0.96 0.96; }
 
 .hp-background { width: 54px; height: 6px; flex-shrink: 0; margin-top: 5px; background-color: rgb(26, 22, 19); border-radius: 2px; overflow: hidden; align-items: flex-start; }
 
@@ -53,6 +57,18 @@
 
 .skill-button { height: 42px; width: 190px; margin-top: 10px; font-size: 17px; -unity-font-style: bold; background-color: rgb(40, 52, 60); color: rgb(244, 239, 226); border-width: 2px; border-color: rgb(100, 120, 135); border-radius: 5px; }
 .skill-button:hover { background-color: rgb(52, 68, 78); }
+
+.reset-progress-button { position: absolute; right: 12px; bottom: 12px; height: 38px; padding-left: 14px; padding-right: 14px; font-size: 14px; -unity-font-style: bold; background-color: rgb(47, 35, 38); color: rgb(235, 190, 190); border-width: 1px; border-color: rgb(126, 75, 80); border-radius: 5px; }
+.reset-progress-button:hover { background-color: rgb(75, 42, 46); color: rgb(255, 224, 224); }
+.reset-progress-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.72); }
+.reset-progress-panel { width: 360px; padding: 24px; align-items: center; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(126, 75, 80); border-radius: 10px; }
+.reset-progress-title { font-size: 21px; -unity-font-style: bold; color: rgb(255, 224, 224); -unity-text-align: middle-center; }
+.reset-progress-message { margin-top: 10px; margin-bottom: 20px; font-size: 14px; color: rgb(204, 216, 226); -unity-text-align: middle-center; white-space: normal; }
+.reset-progress-actions { flex-direction: row; justify-content: center; }
+.reset-progress-cancel, .reset-progress-confirm { height: 38px; width: 110px; font-size: 15px; -unity-font-style: bold; border-radius: 5px; }
+.reset-progress-cancel { margin-right: 8px; background-color: rgb(40, 52, 60); color: rgb(244, 239, 226); border-width: 1px; border-color: rgb(100, 120, 135); }
+.reset-progress-confirm { margin-left: 8px; background-color: rgb(156, 47, 54); color: rgb(255, 244, 244); border-width: 0; }
+.reset-progress-confirm:hover { background-color: rgb(190, 54, 63); }
 
 .skill-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(18, 21, 24); }
 .skill-viewport { position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow: hidden; }
@@ -83,7 +99,6 @@
 .skill-legend-swatch { width: 12px; height: 12px; border-radius: 2px; margin-right: 8px; }
 .skill-legend-text { font-size: 13px; color: rgb(204, 216, 226); margin: 0; padding: 0; }
 .skill-legend-hint { font-size: 11px; color: rgb(120, 140, 155); margin-top: 6px; }
-.assignment-card.hit { border-color: rgb(255, 255, 255); }
 .assignment-card.golden,
 .assignment-card.golden:hover,
 .assignment-card.golden:active,

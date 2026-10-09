@@ -12,17 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
   m_Name: Contest
   m_EditorClassIdentifier: 
-  title: '공모전'
+  title: "\uACF5\uBAA8\uC804"
   icon: {fileID: 2800000, guid: cf87363af6914a83b9f2943841436049, type: 3}
+  kind: 0
+  requiredGrade: 6
   maxHp: 120
-  durability: 6
-  workload: 50
   points: 100
-  size: {x: 84, y: 86}
-  spawnWeight: 1
-  goldChance: 0.15
-
-  kind: 4
-  durability: 6
-  workload: 50
-
+  movementSpeed: 90

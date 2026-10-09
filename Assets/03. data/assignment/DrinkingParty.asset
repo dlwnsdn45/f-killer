@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
   m_Name: DrinkingParty
   m_EditorClassIdentifier: 
-  title: '술 약속'
-  icon: {fileID: 0}
+  title: "\uC220 \uC57D\uC18D"
+  icon: {fileID: 2346436936791262179, guid: 389deb586dad40443a79de4db516db9d, type: 3}
   kind: 6
+  requiredGrade: 3
   maxHp: 8
   points: 30
   movementSpeed: 0
-  goldChance: 0

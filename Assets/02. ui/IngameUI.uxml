@@ -2,6 +2,8 @@
     <ui:Template name="SkillTree" src="SkillTree.uxml" />
     <Style src="project://database/Assets/02.%20UI/GameHUD.uss?fileID=7433441132597879392&amp;guid=1e49878dd5c84a34bafcbd2d345f89ef&amp;type=3#GameHUD"/>
     <ui:VisualElement name="game-root" class="game-root">
+        <ui:Image name="background-image-placeholder" picking-mode="Ignore" class="background-image-placeholder" />
+        <ui:VisualElement name="game-content" class="game-content">
         <ui:VisualElement name="grid-background" picking-mode="Ignore" class="grid-background">
             <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 64px;"/>
             <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 128px;"/>
@@ -66,72 +68,17 @@
             <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1408px;"/>
             <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1472px;"/>
         </ui:VisualElement>
-        <ui:VisualElement name="assignment-layer" authoring-id="1950127882" class="assignment-layer">
-            <ui:Button name="assignment-0" class="assignment-card" style="left: 18%; top: 29%; rotate: 4deg;">
-                <ui:VisualElement class="paper">
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line short"/>
-                </ui:VisualElement>
-                <ui:Label text="과제" class="assignment-title"/>
-                <ui:VisualElement picking-mode="Ignore" class="hp-background">
-                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="assignment-1" class="assignment-card" style="left: 47%; top: 46%; rotate: -1deg;">
-                <ui:VisualElement class="paper">
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line short"/>
-                </ui:VisualElement>
-                <ui:Label text="과제" class="assignment-title"/>
-                <ui:VisualElement picking-mode="Ignore" class="hp-background">
-                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="assignment-2" class="assignment-card" style="left: 77%; top: 31%; rotate: 2deg;">
-                <ui:VisualElement class="paper">
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line short"/>
-                </ui:VisualElement>
-                <ui:Label text="과제" class="assignment-title"/>
-                <ui:VisualElement picking-mode="Ignore" class="hp-background">
-                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="assignment-3" class="assignment-card" style="left: 28%; top: 73%; rotate: -2deg;">
-                <ui:VisualElement class="paper">
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line short"/>
-                </ui:VisualElement>
-                <ui:Label text="과제" class="assignment-title"/>
-                <ui:VisualElement picking-mode="Ignore" class="hp-background">
-                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
-                </ui:VisualElement>
-            </ui:Button>
-            <ui:Button name="golden-assignment" class="assignment-card golden" style="left: 65%; top: 70%; rotate: 3deg;">
-                <ui:VisualElement class="paper">
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line"/>
-                    <ui:VisualElement class="paper-line short"/>
-                </ui:VisualElement>
-                <ui:Label text="황금 과제" class="assignment-title"/>
-                <ui:VisualElement picking-mode="Ignore" class="hp-background">
-                    <ui:VisualElement picking-mode="Ignore" class="card-progress"/>
-                </ui:VisualElement>
-            </ui:Button>
-        </ui:VisualElement>
+        <ui:VisualElement name="assignment-layer" authoring-id="1950127882" class="assignment-layer" />
         <ui:VisualElement name="grade-panel" class="hud-panel grade-panel">
             <ui:Label text="현재 학점" class="hud-caption"/>
             <ui:VisualElement class="grade-row">
                 <ui:Label name="grade-value" text="F" authoring-id="1802387712" class="grade-value"/>
                 <ui:Label text="→" class="grade-arrow"/>
-                <ui:Label name="next-grade-value" text="D" authoring-id="412978709" class="next-grade"/>
+            <ui:Label name="next-grade-value" text="F+" authoring-id="412978709" class="next-grade"/>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Label name="score-value" text="성적 0" authoring-id="-1435151242" class="score-value"/>
+        <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button" />
         <ui:VisualElement name="timer-panel" authoring-id="-1604143358" class="hud-panel timer-panel">
             <ui:Label text="마감까지" class="hud-caption"/>
             <ui:Label name="timer-value" text="00:15.0" authoring-id="548011892" class="timer-value"/>
@@ -144,7 +91,19 @@
                 <ui:Button name="skill-tree-button" text="스킬 트리" class="skill-button"/>
             </ui:VisualElement>
         </ui:VisualElement>
+        <ui:Button name="reset-progress-button" text="진행사항 초기화" class="reset-progress-button" />
+        <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
+            <ui:VisualElement class="reset-progress-panel">
+                <ui:Label text="진행사항을 초기화할까요?" class="reset-progress-title" />
+                <ui:Label text="보유 포인트와 구매한 스킬이 모두 사라집니다." class="reset-progress-message" />
+                <ui:VisualElement class="reset-progress-actions">
+                    <ui:Button name="cancel-reset-progress-button" text="취소" class="reset-progress-cancel" />
+                    <ui:Button name="confirm-reset-progress-button" text="초기화" class="reset-progress-confirm" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:Instance template="SkillTree" name="skill-tree-host" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: none;" />
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
 

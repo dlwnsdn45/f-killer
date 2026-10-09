@@ -12,17 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
   m_Name: TeamProject
   m_EditorClassIdentifier: 
-  title: '팀 프로젝트'
+  title: "\uD300 \uD504\uB85C\uC81D\uD2B8"
   icon: {fileID: 2800000, guid: f1418eb648934bf7a12570d6d918de51, type: 3}
-  maxHp: 10
-  durability: 1
-  workload: 3
-  points: 30
-  size: {x: 84, y: 86}
-  spawnWeight: 25
-  goldChance: 0.15
-
   kind: 1
-  durability: 1
-  workload: 3
-
+  requiredGrade: 0
+  maxHp: 10
+  points: 30
+  movementSpeed: 90

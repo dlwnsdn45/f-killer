@@ -24,7 +24,11 @@ public sealed class GameUIController : MonoBehaviour
     bool feverPulseBright;
     Label finalPointsValue;
     Button restartButton;
-    Action restartClickedCallback;
+    Button addPointsButton;
+    Button resetProgressButton;
+    VisualElement resetProgressOverlay;
+    Button confirmResetProgressButton;
+    Button cancelResetProgressButton;
     bool isBound;
     bool reloadRegistered;
     int uiVersion = -1;
@@ -38,8 +42,6 @@ public sealed class GameUIController : MonoBehaviour
     sealed class AssignmentCardBinding
     {
         public Button card;
-        public Label title;
-        public Image icon;
         public VisualElement progress;
         public Action clickedCallback;
         public float moveDirection;
@@ -87,16 +89,27 @@ public sealed class GameUIController : MonoBehaviour
         resultOverlay = root.Q<VisualElement>("result-overlay");
         finalPointsValue = root.Q<Label>("final-points");
         restartButton = root.Q<Button>("restart-button");
+        addPointsButton = root.Q<Button>("add-points-button");
+        resetProgressButton = root.Q<Button>("reset-progress-button");
+        resetProgressOverlay = root.Q<VisualElement>("reset-progress-overlay");
+        confirmResetProgressButton = root.Q<Button>("confirm-reset-progress-button");
+        cancelResetProgressButton = root.Q<Button>("cancel-reset-progress-button");
         if (assignmentLayer == null || scoreValue == null || timerValue == null ||
-            resultOverlay == null || finalPointsValue == null || restartButton == null)
+            resultOverlay == null || finalPointsValue == null || restartButton == null || addPointsButton == null ||
+            resetProgressButton == null || resetProgressOverlay == null ||
+            confirmResetProgressButton == null || cancelResetProgressButton == null)
         {
             Debug.LogError("IngameUI의 필수 요소가 누락되었습니다.", this);
             return;
         }
-        CreateComboHud();
+        CreateFeverHud();
         assignmentLayer.Clear();
-        restartClickedCallback = gameManager.StartGame;
-        restartButton.clicked += restartClickedCallback;
+        restartButton.clicked += gameManager.StartGame;
+        addPointsButton.clicked += gameManager.AddPointsFromButton;
+        resetProgressButton.clicked += ShowResetProgressConfirmation;
+        confirmResetProgressButton.clicked += ResetProgress;
+        cancelResetProgressButton.clicked += HideResetProgressConfirmation;
+        HideResetProgressConfirmation();
         assignmentLayer.RegisterCallback<ClickEvent>(HandlePlayfieldClick);
         if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
@@ -107,8 +120,11 @@ public sealed class GameUIController : MonoBehaviour
     {
         skillTree?.Dispose();
         skillTree = null;
-        if (restartButton != null && restartClickedCallback != null)
-            restartButton.clicked -= restartClickedCallback;
+        if (restartButton != null) restartButton.clicked -= gameManager.StartGame;
+        if (addPointsButton != null) addPointsButton.clicked -= gameManager.AddPointsFromButton;
+        if (resetProgressButton != null) resetProgressButton.clicked -= ShowResetProgressConfirmation;
+        if (confirmResetProgressButton != null) confirmResetProgressButton.clicked -= ResetProgress;
+        if (cancelResetProgressButton != null) cancelResetProgressButton.clicked -= HideResetProgressConfirmation;
         assignmentLayer?.UnregisterCallback<ClickEvent>(HandlePlayfieldClick);
         feverOutline?.RemoveFromHierarchy();
         feverInnerOutline?.RemoveFromHierarchy();
@@ -118,9 +134,24 @@ public sealed class GameUIController : MonoBehaviour
         feverPulseTask = null;
         feverOutline = feverInnerOutline = null;
         feverCountdown = null;
-        restartClickedCallback = null;
         ClearAssignments();
         isBound = false;
+    }
+
+    void ShowResetProgressConfirmation()
+    {
+        if (resetProgressOverlay != null) resetProgressOverlay.style.display = DisplayStyle.Flex;
+    }
+
+    void HideResetProgressConfirmation()
+    {
+        if (resetProgressOverlay != null) resetProgressOverlay.style.display = DisplayStyle.None;
+    }
+
+    void ResetProgress()
+    {
+        gameManager.SkillProgress.Reset();
+        HideResetProgressConfirmation();
     }
 
     public void ShowGame()
@@ -169,7 +200,7 @@ public sealed class GameUIController : MonoBehaviour
         popup.schedule.Execute(() => popup.RemoveFromHierarchy()).StartingIn(700);
     }
 
-    void CreateComboHud()
+    void CreateFeverHud()
     {
         feverOutline = new VisualElement { name = "fever-outline", pickingMode = PickingMode.Ignore };
         feverOutline.AddToClassList("fever-outline");
@@ -183,12 +214,12 @@ public sealed class GameUIController : MonoBehaviour
         root.Add(feverCountdown);
     }
 
-    public void UpdateComboState(int count, float remaining, bool unlocked, bool feverActive, float feverRemaining)
+    public void UpdateFeverState(bool active, float remaining)
     {
         if (!isBound) return;
-        if (feverActive)
+        if (active)
         {
-            feverCountdown.text = $"FEVER  {feverRemaining:0.0}s  ·  클릭 피해 ×2";
+            feverCountdown.text = $"FEVER  {remaining:0.0}s  ·  클릭 피해 ×2";
             feverCountdown.style.display = DisplayStyle.Flex;
         }
         else feverCountdown.style.display = DisplayStyle.None;
@@ -286,14 +317,14 @@ public sealed class GameUIController : MonoBehaviour
         bool hasIcon = assignment.Data.Icon != null;
         if (hasIcon)
         {
-            binding.icon = new Image
+            var icon = new Image
             {
                 image = assignment.Data.Icon,
                 scaleMode = ScaleMode.ScaleToFit,
                 pickingMode = PickingMode.Ignore
             };
-            binding.icon.AddToClassList("assignment-icon");
-            binding.card.Add(binding.icon);
+            icon.AddToClassList("assignment-icon");
+            binding.card.Add(icon);
         }
         else
         {
@@ -308,9 +339,9 @@ public sealed class GameUIController : MonoBehaviour
             }
             binding.card.Add(paper);
         }
-        binding.title = new Label(assignment.IsGolden ? $"황금 {assignment.Data.Title}" : assignment.Data.Title) { pickingMode = PickingMode.Ignore };
-        binding.title.AddToClassList("assignment-title");
-        binding.card.Add(binding.title);
+        var title = new Label(assignment.IsGolden ? $"황금 {assignment.Data.Title}" : assignment.Data.Title) { pickingMode = PickingMode.Ignore };
+        title.AddToClassList("assignment-title");
+        binding.card.Add(title);
         var background = new VisualElement { pickingMode = PickingMode.Ignore };
         background.AddToClassList("hp-background");
         binding.progress = new VisualElement { pickingMode = PickingMode.Ignore };
@@ -396,8 +427,7 @@ public sealed class GameUIController : MonoBehaviour
     {
         if (!isBound) return;
         assignmentLayer.SetEnabled(false);
-        finalPointsValue.text = $"최종 {finalPoints}점 · {finalGrade}";
+        finalPointsValue.text = $"최종 {finalPoints}점: {finalGrade}";
         resultOverlay.style.display = DisplayStyle.Flex;
     }
 }
-

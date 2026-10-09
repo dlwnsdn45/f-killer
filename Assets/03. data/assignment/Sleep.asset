@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0483cd6a0a824920a8435268eac1f8bb, type: 3}
   m_Name: Sleep
   m_EditorClassIdentifier: 
-  title: '잠'
-  icon: {fileID: 0}
+  title: "\uC7A0"
+  icon: {fileID: -6998602773673171431, guid: 389deb586dad40443a79de4db516db9d, type: 3}
   kind: 7
+  requiredGrade: 5
   maxHp: 15
   points: 50
   movementSpeed: 0
-  goldChance: 0

@@ -2,29 +2,17 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(AssignmentSpawner), typeof(AudioManager))]
 public sealed class GameManager : MonoBehaviour
 {
-    [Serializable]
-    public sealed class SpawnEntry
-    {
-        public AssignmentData data;
-        [Min(0f)] public float weight = 1f;
-
-        public bool IsValid => data != null && weight > 0f && !float.IsInfinity(weight);
-    }
-
     const float RoundDurationSeconds = 15f;
     static readonly string[] GradeNames = { "F", "F+", "D", "D+", "C", "C+", "B", "B+", "A", "A+", "졸업" };
     static readonly int[] GradeThresholds = { 0, 15, 40, 150, 320, 500, 700, 1000, 1800, 2500 };
     [SerializeField] GameUIController gameUI;
-    [Header("생성")]
-    [SerializeField] List<SpawnEntry> assignmentTable = new List<SpawnEntry>();
-    [SerializeField, Min(0.01f)] float spawnIntervalSeconds = 1f;
+    [SerializeField] AssignmentSpawner assignmentSpawner;
+    [SerializeField] AudioManager audioManager;
     [Header("과부하")]
     [SerializeField, Min(0f)] float missClickPenaltySeconds = 0.5f;
-    [SerializeField] AudioClip missClickWarning;
-    [SerializeField] AudioClip assignmentHitSound;
-    [SerializeField] AudioClip feverHitSound;
 
     bool isPlaying;
     bool hasStarted;
@@ -39,10 +27,6 @@ public sealed class GameManager : MonoBehaviour
     int totalPoints;
     int overloadBlocksRemaining;
     bool sleepRescueUsed;
-    AudioSource warningAudioSource;
-    AudioClip generatedWarningClip;
-    AudioClip generatedHitClip;
-    AudioClip generatedFeverHitClip;
     SkillProgress skillProgress;
     public SkillProgress SkillProgress => skillProgress ?? (skillProgress = new SkillProgress());
     readonly List<AssignmentBase> activeAssignments = new List<AssignmentBase>();
@@ -55,21 +39,6 @@ public sealed class GameManager : MonoBehaviour
         + (HasSkill("skill-22") ? 7f : 0f)
         + (HasSkill("skill-24") ? 10f : 0f);
 
-    float SpawnInterval
-    {
-        get
-        {
-            float reduction = (HasSkill("skill-1") ? 0.03f : 0f)
-                + (HasSkill("skill-2") ? 0.05f : 0f)
-                + (HasSkill("skill-4") ? 0.08f : 0f)
-                + (HasSkill("skill-5") ? 0.10f : 0f)
-                + (HasSkill("skill-7") ? 0.15f : 0f)
-                + (HasSkill("skill-8") ? 0.20f : 0f);
-            float gradeInterval = GradeSpawnInterval(CurrentGradeIndex);
-            return Mathf.Max(0.05f, gradeInterval * (1f - Mathf.Clamp01(reduction)));
-        }
-    }
-
     int CurrentGradeIndex => GetGradeIndex(totalPoints);
 
     static int GetGradeIndex(int points)
@@ -78,32 +47,6 @@ public sealed class GameManager : MonoBehaviour
         for (int i = 1; i < GradeThresholds.Length; i++)
             if (points >= GradeThresholds[i]) gradeIndex = i;
         return gradeIndex;
-    }
-
-    static float GradeSpawnInterval(int gradeIndex)
-    {
-        if (gradeIndex <= 1) return 1.5f;
-        if (gradeIndex <= 3) return 1.2f;
-        if (gradeIndex <= 5) return 1f;
-        return 0.5f;
-    }
-
-    static bool IsAvailableAtGrade(AssignmentKind kind, int gradeIndex)
-    {
-        if (kind == AssignmentKind.Regular || kind == AssignmentKind.TeamProject) return true;
-        if (kind == AssignmentKind.Bug) return gradeIndex >= 1;
-        if (kind == AssignmentKind.SemesterProject) return gradeIndex >= 2;
-        if (kind == AssignmentKind.DrinkingParty) return gradeIndex >= 3;
-        if (kind == AssignmentKind.GraduationProject) return gradeIndex >= 4;
-        if (kind == AssignmentKind.Sleep) return gradeIndex >= 5;
-        return kind == AssignmentKind.Contest && gradeIndex >= 6;
-    }
-
-    static int GradeSpawnCount(int gradeIndex)
-    {
-        if (gradeIndex <= 3) return 1;
-        if (gradeIndex <= 5) return UnityEngine.Random.Range(1, 3);
-        return UnityEngine.Random.Range(2, 4);
     }
 
     void UpdateAcademicGrade()
@@ -138,13 +81,8 @@ public sealed class GameManager : MonoBehaviour
 
     void Awake()
     {
-        warningAudioSource = GetComponent<AudioSource>();
-        if (warningAudioSource == null) warningAudioSource = gameObject.AddComponent<AudioSource>();
-        warningAudioSource.playOnAwake = false;
-        warningAudioSource.spatialBlend = 0f;
-        if (missClickWarning == null) generatedWarningClip = CreateWarningClip();
-        if (assignmentHitSound == null) generatedHitClip = CreateToneClip("Assignment Hit", 430f, 0.075f, 0.24f);
-        if (feverHitSound == null) generatedFeverHitClip = CreateToneClip("Fever Hit", 980f, 0.095f, 0.30f);
+        if (assignmentSpawner == null) assignmentSpawner = GetComponent<AssignmentSpawner>();
+        if (audioManager == null) audioManager = GetComponent<AudioManager>();
     }
 
     void Update()
@@ -155,15 +93,16 @@ public sealed class GameManager : MonoBehaviour
         if (!isPlaying) return;
         UpdateComboAndFever();
 
-        elapsedSpawnSeconds += Time.unscaledDeltaTime;
-        float interval = SpawnInterval;
-        while (elapsedSpawnSeconds >= interval)
+        if (assignmentSpawner != null)
         {
-            elapsedSpawnSeconds -= interval;
-            int spawnCount = GradeSpawnCount(CurrentGradeIndex)
-                + (HasSkill("skill-3") ? 1 : 0)
-                + (HasSkill("skill-6") ? 2 : 0);
-            for (int i = 0; i < spawnCount; i++) Spawn();
+            elapsedSpawnSeconds += Time.unscaledDeltaTime;
+            int spawnGradeIndex = SkillProgress.BestGradeIndex;
+            float interval = assignmentSpawner.GetInterval(spawnGradeIndex, HasSkill);
+            while (elapsedSpawnSeconds >= interval)
+            {
+                elapsedSpawnSeconds -= interval;
+                assignmentSpawner.Spawn(spawnGradeIndex, HasSkill, RegisterAssignment);
+            }
         }
 
         UpdateRobots();
@@ -187,7 +126,7 @@ public sealed class GameManager : MonoBehaviour
         feverExpiresAt = 0;
         feverWasActive = false;
         gameUI.SetFeverVisual(false);
-        gameUI.UpdateComboState(0, 0f, HasSkill("skill-26"), false, 0f);
+        gameUI.UpdateFeverState(false, 0f);
         overloadBlocksRemaining = (HasSkill("skill-20") ? 3 : 0) + (HasSkill("skill-23") ? 5 : 0);
         sleepRescueUsed = false;
         deadline = Time.unscaledTimeAsDouble + RoundDuration;
@@ -199,35 +138,16 @@ public sealed class GameManager : MonoBehaviour
         gameUI.UpdateTimer(RoundDuration);
     }
 
+    public void AddPointsFromButton()
+    {
+        SkillProgress.AddPoints(1000);
+    }
+
     void UpdateTimer()
     {
         float remainingSeconds = Mathf.Max(0f, (float)(deadline - Time.unscaledTimeAsDouble));
         gameUI.UpdateTimer(remainingSeconds);
         if (remainingSeconds <= 0f) EndGame();
-    }
-
-    void Spawn()
-    {
-        float totalWeight = 0f;
-        int gradeIndex = CurrentGradeIndex;
-        foreach (SpawnEntry entry in assignmentTable)
-            if (entry != null && entry.IsValid && IsAvailableAtGrade(entry.data.Kind, gradeIndex))
-                totalWeight += entry.weight;
-        if (totalWeight <= 0f || float.IsInfinity(totalWeight)) return;
-
-        float roll = UnityEngine.Random.value * totalWeight;
-        AssignmentData selected = null;
-        foreach (SpawnEntry entry in assignmentTable)
-        {
-            if (entry == null || !entry.IsValid || !IsAvailableAtGrade(entry.data.Kind, gradeIndex)) continue;
-            selected = entry.data;
-            roll -= entry.weight;
-            if (roll < 0f) break;
-        }
-        bool isGolden = selected.GoldChance > 0f && UnityEngine.Random.value < selected.GoldChance;
-        var assignment = new AssignmentBase();
-        assignment.Initialize(selected, isGolden);
-        RegisterAssignment(assignment);
     }
 
     public void RegisterAssignment(AssignmentBase assignment)
@@ -254,7 +174,7 @@ public sealed class GameManager : MonoBehaviour
         {
             damage *= 3;
         }
-        PlayAssignmentHit(feverActive);
+        audioManager.PlayAssignmentHit(feverActive);
         if (feverActive) gameUI.PlayFeverHitEffect(assignment);
 
         var nearby = new List<AssignmentBase>();
@@ -268,7 +188,7 @@ public sealed class GameManager : MonoBehaviour
     public void HandleMissClick(Vector2 position)
     {
         if (!isPlaying) return;
-        PlayMissClickWarning();
+        audioManager.PlayMissClickWarning();
         if (overloadBlocksRemaining > 0)
         {
             overloadBlocksRemaining--;
@@ -279,56 +199,6 @@ public sealed class GameManager : MonoBehaviour
         deadline -= Mathf.Max(0f, missClickPenaltySeconds);
         UpdateTimer();
         gameUI.ShowOverloadFeedback(position, false, overloadBlocksRemaining);
-    }
-
-    void PlayMissClickWarning()
-    {
-        if (warningAudioSource == null) return;
-        AudioClip clip = missClickWarning != null ? missClickWarning : generatedWarningClip;
-        if (clip != null) warningAudioSource.PlayOneShot(clip);
-    }
-
-    static AudioClip CreateWarningClip()
-    {
-        const int sampleRate = 44100;
-        const float duration = 0.20f;
-        int sampleCount = Mathf.CeilToInt(sampleRate * duration);
-        var samples = new float[sampleCount];
-        for (int i = 0; i < sampleCount; i++)
-        {
-            float time = i / (float)sampleRate;
-            float frequency = time < 0.09f ? 980f : 680f;
-            float envelope = Mathf.Min(1f, time * 80f) * Mathf.Min(1f, (duration - time) * 35f);
-            samples[i] = Mathf.Sin(2f * Mathf.PI * frequency * time) * envelope * 0.35f;
-        }
-        AudioClip clip = AudioClip.Create("Overload Miss Warning", sampleCount, 1, sampleRate, false);
-        clip.SetData(samples, 0);
-        return clip;
-    }
-
-    static AudioClip CreateToneClip(string clipName, float frequency, float duration, float volume)
-    {
-        const int sampleRate = 44100;
-        int sampleCount = Mathf.CeilToInt(sampleRate * duration);
-        var samples = new float[sampleCount];
-        for (int i = 0; i < sampleCount; i++)
-        {
-            float time = i / (float)sampleRate;
-            float envelope = Mathf.Min(1f, time * 100f) * Mathf.Min(1f, (duration - time) * 45f);
-            samples[i] = Mathf.Sin(2f * Mathf.PI * frequency * time) * envelope * volume;
-        }
-        AudioClip clip = AudioClip.Create(clipName, sampleCount, 1, sampleRate, false);
-        clip.SetData(samples, 0);
-        return clip;
-    }
-
-    void PlayAssignmentHit(bool feverActive)
-    {
-        if (warningAudioSource == null) return;
-        AudioClip clip = feverActive
-            ? (feverHitSound != null ? feverHitSound : generatedFeverHitClip)
-            : (assignmentHitSound != null ? assignmentHitSound : generatedHitClip);
-        if (clip != null) warningAudioSource.PlayOneShot(clip);
     }
 
     void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
@@ -378,6 +248,7 @@ public sealed class GameManager : MonoBehaviour
         }
         int reward = Mathf.Max(1, Mathf.RoundToInt(assignment.Points * multiplier));
         totalPoints += reward;
+        SkillProgress.RecordBestGrade(CurrentGradeIndex);
         SkillProgress.AddPoints(reward);
         UpdateAcademicGrade();
         gameUI.RemoveAssignment(assignment);
@@ -416,9 +287,7 @@ public sealed class GameManager : MonoBehaviour
             feverWasActive = feverActive;
             gameUI.SetFeverVisual(feverActive);
         }
-        gameUI.UpdateComboState(comboCount,
-            comboCount > 0 ? Mathf.Max(0f, (float)(comboExpiresAt - now)) : 0f,
-            HasSkill("skill-26"), feverActive,
+        gameUI.UpdateFeverState(feverActive,
             feverActive ? Mathf.Max(0f, (float)(feverExpiresAt - now)) : 0f);
     }
 
@@ -428,7 +297,7 @@ public sealed class GameManager : MonoBehaviour
         isPlaying = false;
         feverWasActive = false;
         gameUI.SetFeverVisual(false);
-        gameUI.UpdateComboState(0, 0f, HasSkill("skill-26"), false, 0f);
+        gameUI.UpdateFeverState(false, 0f);
         gameUI.UpdateTimer(0f);
         int finalGradeIndex = CurrentGradeIndex;
         string finalGrade = totalPoints >= 2500 ? "졸업" : GradeNames[finalGradeIndex];

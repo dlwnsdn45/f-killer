@@ -5,8 +5,6 @@ using UnityEngine;
 public sealed class SkillTable: ScriptableObject
 {
     [SerializeField] List<SkillData> skills = new List<SkillData>();
-    public IReadOnlyList<SkillData> Skills => skills;
-
     public SkillData Find(string id) => skills.Find(skill => skill != null && skill.Id == id);
 
     void OnValidate()

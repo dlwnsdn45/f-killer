@@ -11,11 +11,13 @@ public sealed class SkillProgress
     [Serializable] sealed class SaveData
     {
         public int points;
+        public int bestGradeIndex;
         public List<string> purchased = new List<string>();
     }
 
     readonly HashSet<string> purchased = new HashSet<string>();
     public int Points { get; private set; }
+    public int BestGradeIndex { get; private set; }
     public event Action Changed;
 
     public SkillProgress()
@@ -25,6 +27,7 @@ public sealed class SkillProgress
             var data = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(SaveKey, "{}"));
             if (data == null) return;
             Points = Math.Max(0, data.points);
+            BestGradeIndex = Math.Max(0, data.bestGradeIndex);
             if (data.purchased != null)
                 foreach (string id in data.purchased)
                     if (!string.IsNullOrWhiteSpace(id)) purchased.Add(id);
@@ -38,6 +41,7 @@ public sealed class SkillProgress
 
     public SkillPurchaseState GetState(SkillTable table, string id)
     {
+        if (table == null) return SkillPurchaseState.Invalid;
         SkillData skill = table.Find(id);
         if (skill == null || skill.Cost < 0 || string.IsNullOrWhiteSpace(skill.Id)) return SkillPurchaseState.Invalid;
         if (IsOwned(skill)) return SkillPurchaseState.Owned;
@@ -64,11 +68,28 @@ public sealed class SkillProgress
         Changed?.Invoke();
     }
 
+    public void RecordBestGrade(int gradeIndex)
+    {
+        gradeIndex = Math.Max(0, gradeIndex);
+        if (gradeIndex <= BestGradeIndex) return;
+        BestGradeIndex = gradeIndex;
+        Save();
+    }
+
+    public void Reset()
+    {
+        Points = 0;
+        BestGradeIndex = 0;
+        purchased.Clear();
+        Save();
+        Changed?.Invoke();
+    }
+
     void Save()
     {
         PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(new SaveData
         {
-            points = Points, purchased = new List<string>(purchased)
+            points = Points, bestGradeIndex = BestGradeIndex, purchased = new List<string>(purchased)
         }));
         PlayerPrefs.Save();
     }

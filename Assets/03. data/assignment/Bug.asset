@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bug
   m_EditorClassIdentifier: 
   title: "\uBC84\uADF8"
-  icon: {fileID: 0}
+  icon: {fileID: 8228938214290033325, guid: 389deb586dad40443a79de4db516db9d, type: 3}
   kind: 5
+  requiredGrade: 1
   maxHp: 3
   points: 10
   movementSpeed: 90
-  goldChance: 0
