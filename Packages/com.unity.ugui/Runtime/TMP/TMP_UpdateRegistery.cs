@@ -1,0 +1,199 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UI.Collections;
+using System.Collections;
+using System.Collections.Generic;
+
+
+namespace TMPro
+{
+    /// <summary>
+    /// Class for handling and scheduling text object updates.
+    /// </summary>
+    public class TMP_UpdateRegistry
+    {
+        private static TMP_UpdateRegistry s_Instance;
+
+        private readonly List<ICanvasElement> m_LayoutRebuildQueue = new List<ICanvasElement>();
+        private readonly HashSet<EntityId> m_LayoutQueueLookup = new HashSet<EntityId>();
+
+        private readonly List<ICanvasElement> m_GraphicRebuildQueue = new List<ICanvasElement>();
+        private readonly HashSet<EntityId> m_GraphicQueueLookup = new HashSet<EntityId>();
+
+        //private bool m_PerformingLayoutUpdate;
+        //private bool m_PerformingGraphicUpdate;
+
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterAssembliesLoaded)]
+        static void ResetStaticsOnLoad()
+        {
+            // Added this reset  just in case. This class should be deleted as it's not used.
+            if (s_Instance != null)
+            {
+                Canvas.willRenderCanvases -= s_Instance.PerformUpdateForCanvasRendererObjects;
+                s_Instance = default;
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Get a singleton instance of the registry
+        /// </summary>
+        public static TMP_UpdateRegistry instance
+        {
+            get
+            {
+                if (TMP_UpdateRegistry.s_Instance == null)
+                    TMP_UpdateRegistry.s_Instance = new TMP_UpdateRegistry();
+                return TMP_UpdateRegistry.s_Instance;
+            }
+        }
+
+
+        /// <summary>
+        /// Register to receive callback from the Canvas System.
+        /// </summary>
+        protected TMP_UpdateRegistry()
+        {
+            //Debug.Log("Adding WillRenderCanvases");
+            Canvas.willRenderCanvases += PerformUpdateForCanvasRendererObjects;
+        }
+
+
+        /// <summary>
+        /// Registers elements which require a layout rebuild.
+        /// </summary>
+        /// <param name="element">Canvas element (typically <see cref="TMP_Text"/>) to enqueue; duplicates are skipped using the object entity id.</param>
+        /// <remarks>
+        /// Queues the element for <see cref="CanvasUpdate.Prelayout"/> during <c>Canvas.willRenderCanvases</c> so TMP can refresh preferred size before mesh generation.
+        /// </remarks>
+        public static void RegisterCanvasElementForLayoutRebuild(ICanvasElement element)
+        {
+            TMP_UpdateRegistry.instance.InternalRegisterCanvasElementForLayoutRebuild(element);
+        }
+
+        private bool InternalRegisterCanvasElementForLayoutRebuild(ICanvasElement element)
+        {
+            EntityId id = (element as Object).GetEntityId();
+
+            if (m_LayoutQueueLookup.Contains(id))
+                return false;
+
+            m_LayoutQueueLookup.Add(id);
+            m_LayoutRebuildQueue.Add(element);
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Registers elements which require a graphic rebuild.
+        /// </summary>
+        /// <param name="element">Canvas element to enqueue for vertex or material updates before the next canvas prerender pass.</param>
+        /// <remarks>
+        /// Processes after layout rebuilds so font atlases and mesh buffers apply once RectTransform dimensions are finalized for the frame.
+        /// </remarks>
+        public static void RegisterCanvasElementForGraphicRebuild(ICanvasElement element)
+        {
+            TMP_UpdateRegistry.instance.InternalRegisterCanvasElementForGraphicRebuild(element);
+        }
+
+        private bool InternalRegisterCanvasElementForGraphicRebuild(ICanvasElement element)
+        {
+            EntityId id = (element as Object).GetEntityId();
+
+            if (m_GraphicQueueLookup.Contains(id))
+                return false;
+
+            m_GraphicQueueLookup.Add(id);
+            m_GraphicRebuildQueue.Add(element);
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// Method to handle objects that need updating.
+        /// </summary>
+        private void PerformUpdateForCanvasRendererObjects()
+        {
+            //Debug.Log("Performing update of CanvasRenderer objects at Frame: " + Time.frameCount);
+
+            // Processing elements that require a layout rebuild.
+            //this.m_PerformingLayoutUpdate = true;
+            for (int index = 0; index < m_LayoutRebuildQueue.Count; index++)
+            {
+                ICanvasElement element = TMP_UpdateRegistry.instance.m_LayoutRebuildQueue[index];
+
+                element.Rebuild(CanvasUpdate.Prelayout);
+            }
+
+            if (m_LayoutRebuildQueue.Count > 0)
+            {
+                m_LayoutRebuildQueue.Clear();
+                m_LayoutQueueLookup.Clear();
+            }
+
+            // Update font assets before graphic rebuild
+
+
+            // Processing elements that require a graphic rebuild.
+            for (int index = 0; index < m_GraphicRebuildQueue.Count; index++)
+            {
+                ICanvasElement element = TMP_UpdateRegistry.instance.m_GraphicRebuildQueue[index];
+
+                element.Rebuild(CanvasUpdate.PreRender);
+            }
+
+            // If there are no objects in the queue, we don't need to clear the lists again.
+            if (m_GraphicRebuildQueue.Count > 0)
+            {
+                m_GraphicRebuildQueue.Clear();
+                m_GraphicQueueLookup.Clear();
+            }
+        }
+
+
+        /// <summary>
+        /// Method to handle objects that need updating.
+        /// </summary>
+        private void PerformUpdateForMeshRendererObjects()
+        {
+            Debug.Log("Perform update of MeshRenderer objects.");
+        }
+
+
+        /// <summary>
+        /// Unregisters elements which no longer require a rebuild.
+        /// </summary>
+        /// <param name="element">Canvas element to remove from both internal layout and graphic rebuild queues when disabling or destroying the object.</param>
+        /// <remarks>
+        /// Clears pending work so stale <see cref="ICanvasElement"/> references are not processed after the component becomes inactive or is pooled.
+        /// </remarks>
+        public static void UnRegisterCanvasElementForRebuild(ICanvasElement element)
+        {
+            TMP_UpdateRegistry.instance.InternalUnRegisterCanvasElementForLayoutRebuild(element);
+            TMP_UpdateRegistry.instance.InternalUnRegisterCanvasElementForGraphicRebuild(element);
+        }
+
+
+        private void InternalUnRegisterCanvasElementForLayoutRebuild(ICanvasElement element)
+        {
+             EntityId id = (element as Object).GetEntityId();
+
+            //element.LayoutComplete();
+            TMP_UpdateRegistry.instance.m_LayoutRebuildQueue.Remove(element);
+            m_GraphicQueueLookup.Remove(id);
+        }
+
+
+        private void InternalUnRegisterCanvasElementForGraphicRebuild(ICanvasElement element)
+        {
+            EntityId id = (element as Object).GetEntityId();
+
+            //element.GraphicUpdateComplete();
+            TMP_UpdateRegistry.instance.m_GraphicRebuildQueue.Remove(element);
+            m_LayoutQueueLookup.Remove(id);
+        }
+    }
+}
