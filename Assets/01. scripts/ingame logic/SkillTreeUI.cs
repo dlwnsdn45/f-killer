@@ -96,7 +96,8 @@ public sealed class SkillTreeUI : IDisposable
 
     void OnPointerDown(PointerDownEvent evt)
     {
-        if (evt.button != 2 || dragPointer >= 0) return;
+        if (evt.button != 0 || dragPointer >= 0) return;
+        if (evt.target != viewport && evt.target != board) return;
         dragPointer = evt.pointerId;
         dragStart = evt.position;
         panStart = pan;
@@ -108,7 +109,7 @@ public sealed class SkillTreeUI : IDisposable
     void OnPointerMove(PointerMoveEvent evt)
     {
         if (evt.pointerId != dragPointer) return;
-        if ((evt.pressedButtons & 4) == 0) { StopDrag(); return; }
+        if ((evt.pressedButtons & 1) == 0) { StopDrag(); return; }
         pan = panStart + (Vector2)evt.position - dragStart;
         ApplyPan();
         evt.StopPropagation();
@@ -116,7 +117,7 @@ public sealed class SkillTreeUI : IDisposable
 
     void OnPointerUp(PointerUpEvent evt)
     {
-        if (evt.pointerId != dragPointer || evt.button != 2) return;
+        if (evt.pointerId != dragPointer || evt.button != 0) return;
         StopDrag();
         evt.StopImmediatePropagation();
     }
@@ -215,4 +216,3 @@ public sealed class SkillTreeUI : IDisposable
         host.style.display = DisplayStyle.None;
     }
 }
-

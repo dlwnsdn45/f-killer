@@ -36,7 +36,6 @@ public sealed class AssignmentData : ScriptableObject
     [SerializeField] AcademicGrade requiredGrade = AcademicGrade.F;
     [SerializeField, Min(1)] int maxHp = 3;
     [SerializeField, Min(1)] int points = 3;
-    [SerializeField, Min(0f)] float movementSpeed = 90f;
 
     public string Title => title;
     public Texture2D Icon => icon;
@@ -45,7 +44,6 @@ public sealed class AssignmentData : ScriptableObject
     public int RequiredGradeIndex => (int)requiredGrade;
     public int MaxHp => Mathf.Max(1, maxHp);
     public int Points => Mathf.Max(1, points);
-    public float MovementSpeed => Mathf.Max(0f, movementSpeed);
     public const int GoldHpMultiplier = 2;
     public const int GoldPointMultiplier = 5;
 }

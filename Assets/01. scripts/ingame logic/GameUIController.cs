@@ -44,7 +44,7 @@ public sealed class GameUIController : MonoBehaviour
         public Button card;
         public VisualElement progress;
         public Action clickedCallback;
-        public float moveDirection;
+        public float teleportTimer;
     }
 
     void OnEnable()
@@ -356,9 +356,9 @@ public sealed class GameUIController : MonoBehaviour
         const float cardWidth = 94f;
         const float cardHeight = 96f;
         binding.card.style.left = UnityEngine.Random.Range(0f, Mathf.Max(0f, width - cardWidth));
-        binding.moveDirection = UnityEngine.Random.value < 0.5f ? -1f : 1f;
         float top = Mathf.Min(110f, Mathf.Max(0f, height - cardHeight));
         binding.card.style.top = UnityEngine.Random.Range(top, Mathf.Max(top, height - cardHeight));
+        binding.teleportTimer = UnityEngine.Random.Range(1f, 2f);
         binding.clickedCallback = () => gameManager.HandleAssignmentClicked(assignment);
         binding.card.clicked += binding.clickedCallback;
         assignmentCards.Add(assignment, binding);
@@ -377,25 +377,33 @@ public sealed class GameUIController : MonoBehaviour
         if (assignment == null || assignment.Data == null || assignment.Data.Kind != AssignmentKind.Bug
             || !assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return;
 
+        binding.teleportTimer -= deltaTime;
+        if (binding.teleportTimer > 0f) return;
+
         float cardWidth = binding.card.resolvedStyle.width;
+        float cardHeight = binding.card.resolvedStyle.height;
         float layerWidth = assignmentLayer.resolvedStyle.width;
+        float layerHeight = assignmentLayer.resolvedStyle.height;
         if (float.IsNaN(cardWidth) || cardWidth <= 0f) cardWidth = 84f;
-        if (float.IsNaN(layerWidth) || layerWidth <= cardWidth) return;
+        if (float.IsNaN(cardHeight) || cardHeight <= 0f) cardHeight = 96f;
+        if (float.IsNaN(layerWidth) || layerWidth <= cardWidth
+            || float.IsNaN(layerHeight) || layerHeight <= cardHeight)
+        {
+            binding.teleportTimer = 0.5f;
+            return;
+        }
+
         float maxLeft = layerWidth - cardWidth;
-        float left = binding.card.style.left.value.value;
-        if (float.IsNaN(left)) left = binding.card.resolvedStyle.left;
-        left += binding.moveDirection * assignment.Data.MovementSpeed * deltaTime;
-        if (left < 0f)
-        {
-            left = -left;
-            binding.moveDirection = 1f;
-        }
-        else if (left > maxLeft)
-        {
-            left = maxLeft - (left - maxLeft);
-            binding.moveDirection = -1f;
-        }
-        binding.card.style.left = Mathf.Clamp(left, 0f, maxLeft);
+        float top = Mathf.Min(110f, Mathf.Max(0f, layerHeight - cardHeight));
+        float maxTop = Mathf.Max(top, layerHeight - cardHeight);
+        Vector2 currentPosition = new Vector2(binding.card.resolvedStyle.left, binding.card.resolvedStyle.top);
+        Vector2 destination = currentPosition;
+        for (int attempt = 0; attempt < 4 && Vector2.Distance(currentPosition, destination) < 160f; attempt++)
+            destination = new Vector2(UnityEngine.Random.Range(0f, maxLeft), UnityEngine.Random.Range(top, maxTop));
+
+        binding.card.style.left = destination.x;
+        binding.card.style.top = destination.y;
+        binding.teleportTimer = UnityEngine.Random.Range(1f, 2f);
     }
 
     public bool AreAssignmentsNear(AssignmentBase first, AssignmentBase second, float radius)

@@ -15,24 +15,29 @@ public sealed class AssignmentSpawner : MonoBehaviour
     }
 
     [SerializeField] List<SpawnEntry> assignmentTable = new List<SpawnEntry>();
+    [Header("학점별 과제 생성 간격")]
+    [SerializeField, Min(0.05f)] float fPlusOrLowerInterval = 1.5f;
+    [SerializeField, Min(0.05f)] float dToDPlusInterval = 1.2f;
+    [SerializeField, Min(0.05f)] float cToCPlusInterval = 1f;
+    [SerializeField, Min(0.05f)] float bPlusAndAboveInterval = 0.5f;
 
-    public float GetInterval(int gradeIndex, Func<string, bool> hasSkill)
+    public float GetInterval(int gradeIndex, Func<string, bool> hasSkill, SkillTable skillTable)
     {
         float reduction = hasSkill == null ? 0f
-            : (hasSkill("skill-1") ? 0.03f : 0f)
-                + (hasSkill("skill-2") ? 0.05f : 0f)
-                + (hasSkill("skill-4") ? 0.08f : 0f)
-                + (hasSkill("skill-5") ? 0.10f : 0f)
-                + (hasSkill("skill-7") ? 0.15f : 0f)
-                + (hasSkill("skill-8") ? 0.20f : 0f);
-        float gradeInterval = gradeIndex <= 1 ? 1.5f
-            : gradeIndex <= 3 ? 1.2f
-            : gradeIndex <= 5 ? 1f
-            : 0.5f;
+            : GetOwnedSkillRate(skillTable, hasSkill, "skill-1")
+                + GetOwnedSkillRate(skillTable, hasSkill, "skill-2")
+                + GetOwnedSkillRate(skillTable, hasSkill, "skill-4")
+                + GetOwnedSkillRate(skillTable, hasSkill, "skill-5")
+                + GetOwnedSkillRate(skillTable, hasSkill, "skill-7")
+                + GetOwnedSkillRate(skillTable, hasSkill, "skill-8");
+        float gradeInterval = gradeIndex <= 1 ? fPlusOrLowerInterval
+            : gradeIndex <= 3 ? dToDPlusInterval
+            : gradeIndex <= 5 ? cToCPlusInterval
+            : bPlusAndAboveInterval;
         return Mathf.Max(0.05f, gradeInterval * (1f - Mathf.Clamp01(reduction)));
     }
 
-    public void Spawn(int gradeIndex, Func<string, bool> hasSkill,
+    public void Spawn(int gradeIndex, Func<string, bool> hasSkill, SkillTable skillTable,
         Action<AssignmentBase> registerAssignment)
     {
         if (registerAssignment == null) return;
@@ -55,21 +60,24 @@ public sealed class AssignmentSpawner : MonoBehaviour
             float goldChance = 0f;
             if (hasSkill != null)
             {
+                string goldSkillId = null;
                 switch (data.Kind)
                 {
                     case AssignmentKind.Regular:
-                        goldChance = hasSkill("skill-30") ? 0.10f : hasSkill("skill-29") ? 0.05f : 0f;
+                        goldSkillId = hasSkill("skill-30") ? "skill-30"
+                            : hasSkill("skill-29") ? "skill-29" : null;
                         break;
                     case AssignmentKind.TeamProject:
-                        goldChance = hasSkill("skill-31") ? 0.15f : 0f;
+                        goldSkillId = "skill-31";
                         break;
                     case AssignmentKind.SemesterProject:
-                        goldChance = hasSkill("skill-32") ? 0.20f : 0f;
+                        goldSkillId = "skill-32";
                         break;
                     case AssignmentKind.GraduationProject:
-                        goldChance = hasSkill("skill-33") ? 0.25f : 0f;
+                        goldSkillId = "skill-33";
                         break;
                 }
+                goldChance = GetOwnedSkillRate(skillTable, hasSkill, goldSkillId);
             }
 
             // 골드 여부를 정하고 과제를 생성해 게임에 등록
@@ -78,6 +86,13 @@ public sealed class AssignmentSpawner : MonoBehaviour
             assignment.Initialize(data, isGolden);
             registerAssignment(assignment);
         }
+    }
+
+    static float GetOwnedSkillRate(SkillTable skillTable, Func<string, bool> hasSkill, string skillId)
+    {
+        if (skillTable == null || hasSkill == null || string.IsNullOrEmpty(skillId) || !hasSkill(skillId)) return 0f;
+        SkillData skill = skillTable.Find(skillId);
+        return skill == null ? 0f : skill.EffectPercent / 100f;
     }
 
     AssignmentData GetSpawnObject(int gradeIndex)

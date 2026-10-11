@@ -18,4 +18,3 @@ MonoBehaviour:
   requiredGrade: 6
   maxHp: 120
   points: 100
-  movementSpeed: 90

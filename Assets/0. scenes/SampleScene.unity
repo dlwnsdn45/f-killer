@@ -274,6 +274,10 @@ MonoBehaviour:
     weight: 1
   - data: {fileID: 11400000, guid: 0a1cb16273c54ab19e778c77c88f72a3, type: 2}
     weight: 1
+  fPlusOrLowerInterval: 4
+  dToDPlusInterval: 3.5
+  cToCPlusInterval: 3
+  bPlusAndAboveInterval: 2.5
 --- !u!114 &180018539
 MonoBehaviour:
   m_ObjectHideFlags: 0

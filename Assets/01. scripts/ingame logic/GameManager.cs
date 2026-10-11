@@ -97,11 +97,11 @@ public sealed class GameManager : MonoBehaviour
         {
             elapsedSpawnSeconds += Time.unscaledDeltaTime;
             int spawnGradeIndex = SkillProgress.BestGradeIndex;
-            float interval = assignmentSpawner.GetInterval(spawnGradeIndex, HasSkill);
+            float interval = assignmentSpawner.GetInterval(spawnGradeIndex, HasSkill, gameUI.SkillTable);
             while (elapsedSpawnSeconds >= interval)
             {
                 elapsedSpawnSeconds -= interval;
-                assignmentSpawner.Spawn(spawnGradeIndex, HasSkill, RegisterAssignment);
+                assignmentSpawner.Spawn(spawnGradeIndex, HasSkill, gameUI.SkillTable, RegisterAssignment);
             }
         }
 
@@ -182,7 +182,7 @@ public sealed class GameManager : MonoBehaviour
             foreach (AssignmentBase other in activeAssignments)
                 if (other != assignment && gameUI.AreAssignmentsNear(assignment, other, 180f)) nearby.Add(other);
         DamageAssignment(assignment, damage, true);
-        foreach (AssignmentBase other in nearby) DamageAssignment(other, 1);
+        foreach (AssignmentBase other in nearby) DamageAssignment(other, 1, splashHit: true);
     }
 
     public void HandleMissClick(Vector2 position)
@@ -201,10 +201,11 @@ public sealed class GameManager : MonoBehaviour
         gameUI.ShowOverloadFeedback(position, false, overloadBlocksRemaining);
     }
 
-    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
+    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false, bool splashHit = false)
     {
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
         if (!manualHit && assignment.Data.Kind == AssignmentKind.Sleep) return;
+        if (splashHit && assignment.Data.Kind == AssignmentKind.DrinkingParty) return;
         assignment.ApplyClick(damage);
         if (assignment.IsCompleted) CompleteAssignment(assignment, manualHit);
         else gameUI.RefreshAssignment(assignment);

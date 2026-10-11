@@ -21,16 +21,18 @@ MonoBehaviour:
     maxLevel: 1
   - id: skill-1
     title: '과제 폭탄'
-    description: '과제 등장 간격 -3%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 50
     prerequisiteId: 'skill-0'
     maxLevel: 1
+    effectPercent: 3
   - id: skill-2
     title: '시험'
-    description: '과제 등장 간격 -5%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 150
     prerequisiteId: 'skill-1'
     maxLevel: 1
+    effectPercent: 5
   - id: skill-3
     title: '조별 과제'
     description: '한 번에 나오는 과제 +1'
@@ -39,16 +41,18 @@ MonoBehaviour:
     maxLevel: 1
   - id: skill-4
     title: '팀 프로젝트'
-    description: '과제 등장 간격 -8%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 500
     prerequisiteId: 'skill-3'
     maxLevel: 1
+    effectPercent: 8
   - id: skill-5
     title: '계절 학기'
-    description: '과제 등장 간격 -10%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 800
     prerequisiteId: 'skill-4'
     maxLevel: 1
+    effectPercent: 10
   - id: skill-6
     title: '공모전 준비'
     description: '한 번에 나오는 과제 +2'
@@ -57,16 +61,18 @@ MonoBehaviour:
     maxLevel: 1
   - id: skill-7
     title: '학기 작품'
-    description: '과제 등장 간격 -15%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 1500
     prerequisiteId: 'skill-6'
     maxLevel: 1
+    effectPercent: 15
   - id: skill-8
     title: '졸업 작품'
-    description: '과제 등장 간격 -20%'
+    description: '과제 등장 간격 -{percent}%'
     cost: 2000
     prerequisiteId: 'skill-7'
     maxLevel: 1
+    effectPercent: 20
   - id: skill-9
     title: '샤프심 교체'
     description: '클릭 파워 +1'
@@ -189,34 +195,39 @@ MonoBehaviour:
     maxLevel: 1
   - id: skill-29
     title: '도서관 자리'
-    description: '황금 과제 등장 확률 5% 과제 ×2, 포인트 ×5'
+    description: '황금 과제 등장 확률 {percent}% 과제 ×2, 포인트 ×5'
     cost: 400
     prerequisiteId: 'skill-26'
     maxLevel: 1
+    effectPercent: 5
   - id: skill-30
     title: '스터디 그룹'
-    description: '황금 과제 등장 확률 10% 과제 ×2, 포인트 ×5'
+    description: '황금 과제 등장 확률 {percent}% 과제 ×2, 포인트 ×5'
     cost: 800
     prerequisiteId: 'skill-29'
     maxLevel: 1
+    effectPercent: 10
   - id: skill-31
     title: '좋은 팀원'
-    description: '황금 팀 프로젝트 등장 확률 15% 과제 ×2, 포인트 ×5'
+    description: '황금 팀 프로젝트 등장 확률 {percent}% 과제 ×2, 포인트 ×5'
     cost: 1200
     prerequisiteId: 'skill-30'
     maxLevel: 1
+    effectPercent: 15
   - id: skill-32
     title: '황금 학기 작품'
-    description: '황금 학기 작품 등장 확률 20% 과제 ×2, 포인트 ×5'
+    description: '황금 학기 작품 등장 확률 {percent}% 과제 ×2, 포인트 ×5'
     cost: 1200
     prerequisiteId: 'skill-31'
     maxLevel: 1
+    effectPercent: 20
   - id: skill-33
     title: '황금 졸업 작품'
-    description: '황금 졸업 작품 등장 확률 25% 과제 ×2, 포인트 ×5'
+    description: '황금 졸업 작품 등장 확률 {percent}% 과제 ×2, 포인트 ×5'
     cost: 1600
     prerequisiteId: 'skill-32'
     maxLevel: 1
+    effectPercent: 25
   - id: skill-34
     title: '과제 로봇'
     description: '로봇이 3초마다 무작위 과제에 피해 1을 줍니다.'
