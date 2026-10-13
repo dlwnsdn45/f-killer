@@ -34,6 +34,7 @@ public sealed class GameManager : MonoBehaviour
     bool HasSkill(string id) => SkillProgress.IsOwned(gameUI != null ? gameUI.SkillTable : null, id);
 
     float RoundDuration => RoundDurationSeconds
+        + SkillProgress.RebirthLevel(2) * 5f
         + (HasSkill("skill-19") ? 3f : 0f)
         + (HasSkill("skill-21") ? 5f : 0f)
         + (HasSkill("skill-22") ? 7f : 0f)
@@ -41,11 +42,12 @@ public sealed class GameManager : MonoBehaviour
 
     int CurrentGradeIndex => GetGradeIndex(totalPoints);
 
-    static int GetGradeIndex(int points)
+    int GetGradeIndex(int points)
     {
         int gradeIndex = 0;
         for (int i = 1; i < GradeThresholds.Length; i++)
-            if (points >= GradeThresholds[i]) gradeIndex = i;
+            if (points >= Mathf.CeilToInt(GradeThresholds[i] * (i <= 4 ? 1f - 0.15f * SkillProgress.RebirthLevel(0) : 1f))) gradeIndex = i;
+        if (points >= 2500) gradeIndex = 10;
         return gradeIndex;
     }
 
@@ -189,6 +191,12 @@ public sealed class GameManager : MonoBehaviour
     {
         if (!isPlaying) return;
         audioManager.PlayMissClickWarning();
+        int immunity = SkillProgress.RebirthLevel(4);
+        if (immunity > 0 && UnityEngine.Random.value < (immunity == 1 ? 0.3f : 0.5f))
+        {
+            gameUI.ShowOverloadFeedback(position, true, overloadBlocksRemaining);
+            return;
+        }
         if (overloadBlocksRemaining > 0)
         {
             overloadBlocksRemaining--;
@@ -213,8 +221,8 @@ public sealed class GameManager : MonoBehaviour
 
     void UpdateRobots()
     {
-        int robotCount = 1 + (HasSkill("skill-38") ? 2 : 0);
-        if (!HasSkill("skill-34") || activeAssignments.Count == 0) return;
+        int robotCount = SkillProgress.RebirthLevel(3) + (HasSkill("skill-34") ? 1 : 0) + (HasSkill("skill-38") ? 2 : 0);
+        if (robotCount == 0 || activeAssignments.Count == 0) return;
         float interval = Mathf.Max(0.25f, 3f - (HasSkill("skill-35") ? 0.5f : 0f));
         elapsedRobotSeconds += Time.unscaledDeltaTime;
         while (isPlaying && elapsedRobotSeconds >= interval && activeAssignments.Count > 0)
@@ -247,6 +255,7 @@ public sealed class GameManager : MonoBehaviour
             if (HasSkill("skill-27")) comboBonus *= 2f;
             multiplier *= 1f + comboBonus;
         }
+        multiplier *= 1f + 0.2f * SkillProgress.RebirthLevel(1);
         int reward = Mathf.Max(1, Mathf.RoundToInt(assignment.Points * multiplier));
         totalPoints += reward;
         SkillProgress.RecordBestGrade(CurrentGradeIndex);

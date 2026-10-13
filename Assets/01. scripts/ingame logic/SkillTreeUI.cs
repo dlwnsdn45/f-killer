@@ -6,7 +6,13 @@ using UnityEngine.UIElements;
 // UXML owns layout, SkillTable owns definitions, SkillProgress owns purchases.
 public sealed class SkillTreeUI : IDisposable
 {
-    readonly VisualElement host, overlay, viewport, board, popup;
+    readonly VisualElement host, overlay, viewport, popup, skillBoard, rebirthBoard;
+    VisualElement board;
+    readonly Button skillTab, rebirthTab;
+    readonly List<Button> rebirthNodes = new List<Button>();
+    readonly List<Action> rebirthClicks = new List<Action>();
+    bool rebirthMode;
+    int selectedRebirth = -1;
     readonly Label points, heading, description, requirement;
     readonly Button opener, close, buy;
     readonly List<Button> nodes = new List<Button>();
@@ -26,6 +32,7 @@ public sealed class SkillTreeUI : IDisposable
         overlay = host.Q("skill-tree-overlay");
         viewport = host.Q("tree-viewport");
         board = host.Q("skill-tree-board");
+        skillBoard = board;
         popup = host.Q("skill-description");
         points = host.Q<Label>("tree-points");
         heading = host.Q<Label>("tree-detail-title");
@@ -34,6 +41,51 @@ public sealed class SkillTreeUI : IDisposable
         buy = host.Q<Button>("tree-buy");
         close = host.Q<Button>("tree-close");
         opener = root.Q<Button>("skill-tree-button");
+        var tabs = new VisualElement();
+        tabs.style.flexDirection = FlexDirection.Row;
+        skillTab = new Button(() => SwitchTree(false)) { text = "스킬" };
+        rebirthTab = new Button(() => SwitchTree(true)) { text = "환생" };
+        tabs.Add(skillTab);
+        tabs.Add(rebirthTab);
+        host.Q(className: "tree-toolbar").Insert(0, tabs);
+        rebirthBoard = new VisualElement { name = "rebirth-tree-board" };
+        rebirthBoard.AddToClassList("tree-board");
+        rebirthBoard.style.display = DisplayStyle.None;
+        viewport.Add(rebirthBoard);
+        Vector2 center = new Vector2(510, 360);
+        Vector2[] positions = { new Vector2(240, 170), new Vector2(190, 510), new Vector2(700, 110), new Vector2(510, 650), new Vector2(840, 350) };
+        for (int i = 0; i < 5; i++)
+        {
+            Vector2 delta = positions[i] - center;
+            var edge = new VisualElement { pickingMode = PickingMode.Ignore };
+            edge.AddToClassList("tree-line");
+            edge.style.left = center.x;
+            edge.style.top = center.y;
+            edge.style.width = delta.magnitude;
+            edge.style.height = 2;
+            edge.style.backgroundColor = new Color(0.9f, 0.5f, 0.85f);
+            edge.style.transformOrigin = new TransformOrigin(Length.Percent(0), Length.Percent(50));
+            edge.style.rotate = new Rotate(new Angle(Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg));
+            rebirthBoard.Add(edge);
+        }
+        var origin = new Label("환생");
+        origin.AddToClassList("rebirth-origin");
+        origin.style.left = center.x;
+        origin.style.top = center.y;
+        rebirthBoard.Add(origin);
+        for (int i = 0; i < 5; i++)
+        {
+            int index = i;
+            var node = new Button { name = "rebirth-" + i };
+            node.AddToClassList("rebirth-node");
+            node.style.left = positions[i].x;
+            node.style.top = positions[i].y;
+            Action click = () => InspectRebirth(index);
+            node.clicked += click;
+            rebirthClicks.Add(click);
+            rebirthNodes.Add(node);
+            rebirthBoard.Add(node);
+        }
         board.Query<Button>(className: "tree-node").ForEach(button =>
         {
             if (table.Find(button.name) == null)
@@ -65,6 +117,37 @@ public sealed class SkillTreeUI : IDisposable
     }
 
     SkillData Data(Button node) => table.Find(node.name);
+
+    void SwitchTree(bool rebirth)
+    {
+        StopDrag();
+        rebirthMode = rebirth;
+        selectedNode = null;
+        selectedRebirth = -1;
+        popup.style.display = DisplayStyle.None;
+        skillBoard.style.display = rebirth ? DisplayStyle.None : DisplayStyle.Flex;
+        rebirthBoard.style.display = rebirth ? DisplayStyle.Flex : DisplayStyle.None;
+        board = rebirth ? rebirthBoard : skillBoard;
+        ApplyPan();
+        Refresh();
+    }
+
+    void InspectRebirth(int index)
+    {
+        selectedRebirth = index;
+        heading.text = SkillProgress.RebirthNames[index];
+        heading.style.color = new Color(0.9f, 0.5f, 0.85f);
+        description.text = SkillProgress.RebirthDescriptions[index];
+        int level = progress.RebirthLevel(index);
+        bool max = level >= SkillProgress.RebirthMaxLevels[index];
+        requirement.text = $"Lv. {level} / {SkillProgress.RebirthMaxLevels[index]} · 영구 유지 · 선행 없음";
+        buy.style.display = DisplayStyle.Flex;
+        buy.text = max ? "최대 레벨" : $"{progress.RebirthCost(index)} RP 구매";
+        buy.SetEnabled(!max && progress.RebirthPoints >= progress.RebirthCost(index));
+        popup.style.left = 12;
+        popup.style.top = 64;
+        popup.style.display = DisplayStyle.Flex;
+    }
 
     void Inspect(Button node)
     {
@@ -147,6 +230,7 @@ public sealed class SkillTreeUI : IDisposable
     // Runtime connections follow positions edited in UI Builder, including diagonal moves.
     void OnNodeGeometry(GeometryChangedEvent evt)
     {
+        if (rebirthMode) return;
         foreach (Button node in nodes)
         {
             SkillData skill = Data(node);
@@ -172,6 +256,7 @@ public sealed class SkillTreeUI : IDisposable
     void OnKeyDown(KeyDownEvent evt) { if (evt.keyCode == KeyCode.Escape) { Hide(); evt.StopPropagation(); } }
     void PurchaseSelected()
     {
+        if (rebirthMode) { if (selectedRebirth >= 0) progress.TryPurchaseRebirth(selectedRebirth); Refresh(); return; }
         if (selectedNode == null) return;
         progress.TryPurchase(table, selectedNode.name);
         Refresh();
@@ -179,7 +264,17 @@ public sealed class SkillTreeUI : IDisposable
 
     void Refresh()
     {
-        points.text = $"{progress.Points:N0} P";
+        points.text = rebirthMode ? $"환생 {progress.RebirthCount}회 · {progress.RebirthPoints:N0} RP" : $"{progress.Points:N0} P";
+        skillTab.SetEnabled(rebirthMode);
+        rebirthTab.SetEnabled(!rebirthMode);
+        for (int i = 0; i < rebirthNodes.Count; i++)
+        {
+            int level = progress.RebirthLevel(i);
+            rebirthNodes[i].text = $"{SkillProgress.RebirthNames[i]}\nLv. {level}/{SkillProgress.RebirthMaxLevels[i]}";
+            rebirthNodes[i].EnableInClassList("owned", level > 0);
+            rebirthNodes[i].EnableInClassList("affordable", level < SkillProgress.RebirthMaxLevels[i] && progress.RebirthPoints >= progress.RebirthCost(i));
+        }
+        if (rebirthMode && selectedRebirth >= 0 && popup.style.display.value == DisplayStyle.Flex) InspectRebirth(selectedRebirth);
         foreach (Button node in nodes)
         {
             SkillPurchaseState state = progress.GetState(table, node.name);
@@ -200,6 +295,9 @@ public sealed class SkillTreeUI : IDisposable
         close.clicked -= Hide;
         buy.clicked -= PurchaseSelected;
         progress.Changed -= Refresh;
+        for (int i = 0; i < rebirthNodes.Count; i++) rebirthNodes[i].clicked -= rebirthClicks[i];
+        skillTab.parent.RemoveFromHierarchy();
+        rebirthBoard.RemoveFromHierarchy();
         foreach (Button node in nodes)
         {
             node.clicked -= clicks[node];

@@ -140,6 +140,9 @@ public sealed class GameUIController : MonoBehaviour
 
     void ShowResetProgressConfirmation()
     {
+        SkillProgress progress = gameManager.SkillProgress;
+        root.Q<Label>("rebirth-message").text = $"{progress.RebirthCount + 1}회차 환생 · 비용 {progress.NextRebirthCost:N0} P · 보상 {2L * (progress.RebirthCount + 1):N0} RP\n조건: 보유 {progress.Points:N0} P / 필요 {progress.NextRebirthCost:N0} P\n성적 F, 보유 P 0, 일반 스킬 초기화. 환생 스킬과 RP는 유지됩니다.";
+        confirmResetProgressButton.SetEnabled(progress.CanRebirth);
         if (resetProgressOverlay != null) resetProgressOverlay.style.display = DisplayStyle.Flex;
     }
 
@@ -150,8 +153,9 @@ public sealed class GameUIController : MonoBehaviour
 
     void ResetProgress()
     {
-        gameManager.SkillProgress.Reset();
+        if (!gameManager.SkillProgress.TryRebirth()) { ShowResetProgressConfirmation(); return; }
         HideResetProgressConfirmation();
+        gameManager.StartGame();
     }
 
     public void ShowGame()

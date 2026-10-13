@@ -90,15 +90,15 @@
                     <ui:Button name="skill-tree-button" text="스킬 트리" class="skill-button"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:Button name="reset-progress-button" text="진행사항 초기화" class="reset-progress-button"/>
+            <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button"/>
             <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button"/>
             <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
                 <ui:VisualElement class="reset-progress-panel">
-                    <ui:Label text="진행사항을 초기화할까요?" class="reset-progress-title"/>
-                    <ui:Label text="보유 포인트와 구매한 스킬이 모두 사라집니다." class="reset-progress-message"/>
+                    <ui:Label text="환생할까요?" class="reset-progress-title"/>
+                    <ui:Label name="rebirth-message" text="50,000 × 환생 회차만큼 보유 포인트가 필요합니다." class="reset-progress-message"/>
                     <ui:VisualElement class="reset-progress-actions">
                         <ui:Button name="cancel-reset-progress-button" text="취소" class="reset-progress-cancel"/>
-                        <ui:Button name="confirm-reset-progress-button" text="초기화" class="reset-progress-confirm"/>
+                        <ui:Button name="confirm-reset-progress-button" text="환생" class="reset-progress-confirm"/>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>

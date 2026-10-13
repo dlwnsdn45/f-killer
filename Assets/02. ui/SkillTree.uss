@@ -25,3 +25,9 @@
 .tree-node.owned { background-color: rgb(59, 75, 55); }
 .tree-node.affordable { border-width: 3px; }
 .tree-popup-price:disabled { background-color: rgb(48, 48, 49); color: rgb(155, 155, 150); }
+
+.rebirth-node, .rebirth-origin { position: absolute; translate: -50% -50%; width: 130px; height: 76px; border-radius: 38px; border-width: 2px; border-color: rgb(230, 145, 215); background-color: rgb(70, 40, 67); color: rgb(250, 225, 246); -unity-text-align: middle-center; white-space: normal; font-size: 15px; }
+.rebirth-origin { width: 64px; height: 64px; background-color: rgb(10, 10, 12); }
+.rebirth-node.owned { background-color: rgb(115, 60, 105); }
+.rebirth-node.affordable { border-width: 4px; }
+.rebirth-node:hover { background-color: rgb(145, 75, 130); }
