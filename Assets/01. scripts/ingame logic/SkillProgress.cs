@@ -34,7 +34,7 @@ public sealed class SkillProgress
     public static readonly int[] RebirthMaxLevels = { 2, 5, 2, 3, 2 };
     public int RebirthLevel(int index) => rebirthLevels[index];
     public int RebirthCost(int index) => (index == 3 ? 3 : 2) + rebirthLevels[index] * (index == 4 ? 2 : 1);
-    public long NextRebirthCost => 50000L * (RebirthCount + 1L);
+    public long NextRebirthCost => 10000L * (RebirthCount + 1L);
     public bool CanRebirth => Points >= NextRebirthCost;
     public event Action Changed;
 
