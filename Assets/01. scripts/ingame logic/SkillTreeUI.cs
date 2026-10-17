@@ -264,7 +264,7 @@ public sealed class SkillTreeUI : IDisposable
 
     void Refresh()
     {
-        points.text = rebirthMode ? $"환생 {progress.RebirthCount}회 · {progress.RebirthPoints:N0} RP" : $"{progress.Points:N0} P";
+        points.text = rebirthMode ? $"환생 {progress.RebirthCount}회 {progress.RebirthPoints:N0} RP" : $"{progress.Points:N0} P";
         skillTab.SetEnabled(rebirthMode);
         rebirthTab.SetEnabled(!rebirthMode);
         for (int i = 0; i < rebirthNodes.Count; i++)
