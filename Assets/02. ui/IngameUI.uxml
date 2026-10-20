@@ -4,70 +4,6 @@
     <ui:VisualElement name="game-root" class="game-root">
         <ui:Image name="background-image-placeholder" picking-mode="Ignore" class="background-image-placeholder"/>
         <ui:VisualElement name="game-content" class="game-content">
-            <ui:VisualElement name="grid-background" picking-mode="Ignore" class="grid-background">
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 64px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 128px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 192px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 256px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 320px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 384px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 448px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 512px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 576px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 640px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 704px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 768px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 832px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 896px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 960px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1024px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1088px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1152px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1216px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1280px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1344px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1408px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1472px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1536px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1600px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1664px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1728px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1792px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1856px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1920px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 1984px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2048px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2112px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2176px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2240px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2304px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2368px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2432px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-vertical" style="left: 2496px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 64px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 128px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 192px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 256px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 320px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 384px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 448px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 512px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 576px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 640px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 704px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 768px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 832px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 896px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 960px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1024px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1088px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1152px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1216px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1280px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1344px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1408px;"/>
-                <ui:VisualElement picking-mode="Ignore" class="grid-horizontal" style="top: 1472px;"/>
-            </ui:VisualElement>
             <ui:VisualElement name="assignment-layer" authoring-id="1950127882" class="assignment-layer"/>
             <ui:VisualElement name="grade-panel" class="hud-panel grade-panel">
                 <ui:Label text="현재 학점" class="hud-caption"/>
@@ -92,6 +28,7 @@
             </ui:VisualElement>
             <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button"/>
             <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button"/>
+            <ui:Button name="unlock-all-button" text="전부 해금 (테스트)" class="add-points-button unlock-all-button"/>
             <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
                 <ui:VisualElement class="reset-progress-panel">
                     <ui:Label text="환생할까요?" class="reset-progress-title"/>

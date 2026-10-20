@@ -7,9 +7,7 @@ public enum AssignmentKind
     SemesterProject,
     GraduationProject,
     Contest,
-    Bug,
-    DrinkingParty,
-    Sleep
+    Bug
 }
 
 public enum AcademicGrade

@@ -1,7 +1,15 @@
 .game-root { flex-grow: 1; width: 100%; height: 100%; background-color: rgb(35, 43, 47); -unity-font-definition: url("Malgun.ttf"); }
-.background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); }
-.game-content { position: absolute; left: 0; right: 0; top: 0; bottom: 0; scale: 0.72 0.72; }
-.assignment-layer { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); background-image: url("project://database/Assets/05.sprite/background.png"); -unity-background-scale-mode: scale-and-crop; }
+/* 스폰 박스 바깥만 어둡게: 박스 상하좌우에 반투명 사각형 4개를 붙인다. */
+.outside-dim { position: absolute; background-color: rgba(0, 0, 0, 0.5); }
+.outside-dim.top { left: -3000px; right: -3000px; bottom: 100%; height: 3000px; }
+.outside-dim.bottom { left: -3000px; right: -3000px; top: 100%; height: 3000px; }
+.outside-dim.left { top: 0; bottom: 0; right: 100%; width: 3000px; }
+.outside-dim.right { top: 0; bottom: 0; left: 100%; width: 3000px; }
+/* 0.72배 축소 후 화면을 꽉 채우도록 미리 1/0.72배로 키운다: (1/0.72 - 1) / 2 = 19.444% */
+.game-content { position: absolute; left: -19.444%; right: -19.444%; top: -19.444%; bottom: -19.444%; scale: 0.72 0.72; }
+/* 과제 스폰 박스: 화면 중앙. 이펙트·팝업은 박스 밖으로 나가도 보이게 overflow는 그대로 둔다. */
+.assignment-layer { position: absolute; left: 20%; right: 20%; top: 32%; bottom: 8%; border-width: 3px; border-color: rgba(255, 255, 255, 0.35); }
 .hud-panel { position: absolute; top: 10px; width: 180px; height: 80px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; padding-left: 16px; padding-top: 9px; }
 .grade-panel { left: 10px; }
 .timer-panel { right: 10px; }
@@ -11,34 +19,31 @@
 .grade-arrow { color: rgb(140, 163, 181); font-size: 17px; margin-left: 12px; margin-right: 6px; }
 .next-grade { color: rgb(204, 216, 226); font-size: 15px; -unity-font-style: bold; }
 .timer-value { color: rgb(255, 255, 255); font-size: 32px; -unity-font-style: bold; margin: 0; padding: 0; }
-.assignment-card { position: absolute; width: 84px; height: 86px; margin: 0; padding: 4px 5px 3px 5px; align-items: center; justify-content: center; background-color: rgb(79, 54, 39); border-width: 3px; border-color: rgb(148, 94, 61); border-radius: 5px; transition-duration: 0.12s; }
-.assignment-card:hover { background-color: rgb(95, 65, 45); border-color: rgb(187, 127, 83); scale: 1.04 1.04; }
+.assignment-card { position: absolute; width: 80px; height: 80px; margin: 0; padding: 0; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0); background-image: url("project://database/Assets/05.sprite/card_task.png"); -unity-background-scale-mode: stretch-to-fill; border-width: 0; border-radius: 0; transition-duration: 0.12s; }
+.assignment-card:hover { -unity-background-image-tint-color: rgb(230, 230, 230); scale: 1.04 1.04; }
 .assignment-card:active { scale: 0.96 0.96; }
-.assignment-icon { width: 28px; height: 28px; flex-shrink: 0; }
+/* 카드 도트 1칸 = 2.5px: 카드(32)·아이콘(32)·HP바(20x2)를 같은 배율로 맞춘다. */
+.assignment-icon { position: absolute; left: 0; top: -2.5px; width: 80px; height: 80px; }
 .paper { width: 25px; height: 32px; background-color: rgb(247, 241, 225); padding-top: 6px; padding-left: 4px; margin-bottom: 1px; }
 .paper-line { width: 16px; height: 2px; background-color: rgb(155, 147, 135); margin-bottom: 4px; }
 .paper-line.short { width: 11px; }
-.assignment-title { font-size: 17px; -unity-font-style: bold; color: rgb(255, 251, 237); margin: 0; padding: 0; }
-.card-progress { height: 100%; width: 100%; flex-shrink: 0; align-self: flex-start; background-color: rgb(111, 201, 105); border-radius: 2px; }
-.golden { width: 94px; background-color: rgb(99, 73, 24); border-color: rgb(229, 180, 59); }
-.golden:hover { background-color: rgb(122, 91, 30); border-color: rgb(255, 221, 105); }
-.golden .assignment-title { font-size: 15px; color: rgb(255, 222, 112); }
-.golden .card-progress { background-color: rgb(255, 215, 74); }
+.card-progress { height: 100%; width: 100%; flex-shrink: 0; align-self: flex-start; background-image: url("project://database/Assets/05.sprite/hp_fill_32.png"); -unity-background-scale-mode: stretch-to-fill; }
+.golden { -unity-background-image-tint-color: rgb(255, 215, 90); }
+.golden:hover { -unity-background-image-tint-color: rgb(255, 235, 140); }
+.golden .card-progress { background-image: none; background-color: rgb(255, 215, 74); }
 .result-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.72); }
 .result-panel { width: 300px; padding: 28px; align-items: center; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 10px; }
 .result-title { font-size: 26px; color: rgb(244, 239, 226); -unity-font-style: bold; }
 .result-grade { font-size: 20px; color: rgb(255, 210, 66); margin-top: 12px; margin-bottom: 22px; }
 .restart-button { height: 42px; width: 190px; font-size: 17px; -unity-font-style: bold; background-color: rgb(255, 210, 66); color: rgb(25, 30, 33); border-width: 0; border-radius: 5px; }
-.grid-background { position: absolute; left: 0; right: 0; top: 0; bottom: 0; overflow: hidden; }
-.grid-vertical { position: absolute; top: 0; bottom: 0; width: 1px; background-color: rgb(48, 56, 60); }
-.grid-horizontal { position: absolute; left: 0; right: 0; height: 1px; background-color: rgb(48, 56, 60); }
 
 .score-value { position: absolute; left: 50%; translate: -50% 0; top: 10px; padding: 10px 18px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; color: rgb(255, 210, 66); font-size: 16px; -unity-font-style: bold; }
 .add-points-button { position: absolute; right: 12px; bottom: 58px; height: 38px; padding-left: 14px; padding-right: 14px; background-color: rgb(39, 91, 66); border-width: 1px; border-color: rgb(92, 177, 126); border-radius: 5px; color: rgb(231, 255, 236); font-size: 13px; -unity-font-style: bold; }
 .add-points-button:hover { background-color: rgb(51, 119, 84); }
 .add-points-button:active { scale: 0.96 0.96; }
+.unlock-all-button { bottom: 104px; }
 
-.hp-background { width: 54px; height: 6px; flex-shrink: 0; margin-top: 5px; background-color: rgb(26, 22, 19); border-radius: 2px; overflow: hidden; align-items: flex-start; }
+.hp-background { position: absolute; left: 15px; top: 65px; width: 50px; height: 5px; background-color: rgb(26, 22, 19); overflow: hidden; align-items: flex-start; }
 
 .assignment-card:active { border-color: rgb(255, 255, 255); }
 .timer-value.timer-warning { color: rgb(255, 85, 91); }
@@ -51,8 +56,8 @@
 .game-root.fever-active .fever-inner-outline { border-color: rgba(255, 155, 54, 0.85); }
 .fever-banner { position: absolute; left: 50%; translate: -50% 0; top: 112px; padding: 7px 18px; background-color: rgba(104, 15, 86, 0.94); border-width: 2px; border-color: rgb(255, 82, 204); border-radius: 6px; color: rgb(255, 238, 249); font-size: 18px; -unity-font-style: bold; }
 .game-root.fever-active .fever-banner { background-color: rgb(141, 18, 103); }
-.assignment-card.fever-hit { border-color: rgb(255, 68, 214); background-color: rgb(117, 35, 91); scale: 1.1 1.1; }
-.assignment-card.robot-hit { border-color: rgb(65, 241, 236); background-color: rgb(18, 91, 108); scale: 1.06 1.06; }
+.assignment-card.fever-hit { -unity-background-image-tint-color: rgb(255, 110, 220); scale: 1.1 1.1; }
+.assignment-card.robot-hit { -unity-background-image-tint-color: rgb(100, 240, 236); scale: 1.06 1.06; }
 .robot-hit-ring { position: absolute; width: 28px; height: 28px; border-width: 3px; border-color: rgb(82, 255, 247); border-radius: 50%; opacity: 0.9; transition-duration: 0.18s; }
 
 .skill-button { height: 42px; width: 190px; margin-top: 10px; font-size: 17px; -unity-font-style: bold; background-color: rgb(40, 52, 60); color: rgb(244, 239, 226); border-width: 2px; border-color: rgb(100, 120, 135); border-radius: 5px; }
@@ -99,19 +104,14 @@
 .skill-legend-swatch { width: 12px; height: 12px; border-radius: 2px; margin-right: 8px; }
 .skill-legend-text { font-size: 13px; color: rgb(204, 216, 226); margin: 0; padding: 0; }
 .skill-legend-hint { font-size: 11px; color: rgb(120, 140, 155); margin-top: 6px; }
-.assignment-card.golden,
-.assignment-card.golden:hover,
-.assignment-card.golden:active,
-.assignment-card.golden.fever-hit,
-.assignment-card.golden.robot-hit { border-color: rgb(255, 221, 45); }
-.assignment-card.bug { background-color: rgb(82, 25, 30); border-color: rgb(225, 48, 59); }
-.assignment-card.bug:hover { background-color: rgb(112, 30, 38); border-color: rgb(255, 83, 91); }
-.assignment-card.bug .card-progress { background-color: rgb(238, 58, 67); }
-.assignment-card.drinking-party,
-.assignment-card.sleep { background-color: rgb(0, 0, 0); border-color: rgb(105, 105, 105); }
-.assignment-card.drinking-party:hover,
-.assignment-card.sleep:hover { background-color: rgb(28, 28, 28); border-color: rgb(170, 170, 170); }
-.assignment-card.drinking-party .card-progress,
-.assignment-card.sleep .card-progress { background-color: rgb(238, 58, 67); }
+.assignment-card.bug { background-image: url("project://database/Assets/05.sprite/card_obstacle.png"); }
+.assignment-card.bug .card-progress { background-image: none; background-color: rgb(238, 58, 67); }
+
+/* 가로 스트립 스프라이트: 프레임은 코드에서 strip의 left로 넘긴다. */
+.effect-layer { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.sprite-fx { position: absolute; overflow: hidden; }
+.sprite-fx-strip { position: absolute; left: 0; top: 0; -unity-background-scale-mode: stretch-to-fill; }
+.fx-click { background-image: url("project://database/Assets/05.sprite/clickhit.png"); }
+.fx-taskbreak { background-image: url("project://database/Assets/05.sprite/taskbreak.png"); }
 
 

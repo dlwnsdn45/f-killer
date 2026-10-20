@@ -11,6 +11,7 @@ public sealed class GameUIController : MonoBehaviour
     [SerializeField] SkillTable skillTable;
     VisualElement root;
     VisualElement assignmentLayer;
+    VisualElement effectLayer;
     Label scoreValue;
     Label timerValue;
     Label gradeValue;
@@ -25,6 +26,7 @@ public sealed class GameUIController : MonoBehaviour
     Label finalPointsValue;
     Button restartButton;
     Button addPointsButton;
+    Button unlockAllButton;
     Button resetProgressButton;
     VisualElement resetProgressOverlay;
     Button confirmResetProgressButton;
@@ -104,13 +106,26 @@ public sealed class GameUIController : MonoBehaviour
         }
         CreateFeverHud();
         assignmentLayer.Clear();
+        foreach (string side in new[] { "top", "bottom", "left", "right" })
+        {
+            var outsideDim = new VisualElement { pickingMode = PickingMode.Ignore };
+            outsideDim.AddToClassList("outside-dim");
+            outsideDim.AddToClassList(side);
+            assignmentLayer.Add(outsideDim);
+        }
+        // 새 카드가 이펙트를 덮지 않도록 카드 레이어 바로 위에 이펙트 전용 레이어를 둔다.
+        effectLayer = new VisualElement { name = "effect-layer", pickingMode = PickingMode.Ignore };
+        effectLayer.AddToClassList("effect-layer");
+        assignmentLayer.parent.Insert(assignmentLayer.parent.IndexOf(assignmentLayer) + 1, effectLayer);
         restartButton.clicked += gameManager.StartGame;
         addPointsButton.clicked += gameManager.AddPointsFromButton;
+        unlockAllButton = root.Q<Button>("unlock-all-button");
+        if (unlockAllButton != null) unlockAllButton.clicked += gameManager.UnlockAllFromButton;
         resetProgressButton.clicked += ShowResetProgressConfirmation;
         confirmResetProgressButton.clicked += ResetProgress;
         cancelResetProgressButton.clicked += HideResetProgressConfirmation;
         HideResetProgressConfirmation();
-        assignmentLayer.RegisterCallback<ClickEvent>(HandlePlayfieldClick);
+        root.RegisterCallback<PointerDownEvent>(PlayClickEffect, TrickleDown.TrickleDown);
         if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
         isBound = true;
@@ -122,10 +137,13 @@ public sealed class GameUIController : MonoBehaviour
         skillTree = null;
         if (restartButton != null) restartButton.clicked -= gameManager.StartGame;
         if (addPointsButton != null) addPointsButton.clicked -= gameManager.AddPointsFromButton;
+        if (unlockAllButton != null) unlockAllButton.clicked -= gameManager.UnlockAllFromButton;
         if (resetProgressButton != null) resetProgressButton.clicked -= ShowResetProgressConfirmation;
         if (confirmResetProgressButton != null) confirmResetProgressButton.clicked -= ResetProgress;
         if (cancelResetProgressButton != null) cancelResetProgressButton.clicked -= HideResetProgressConfirmation;
-        assignmentLayer?.UnregisterCallback<ClickEvent>(HandlePlayfieldClick);
+        root?.UnregisterCallback<PointerDownEvent>(PlayClickEffect, TrickleDown.TrickleDown);
+        effectLayer?.RemoveFromHierarchy();
+        effectLayer = null;
         feverOutline?.RemoveFromHierarchy();
         feverInnerOutline?.RemoveFromHierarchy();
         feverCountdown?.RemoveFromHierarchy();
@@ -172,12 +190,6 @@ public sealed class GameUIController : MonoBehaviour
         float seconds = Mathf.Max(0f, remainingSeconds);
         timerValue.text = $"{(int)(seconds / 60):00}:{seconds % 60:00.0}";
         timerValue.EnableInClassList("timer-warning", seconds <= 3f);
-    }
-
-    void HandlePlayfieldClick(ClickEvent evt)
-    {
-        if (evt.target != assignmentLayer) return;
-        gameManager.HandleMissClick(assignmentLayer.WorldToLocal(evt.position));
     }
 
     public void ShowOverloadFeedback(Vector2 position, bool blocked, int remainingBlocks)
@@ -236,7 +248,7 @@ public sealed class GameUIController : MonoBehaviour
         var popup = new Label($"콤보 {count}") { pickingMode = PickingMode.Ignore };
         popup.AddToClassList("combo-popup");
         popup.style.left = Mathf.Clamp(localPosition.x - 36f, 8f, Mathf.Max(8f, assignmentLayer.resolvedStyle.width - 90f));
-        popup.style.top = Mathf.Clamp(localPosition.y - 42f, 90f, Mathf.Max(90f, assignmentLayer.resolvedStyle.height - 35f));
+        popup.style.top = Mathf.Clamp(localPosition.y - 42f, 0f, Mathf.Max(0f, assignmentLayer.resolvedStyle.height - 35f));
         assignmentLayer.Add(popup);
         popup.schedule.Execute(() => popup.RemoveFromHierarchy()).StartingIn(700);
     }
@@ -315,8 +327,6 @@ public sealed class GameUIController : MonoBehaviour
         binding.card = new Button();
         binding.card.AddToClassList("assignment-card");
         if (assignment.Data.Kind == AssignmentKind.Bug) binding.card.AddToClassList("bug");
-        else if (assignment.Data.Kind == AssignmentKind.DrinkingParty) binding.card.AddToClassList("drinking-party");
-        else if (assignment.Data.Kind == AssignmentKind.Sleep) binding.card.AddToClassList("sleep");
         if (assignment.IsGolden) binding.card.AddToClassList("golden");
         bool hasIcon = assignment.Data.Icon != null;
         if (hasIcon)
@@ -343,25 +353,21 @@ public sealed class GameUIController : MonoBehaviour
             }
             binding.card.Add(paper);
         }
-        var title = new Label(assignment.IsGolden ? $"황금 {assignment.Data.Title}" : assignment.Data.Title) { pickingMode = PickingMode.Ignore };
-        title.AddToClassList("assignment-title");
-        binding.card.Add(title);
         var background = new VisualElement { pickingMode = PickingMode.Ignore };
         background.AddToClassList("hp-background");
         binding.progress = new VisualElement { pickingMode = PickingMode.Ignore };
         binding.progress.AddToClassList("card-progress");
         background.Add(binding.progress);
         binding.card.Add(background);
-        // HUD 아래, 화면 내부에 카드 전체가 들어오도록 배치한다.
-        float width = assignmentLayer.resolvedStyle.width;
-        float height = assignmentLayer.resolvedStyle.height;
+        // 중앙 스폰 박스(테두리 안쪽) 내부에 카드 전체가 들어오도록 배치한다.
+        float width = assignmentLayer.contentRect.width;
+        float height = assignmentLayer.contentRect.height;
         if (float.IsNaN(width)) width = 1920f;
         if (float.IsNaN(height)) height = 1080f;
-        const float cardWidth = 94f;
-        const float cardHeight = 96f;
+        const float cardWidth = 80f;
+        const float cardHeight = 80f;
         binding.card.style.left = UnityEngine.Random.Range(0f, Mathf.Max(0f, width - cardWidth));
-        float top = Mathf.Min(110f, Mathf.Max(0f, height - cardHeight));
-        binding.card.style.top = UnityEngine.Random.Range(top, Mathf.Max(top, height - cardHeight));
+        binding.card.style.top = UnityEngine.Random.Range(0f, Mathf.Max(0f, height - cardHeight));
         binding.teleportTimer = UnityEngine.Random.Range(1f, 2f);
         binding.clickedCallback = () => gameManager.HandleAssignmentClicked(assignment);
         binding.card.clicked += binding.clickedCallback;
@@ -386,10 +392,10 @@ public sealed class GameUIController : MonoBehaviour
 
         float cardWidth = binding.card.resolvedStyle.width;
         float cardHeight = binding.card.resolvedStyle.height;
-        float layerWidth = assignmentLayer.resolvedStyle.width;
-        float layerHeight = assignmentLayer.resolvedStyle.height;
-        if (float.IsNaN(cardWidth) || cardWidth <= 0f) cardWidth = 84f;
-        if (float.IsNaN(cardHeight) || cardHeight <= 0f) cardHeight = 96f;
+        float layerWidth = assignmentLayer.contentRect.width;
+        float layerHeight = assignmentLayer.contentRect.height;
+        if (float.IsNaN(cardWidth) || cardWidth <= 0f) cardWidth = 80f;
+        if (float.IsNaN(cardHeight) || cardHeight <= 0f) cardHeight = 80f;
         if (float.IsNaN(layerWidth) || layerWidth <= cardWidth
             || float.IsNaN(layerHeight) || layerHeight <= cardHeight)
         {
@@ -398,12 +404,11 @@ public sealed class GameUIController : MonoBehaviour
         }
 
         float maxLeft = layerWidth - cardWidth;
-        float top = Mathf.Min(110f, Mathf.Max(0f, layerHeight - cardHeight));
-        float maxTop = Mathf.Max(top, layerHeight - cardHeight);
+        float maxTop = layerHeight - cardHeight;
         Vector2 currentPosition = new Vector2(binding.card.resolvedStyle.left, binding.card.resolvedStyle.top);
         Vector2 destination = currentPosition;
         for (int attempt = 0; attempt < 4 && Vector2.Distance(currentPosition, destination) < 160f; attempt++)
-            destination = new Vector2(UnityEngine.Random.Range(0f, maxLeft), UnityEngine.Random.Range(top, maxTop));
+            destination = new Vector2(UnityEngine.Random.Range(0f, maxLeft), UnityEngine.Random.Range(0f, maxTop));
 
         binding.card.style.left = destination.x;
         binding.card.style.top = destination.y;
@@ -420,9 +425,38 @@ public sealed class GameUIController : MonoBehaviour
     public void RemoveAssignment(AssignmentBase assignment)
     {
         if (!assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return;
+        PlaySpriteEffect("fx-taskbreak", 6, binding.card.worldBound.center, 96f);
         binding.card.clicked -= binding.clickedCallback;
         binding.card.RemoveFromHierarchy();
         assignmentCards.Remove(assignment);
+    }
+
+    void PlayClickEffect(PointerDownEvent evt) => PlaySpriteEffect("fx-click", 3, evt.position, 96f);
+
+    void PlaySpriteEffect(string className, int frameCount, Vector2 worldCenter, float size)
+    {
+        if (!isBound) return;
+        Vector2 center = effectLayer.WorldToLocal(worldCenter);
+        // 프레임 하나 크기의 창(overflow: hidden) 안에서 가로 스트립 전체를 왼쪽으로 밀어 프레임을 넘긴다.
+        var fx = new VisualElement { pickingMode = PickingMode.Ignore };
+        fx.AddToClassList("sprite-fx");
+        fx.style.left = center.x - size / 2f;
+        fx.style.top = center.y - size / 2f;
+        fx.style.width = size;
+        fx.style.height = size;
+        var strip = new VisualElement { pickingMode = PickingMode.Ignore };
+        strip.AddToClassList("sprite-fx-strip");
+        strip.AddToClassList(className);
+        strip.style.width = size * frameCount;
+        strip.style.height = size;
+        fx.Add(strip);
+        effectLayer.Add(fx);
+        int frame = 0;
+        fx.schedule.Execute(() =>
+        {
+            if (++frame >= frameCount) { fx.RemoveFromHierarchy(); return; }
+            strip.style.left = -frame * size;
+        }).StartingIn(60).Every(60).Until(() => frame >= frameCount);
     }
 
     public void ClearAssignments()
