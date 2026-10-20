@@ -53,8 +53,8 @@ public sealed class SkillTreeUI : IDisposable
         rebirthBoard.style.display = DisplayStyle.None;
         viewport.Add(rebirthBoard);
         Vector2 center = new Vector2(510, 360);
-        Vector2[] positions = { new Vector2(240, 170), new Vector2(190, 510), new Vector2(700, 110), new Vector2(510, 650), new Vector2(840, 350) };
-        for (int i = 0; i < 5; i++)
+        Vector2[] positions = { new Vector2(240, 170), new Vector2(190, 510), new Vector2(700, 110), new Vector2(510, 650) };
+        for (int i = 0; i < SkillProgress.RebirthNames.Length; i++)
         {
             Vector2 delta = positions[i] - center;
             var edge = new VisualElement { pickingMode = PickingMode.Ignore };
@@ -73,7 +73,7 @@ public sealed class SkillTreeUI : IDisposable
         origin.style.left = center.x;
         origin.style.top = center.y;
         rebirthBoard.Add(origin);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < SkillProgress.RebirthNames.Length; i++)
         {
             int index = i;
             var node = new Button { name = "rebirth-" + i };

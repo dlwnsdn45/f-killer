@@ -16,7 +16,6 @@ public sealed class GameUIController : MonoBehaviour
     Label gradeValue;
     Label nextGradeValue;
     VisualElement resultOverlay;
-    VisualElement timerPanel;
     VisualElement feverOutline;
     VisualElement feverInnerOutline;
     Label feverCountdown;
@@ -85,7 +84,6 @@ public sealed class GameUIController : MonoBehaviour
         timerValue = root.Q<Label>("timer-value");
         gradeValue = root.Q<Label>("grade-value");
         nextGradeValue = root.Q<Label>("next-grade-value");
-        timerPanel = root.Q<VisualElement>("timer-panel");
         resultOverlay = root.Q<VisualElement>("result-overlay");
         finalPointsValue = root.Q<Label>("final-points");
         restartButton = root.Q<Button>("restart-button");
@@ -110,7 +108,6 @@ public sealed class GameUIController : MonoBehaviour
         confirmResetProgressButton.clicked += ResetProgress;
         cancelResetProgressButton.clicked += HideResetProgressConfirmation;
         HideResetProgressConfirmation();
-        assignmentLayer.RegisterCallback<ClickEvent>(HandlePlayfieldClick);
         if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
         isBound = true;
@@ -125,7 +122,6 @@ public sealed class GameUIController : MonoBehaviour
         if (resetProgressButton != null) resetProgressButton.clicked -= ShowResetProgressConfirmation;
         if (confirmResetProgressButton != null) confirmResetProgressButton.clicked -= ResetProgress;
         if (cancelResetProgressButton != null) cancelResetProgressButton.clicked -= HideResetProgressConfirmation;
-        assignmentLayer?.UnregisterCallback<ClickEvent>(HandlePlayfieldClick);
         feverOutline?.RemoveFromHierarchy();
         feverInnerOutline?.RemoveFromHierarchy();
         feverCountdown?.RemoveFromHierarchy();
@@ -172,36 +168,6 @@ public sealed class GameUIController : MonoBehaviour
         float seconds = Mathf.Max(0f, remainingSeconds);
         timerValue.text = $"{(int)(seconds / 60):00}:{seconds % 60:00.0}";
         timerValue.EnableInClassList("timer-warning", seconds <= 3f);
-    }
-
-    void HandlePlayfieldClick(ClickEvent evt)
-    {
-        if (evt.target != assignmentLayer) return;
-        gameManager.HandleMissClick(assignmentLayer.WorldToLocal(evt.position));
-    }
-
-    public void ShowOverloadFeedback(Vector2 position, bool blocked, int remainingBlocks)
-    {
-        if (!isBound) return;
-        if (timerPanel != null)
-        {
-            timerPanel.AddToClassList("overload-flash");
-            timerPanel.style.right = 14;
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 6).StartingIn(35);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 14).StartingIn(70);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 6).StartingIn(105);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 10).StartingIn(140);
-            timerPanel.schedule.Execute(() => timerPanel.RemoveFromClassList("overload-flash")).StartingIn(220);
-        }
-
-        var popup = new Label(blocked ? $"방어! 남은 횟수 {remainingBlocks}" : "-0.5s");
-        popup.AddToClassList("overload-popup");
-        popup.pickingMode = PickingMode.Ignore;
-        Vector2 localPosition = assignmentLayer.WorldToLocal(position);
-        popup.style.left = Mathf.Clamp(localPosition.x - 25, 8, Mathf.Max(8, assignmentLayer.resolvedStyle.width - 110));
-        popup.style.top = Mathf.Clamp(localPosition.y - 28, 96, Mathf.Max(96, assignmentLayer.resolvedStyle.height - 40));
-        assignmentLayer.Add(popup);
-        popup.schedule.Execute(() => popup.RemoveFromHierarchy()).StartingIn(700);
     }
 
     void CreateFeverHud()
@@ -315,8 +281,6 @@ public sealed class GameUIController : MonoBehaviour
         binding.card = new Button();
         binding.card.AddToClassList("assignment-card");
         if (assignment.Data.Kind == AssignmentKind.Bug) binding.card.AddToClassList("bug");
-        else if (assignment.Data.Kind == AssignmentKind.DrinkingParty) binding.card.AddToClassList("drinking-party");
-        else if (assignment.Data.Kind == AssignmentKind.Sleep) binding.card.AddToClassList("sleep");
         if (assignment.IsGolden) binding.card.AddToClassList("golden");
         bool hasIcon = assignment.Data.Icon != null;
         if (hasIcon)

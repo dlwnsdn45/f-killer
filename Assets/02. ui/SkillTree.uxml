@@ -22,10 +22,8 @@
             <ui:VisualElement name="tree-edge-17" picking-mode="Ignore" class="tree-line" style="left: 613px; top: 569px; width: 2px; height: 79px; background-color: rgb(255,215,70);"/>
             <ui:VisualElement name="tree-edge-18" picking-mode="Ignore" class="tree-line" style="left: 613px; top: 648px; width: 2px; height: 82px; background-color: rgb(255,215,70);"/>
             <ui:VisualElement name="tree-edge-19" picking-mode="Ignore" class="tree-line" style="left: 536px; top: 350px; width: 77px; height: 2px; background-color: rgb(168,222,113);"/>
-            <ui:VisualElement name="tree-edge-20" picking-mode="Ignore" class="tree-line" style="left: 613px; top: 350px; width: 70px; height: 2px; background-color: rgb(168,222,113);"/>
             <ui:VisualElement name="tree-edge-21" picking-mode="Ignore" class="tree-line" style="left: 683px; top: 350px; width: 58px; height: 2px; background-color: rgb(168,222,113);"/>
             <ui:VisualElement name="tree-edge-22" picking-mode="Ignore" class="tree-line" style="left: 741px; top: 350px; width: 2px; height: 77px; background-color: rgb(168,222,113);"/>
-            <ui:VisualElement name="tree-edge-23" picking-mode="Ignore" class="tree-line" style="left: 741px; top: 427px; width: 2px; height: 66px; background-color: rgb(168,222,113);"/>
             <ui:VisualElement name="tree-edge-24" picking-mode="Ignore" class="tree-line" style="left: 741px; top: 493px; width: 56px; height: 2px; background-color: rgb(168,222,113);"/>
             <ui:VisualElement name="tree-edge-25" picking-mode="Ignore" class="tree-line" style="left: 797px; top: 493px; width: 61px; height: 2px; background-color: rgb(168,222,113);"/>
             <ui:VisualElement name="tree-edge-26" picking-mode="Ignore" class="tree-line" style="left: 741px; top: 275px; width: 2px; height: 75px; background-color: rgb(92,239,206);"/>
@@ -42,10 +40,8 @@
             <ui:VisualElement name="tree-edge-37" picking-mode="Ignore" class="tree-line" style="left: 536px; top: 115px; width: 77px; height: 2px; background-color: rgb(66,170,255);"/>
             <ui:VisualElement name="tree-edge-38" picking-mode="Ignore" class="tree-line" style="left: 613px; top: 49px; width: 2px; height: 66px; background-color: rgb(66,170,255);"/>
             <ui:VisualElement name="tree-edge-39" picking-mode="Ignore" class="tree-line" style="left: 463px; top: 195px; width: 73px; height: 2px; background-color: rgb(186,119,245);"/>
-            <ui:VisualElement name="tree-edge-40" picking-mode="Ignore" class="tree-line" style="left: 383px; top: 195px; width: 80px; height: 2px; background-color: rgb(186,119,245);"/>
             <ui:VisualElement name="tree-edge-41" picking-mode="Ignore" class="tree-line" style="left: 383px; top: 115px; width: 2px; height: 80px; background-color: rgb(186,119,245);"/>
             <ui:VisualElement name="tree-edge-42" picking-mode="Ignore" class="tree-line" style="left: 327px; top: 115px; width: 56px; height: 2px; background-color: rgb(186,119,245);"/>
-            <ui:VisualElement name="tree-edge-43" picking-mode="Ignore" class="tree-line" style="left: 271px; top: 115px; width: 56px; height: 2px; background-color: rgb(186,119,245);"/>
             <ui:VisualElement name="tree-edge-44" picking-mode="Ignore" class="tree-line" style="left: 215px; top: 115px; width: 56px; height: 2px; background-color: rgb(186,119,245);"/>
             <ui:Button name="skill-0" class="tree-node" style="left: 536px; top: 350px; border-color: rgb(255,255,255);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 0px; background-color: rgb(255,255,255);"/>
@@ -575,35 +571,6 @@
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 18px; background-color: rgb(168,222,113);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 18px; background-color: rgb(168,222,113);"/>
                 </ui:VisualElement></ui:Button>
-            <ui:Button name="skill-20" class="tree-node" style="left: 683px; top: 350px; border-color: rgb(168,222,113);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 3px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 3px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 6px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 6px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 9px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 18px; background-color: rgb(168,222,113);"/>
-                </ui:VisualElement></ui:Button>
             <ui:Button name="skill-21" class="tree-node" style="left: 741px; top: 350px; border-color: rgb(168,222,113);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(168,222,113);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(168,222,113);"/>
@@ -634,35 +601,6 @@
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 18px; background-color: rgb(168,222,113);"/>
                 </ui:VisualElement></ui:Button>
             <ui:Button name="skill-22" class="tree-node" style="left: 741px; top: 427px; border-color: rgb(168,222,113);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 0px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 3px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 3px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 6px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 6px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 9px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 12px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 15px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 18px; background-color: rgb(168,222,113);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 18px; background-color: rgb(168,222,113);"/>
-                </ui:VisualElement></ui:Button>
-            <ui:Button name="skill-23" class="tree-node" style="left: 741px; top: 493px; border-color: rgb(168,222,113);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(168,222,113);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(168,222,113);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(168,222,113);"/>
@@ -1139,41 +1077,6 @@
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 15px; background-color: rgb(186,119,245);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(186,119,245);"/>
                 </ui:VisualElement></ui:Button>
-            <ui:Button name="skill-40" class="tree-node" style="left: 383px; top: 195px; border-color: rgb(186,119,245);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(186,119,245);"/>
-                </ui:VisualElement></ui:Button>
             <ui:Button name="skill-41" class="tree-node" style="left: 383px; top: 115px; border-color: rgb(186,119,245);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(186,119,245);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(186,119,245);"/>
@@ -1210,41 +1113,6 @@
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(186,119,245);"/>
                 </ui:VisualElement></ui:Button>
             <ui:Button name="skill-42" class="tree-node" style="left: 327px; top: 115px; border-color: rgb(186,119,245);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 0px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 3px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 6px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 18px; top: 9px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 15px; top: 12px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 12px; top: 15px; background-color: rgb(186,119,245);"/>
-                    <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(186,119,245);"/>
-                </ui:VisualElement></ui:Button>
-            <ui:Button name="skill-43" class="tree-node" style="left: 271px; top: 115px; border-color: rgb(186,119,245);"><ui:VisualElement picking-mode="Ignore" class="tree-pixel-icon">
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 0px; top: 0px; background-color: rgb(186,119,245);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 3px; top: 0px; background-color: rgb(186,119,245);"/>
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 6px; top: 0px; background-color: rgb(186,119,245);"/>

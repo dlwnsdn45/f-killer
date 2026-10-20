@@ -11,8 +11,6 @@ public sealed class GameManager : MonoBehaviour
     [SerializeField] GameUIController gameUI;
     [SerializeField] AssignmentSpawner assignmentSpawner;
     [SerializeField] AudioManager audioManager;
-    [Header("과부하")]
-    [SerializeField, Min(0f)] float missClickPenaltySeconds = 0.5f;
 
     bool isPlaying;
     bool hasStarted;
@@ -25,8 +23,6 @@ public sealed class GameManager : MonoBehaviour
     bool feverWasActive;
     double deadline;
     int totalPoints;
-    int overloadBlocksRemaining;
-    bool sleepRescueUsed;
     SkillProgress skillProgress;
     public SkillProgress SkillProgress => skillProgress ?? (skillProgress = new SkillProgress());
     readonly List<AssignmentBase> activeAssignments = new List<AssignmentBase>();
@@ -129,8 +125,6 @@ public sealed class GameManager : MonoBehaviour
         feverWasActive = false;
         gameUI.SetFeverVisual(false);
         gameUI.UpdateFeverState(false, 0f);
-        overloadBlocksRemaining = (HasSkill("skill-20") ? 3 : 0) + (HasSkill("skill-23") ? 5 : 0);
-        sleepRescueUsed = false;
         deadline = Time.unscaledTimeAsDouble + RoundDuration;
         isPlaying = true;
         hasStarted = true;
@@ -184,36 +178,12 @@ public sealed class GameManager : MonoBehaviour
             foreach (AssignmentBase other in activeAssignments)
                 if (other != assignment && gameUI.AreAssignmentsNear(assignment, other, 180f)) nearby.Add(other);
         DamageAssignment(assignment, damage, true);
-        foreach (AssignmentBase other in nearby) DamageAssignment(other, 1, splashHit: true);
+        foreach (AssignmentBase other in nearby) DamageAssignment(other, 1);
     }
 
-    public void HandleMissClick(Vector2 position)
-    {
-        if (!isPlaying) return;
-        audioManager.PlayMissClickWarning();
-        int immunity = SkillProgress.RebirthLevel(4);
-        if (immunity > 0 && UnityEngine.Random.value < (immunity == 1 ? 0.3f : 0.5f))
-        {
-            gameUI.ShowOverloadFeedback(position, true, overloadBlocksRemaining);
-            return;
-        }
-        if (overloadBlocksRemaining > 0)
-        {
-            overloadBlocksRemaining--;
-            gameUI.ShowOverloadFeedback(position, true, overloadBlocksRemaining);
-            return;
-        }
-
-        deadline -= Mathf.Max(0f, missClickPenaltySeconds);
-        UpdateTimer();
-        gameUI.ShowOverloadFeedback(position, false, overloadBlocksRemaining);
-    }
-
-    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false, bool splashHit = false)
+    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
     {
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
-        if (!manualHit && assignment.Data.Kind == AssignmentKind.Sleep) return;
-        if (splashHit && assignment.Data.Kind == AssignmentKind.DrinkingParty) return;
         assignment.ApplyClick(damage);
         if (assignment.IsCompleted) CompleteAssignment(assignment, manualHit);
         else gameUI.RefreshAssignment(assignment);
@@ -263,18 +233,6 @@ public sealed class GameManager : MonoBehaviour
         UpdateAcademicGrade();
         gameUI.RemoveAssignment(assignment);
 
-        if (manualHit && assignment.Data.Kind == AssignmentKind.DrinkingParty)
-        {
-            double now = Time.unscaledTimeAsDouble;
-            double remaining = Math.Max(0d, deadline - now);
-            deadline = now + remaining * 0.5d;
-            UpdateTimer();
-        }
-        else if (manualHit && assignment.Data.Kind == AssignmentKind.Sleep)
-        {
-            if (HasSkill("skill-43") && !sleepRescueUsed) sleepRescueUsed = true;
-            else EndGame();
-        }
     }
 
     void RegisterComboBreak()
