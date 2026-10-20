@@ -28,10 +28,13 @@ public sealed class GameUIController : MonoBehaviour
     VisualElement resetProgressOverlay;
     Button confirmResetProgressButton;
     Button cancelResetProgressButton;
+    Button fullResetButton, confirmFullResetButton, cancelFullResetButton;
+    VisualElement fullResetOverlay;
     bool isBound;
     bool reloadRegistered;
     int uiVersion = -1;
     SkillTreeUI skillTree;
+    IngameTutorial tutorial;
     public bool IsBound => isBound;
     public SkillTable SkillTable => skillTable;
 
@@ -92,10 +95,16 @@ public sealed class GameUIController : MonoBehaviour
         resetProgressOverlay = root.Q<VisualElement>("reset-progress-overlay");
         confirmResetProgressButton = root.Q<Button>("confirm-reset-progress-button");
         cancelResetProgressButton = root.Q<Button>("cancel-reset-progress-button");
+        fullResetButton = root.Q<Button>("full-reset-button");
+        fullResetOverlay = root.Q("full-reset-overlay");
+        confirmFullResetButton = root.Q<Button>("confirm-full-reset-button");
+        cancelFullResetButton = root.Q<Button>("cancel-full-reset-button");
         if (assignmentLayer == null || scoreValue == null || timerValue == null ||
             resultOverlay == null || finalPointsValue == null || restartButton == null || addPointsButton == null ||
             resetProgressButton == null || resetProgressOverlay == null ||
-            confirmResetProgressButton == null || cancelResetProgressButton == null)
+            confirmResetProgressButton == null || cancelResetProgressButton == null ||
+            fullResetButton == null || fullResetOverlay == null ||
+            confirmFullResetButton == null || cancelFullResetButton == null)
         {
             Debug.LogError("IngameUI의 필수 요소가 누락되었습니다.", this);
             return;
@@ -108,6 +117,10 @@ public sealed class GameUIController : MonoBehaviour
         confirmResetProgressButton.clicked += ResetProgress;
         cancelResetProgressButton.clicked += HideResetProgressConfirmation;
         HideResetProgressConfirmation();
+        fullResetButton.clicked += ShowFullResetConfirmation;
+        confirmFullResetButton.clicked += ResetAllProgress;
+        cancelFullResetButton.clicked += HideFullResetConfirmation;
+        HideFullResetConfirmation();
         if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
         isBound = true;
@@ -115,6 +128,8 @@ public sealed class GameUIController : MonoBehaviour
 
     public void UnbindUI()
     {
+        tutorial?.Dispose();
+        tutorial = null;
         skillTree?.Dispose();
         skillTree = null;
         if (restartButton != null) restartButton.clicked -= gameManager.StartGame;
@@ -122,6 +137,9 @@ public sealed class GameUIController : MonoBehaviour
         if (resetProgressButton != null) resetProgressButton.clicked -= ShowResetProgressConfirmation;
         if (confirmResetProgressButton != null) confirmResetProgressButton.clicked -= ResetProgress;
         if (cancelResetProgressButton != null) cancelResetProgressButton.clicked -= HideResetProgressConfirmation;
+        if (fullResetButton != null) fullResetButton.clicked -= ShowFullResetConfirmation;
+        if (confirmFullResetButton != null) confirmFullResetButton.clicked -= ResetAllProgress;
+        if (cancelFullResetButton != null) cancelFullResetButton.clicked -= HideFullResetConfirmation;
         feverOutline?.RemoveFromHierarchy();
         feverInnerOutline?.RemoveFromHierarchy();
         feverCountdown?.RemoveFromHierarchy();
@@ -154,13 +172,51 @@ public sealed class GameUIController : MonoBehaviour
         gameManager.StartGame();
     }
 
+    void ShowFullResetConfirmation()
+    {
+        fullResetOverlay.style.display = DisplayStyle.Flex;
+        cancelFullResetButton.Focus();
+    }
+
+    void HideFullResetConfirmation()
+    {
+        if (fullResetOverlay != null) fullResetOverlay.style.display = DisplayStyle.None;
+    }
+
+    void ResetAllProgress()
+    {
+        gameManager.SkillProgress.ResetAll();
+        HideFullResetConfirmation();
+        HideResetProgressConfirmation();
+        gameManager.StartGame();
+    }
+
     public void ShowGame()
     {
         if (!isBound) return;
+        tutorial?.Dispose();
+        tutorial = null;
         resultOverlay.style.display = DisplayStyle.None;
         skillTree?.Hide();
         assignmentLayer.SetEnabled(true);
     }
+
+    public void BeginTutorial(Action startPlaying)
+    {
+        tutorial = new IngameTutorial(root, skillTree, gameManager.SkillProgress, skillTable,
+            PrepareTutorialAssignmentCard, startPlaying);
+    }
+
+    VisualElement PrepareTutorialAssignmentCard()
+    {
+        AssignmentBase assignment = gameManager.PrepareTutorialAssignment();
+        if (assignment == null || !assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return null;
+        binding.card.style.left = Length.Percent(45);
+        binding.card.style.top = Length.Percent(30);
+        return binding.card;
+    }
+
+    public void OnTutorialAssignmentClicked() => tutorial?.OnAssignmentClicked();
 
     public void UpdateTimer(float remainingSeconds)
     {
@@ -405,5 +461,6 @@ public sealed class GameUIController : MonoBehaviour
         assignmentLayer.SetEnabled(false);
         finalPointsValue.text = $"최종 {finalPoints}점: {finalGrade}";
         resultOverlay.style.display = DisplayStyle.Flex;
+        tutorial?.OnRoundEnded();
     }
 }

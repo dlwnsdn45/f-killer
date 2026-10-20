@@ -26,6 +26,7 @@ public sealed class GameManager : MonoBehaviour
     SkillProgress skillProgress;
     public SkillProgress SkillProgress => skillProgress ?? (skillProgress = new SkillProgress());
     readonly List<AssignmentBase> activeAssignments = new List<AssignmentBase>();
+    AssignmentBase tutorialAssignment;
 
     bool HasSkill(string id) => SkillProgress.IsOwned(gameUI != null ? gameUI.SkillTable : null, id);
 
@@ -132,6 +133,16 @@ public sealed class GameManager : MonoBehaviour
         gameUI.UpdatePoints(SkillProgress.Points);
         UpdateAcademicGrade();
         gameUI.UpdateTimer(RoundDuration);
+        if (!SkillProgress.TutorialCompleted)
+        {
+            isPlaying = false;
+            gameUI.BeginTutorial(() =>
+            {
+                deadline = Time.unscaledTimeAsDouble + RoundDuration;
+                isPlaying = true;
+                gameUI.UpdateTimer(RoundDuration);
+            });
+        }
     }
 
     public void AddPointsFromButton()
@@ -154,8 +165,23 @@ public sealed class GameManager : MonoBehaviour
         gameUI.AddAssignment(assignment);
     }
 
+    public AssignmentBase PrepareTutorialAssignment()
+    {
+        if (tutorialAssignment != null) return tutorialAssignment;
+        tutorialAssignment = assignmentSpawner != null ? assignmentSpawner.CreateTutorialAssignment() : null;
+        if (tutorialAssignment == null) return null;
+        activeAssignments.Add(tutorialAssignment);
+        gameUI.AddAssignment(tutorialAssignment);
+        return tutorialAssignment;
+    }
+
     public void HandleAssignmentClicked(AssignmentBase assignment)
     {
+        if (assignment != null && assignment == tutorialAssignment)
+        {
+            tutorialAssignment = null;
+            gameUI.OnTutorialAssignmentClicked();
+        }
         if (!isPlaying) return;
         UpdateTimer();
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
@@ -274,6 +300,7 @@ public sealed class GameManager : MonoBehaviour
 
     void ClearAssignments()
     {
+        tutorialAssignment = null;
         activeAssignments.Clear();
         gameUI.ClearAssignments();
     }

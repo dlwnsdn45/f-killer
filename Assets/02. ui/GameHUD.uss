@@ -1,4 +1,13 @@
 .game-root { flex-grow: 1; width: 100%; height: 100%; background-color: rgb(35, 43, 47); -unity-font-definition: url("Malgun.ttf"); }
+.tutorial-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.tutorial-shade { position: absolute; background-color: rgba(0, 0, 0, 0.84); }
+.tutorial-highlight { position: absolute; border-width: 3px; border-color: rgb(255, 210, 66); border-radius: 8px; }
+.tutorial-panel { position: absolute; padding: 12px; background-color: rgb(15, 22, 29); border-width: 1px; border-color: rgb(99, 119, 138); border-radius: 9px; }
+.tutorial-title { font-size: 18px; -unity-font-style: bold; color: rgb(255, 249, 229); white-space: normal; margin-bottom: 6px; }
+.tutorial-body { font-size: 13px; color: rgb(219, 228, 237); white-space: normal; }
+.tutorial-next { height: 32px; margin-top: 10px; background-color: rgb(255, 210, 66); color: rgb(20, 27, 32); font-size: 13px; -unity-font-style: bold; border-width: 0; border-radius: 5px; transition-property: background-color, scale; transition-duration: 0.16s; transition-timing-function: ease-out; }
+.tutorial-next:hover { background-color: rgb(255, 225, 126); scale: 1.025 1.025; }
+.tutorial-next:active { scale: 0.97 0.97; }
 .background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); }
 .game-content { position: absolute; left: 0; right: 0; top: 0; bottom: 0; scale: 0.72 0.72; }
 .assignment-layer { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
@@ -107,3 +116,5 @@
 .assignment-card.bug .card-progress { background-color: rgb(238, 58, 67); }
 
 
+.full-reset-button { position: absolute; left: 12px; bottom: 12px; height: 38px; padding-left: 14px; padding-right: 14px; font-size: 14px; background-color: rgb(100, 32, 38); color: rgb(255, 224, 224); border-width: 1px; border-color: rgb(190, 75, 80); border-radius: 5px; }
+.full-reset-button:hover { background-color: rgb(145, 42, 50); }

@@ -11,6 +11,8 @@ public sealed class SkillProgress
     [Serializable] sealed class SaveData
     {
         public int points;
+        public bool tutorialCompleted;
+        public bool tutorialRewardGranted;
         public int bestGradeIndex;
         public int rebirthCount;
         public int rebirthPoints;
@@ -20,6 +22,8 @@ public sealed class SkillProgress
 
     readonly HashSet<string> purchased = new HashSet<string>();
     public int Points { get; private set; }
+    public bool TutorialCompleted { get; private set; }
+    bool tutorialRewardGranted;
     public int BestGradeIndex { get; private set; }
     public int RebirthCount { get; private set; }
     public int RebirthPoints { get; private set; }
@@ -44,6 +48,8 @@ public sealed class SkillProgress
             var data = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(SaveKey, "{}"));
             if (data == null) return;
             Points = Math.Max(0, data.points);
+            TutorialCompleted = data.tutorialCompleted;
+            tutorialRewardGranted = data.tutorialRewardGranted;
             BestGradeIndex = Math.Max(0, data.bestGradeIndex);
             RebirthCount = Math.Max(0, data.rebirthCount);
             RebirthPoints = Math.Max(0, data.rebirthPoints);
@@ -122,13 +128,43 @@ public sealed class SkillProgress
         return true;
     }
 
+    public void ResetAll()
+    {
+        TutorialCompleted = false;
+        tutorialRewardGranted = false;
+        Points = 0;
+        BestGradeIndex = 0;
+        RebirthCount = 0;
+        RebirthPoints = 0;
+        purchased.Clear();
+        Array.Clear(rebirthLevels, 0, rebirthLevels.Length);
+        Save();
+        Changed?.Invoke();
+    }
+
     void Save()
     {
         PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(new SaveData
         {
             points = Points, bestGradeIndex = BestGradeIndex, purchased = new List<string>(purchased),
+            tutorialCompleted = TutorialCompleted, tutorialRewardGranted = tutorialRewardGranted,
             rebirthCount = RebirthCount, rebirthPoints = RebirthPoints, rebirthLevels = rebirthLevels
         }));
         PlayerPrefs.Save();
+    }
+
+    public void GrantTutorialReward(int minimumPoints)
+    {
+        if (tutorialRewardGranted) return;
+        tutorialRewardGranted = true;
+        Points = Math.Max(Points, minimumPoints);
+        Save();
+        Changed?.Invoke();
+    }
+
+    public void CompleteTutorial()
+    {
+        TutorialCompleted = true;
+        Save();
     }
 }

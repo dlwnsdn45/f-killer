@@ -88,6 +88,15 @@ public sealed class AssignmentSpawner : MonoBehaviour
         }
     }
 
+    public AssignmentBase CreateTutorialAssignment()
+    {
+        AssignmentData data = GetSpawnObject(0);
+        if (data == null) return null;
+        var assignment = new AssignmentBase();
+        assignment.Initialize(data);
+        return assignment;
+    }
+
     static float GetOwnedSkillRate(SkillTable skillTable, Func<string, bool> hasSkill, string skillId)
     {
         if (skillTable == null || hasSkill == null || string.IsNullOrEmpty(skillId) || !hasSkill(skillId)) return 0f;

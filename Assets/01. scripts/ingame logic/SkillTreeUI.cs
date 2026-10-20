@@ -23,6 +23,26 @@ public sealed class SkillTreeUI : IDisposable
     Vector2 pan, dragStart, panStart;
     int dragPointer = -1;
     bool centered;
+    string tutorialSkillToCenter;
+    public event Action<string> SkillInspected;
+    public event Action<string> SkillPurchased;
+    public event Action Opened;
+
+    public void FocusTutorialSkill(string id)
+    {
+        SwitchTree(false);
+        tutorialSkillToCenter = id;
+        CenterTutorialSkill();
+    }
+
+    void CenterTutorialSkill()
+    {
+        Button node = nodes.Find(item => item.name == tutorialSkillToCenter);
+        float width = viewport.resolvedStyle.width, height = viewport.resolvedStyle.height;
+        if (node == null || float.IsNaN(width) || float.IsNaN(height) || width <= 0 || height <= 0) return;
+        pan = new Vector2(width / 2 - node.resolvedStyle.left, height * 0.3f - node.resolvedStyle.top);
+        ApplyPan();
+    }
 
     public SkillTreeUI(VisualElement root, SkillTable table, SkillProgress progress)
     {
@@ -175,6 +195,7 @@ public sealed class SkillTreeUI : IDisposable
         popup.style.left = Mathf.Clamp(anchor.x - popupWidth / 2, 12, Mathf.Max(12, width - popupWidth - 12));
         popup.style.top = Mathf.Clamp(anchor.y > height / 2 ? anchor.y - 220 : anchor.y + 26, 60, Mathf.Max(60, height - 210));
         popup.style.display = DisplayStyle.Flex;
+        SkillInspected?.Invoke(skill.Id);
     }
 
     void OnPointerDown(PointerDownEvent evt)
@@ -217,14 +238,16 @@ public sealed class SkillTreeUI : IDisposable
     void ApplyPan() { board.style.left = pan.x; board.style.top = pan.y; }
     void OnViewportGeometry(GeometryChangedEvent evt)
     {
-        if (!centered && evt.newRect.width > 0 && evt.newRect.height > 0)
+        if (tutorialSkillToCenter != null) CenterTutorialSkill();
+        else if (!centered && evt.newRect.width > 0 && evt.newRect.height > 0)
         {
             pan = new Vector2((evt.newRect.width - board.resolvedStyle.width) / 2,
                 (evt.newRect.height - board.resolvedStyle.height) / 2);
             ApplyPan();
             centered = true;
         }
-        popup.style.display = DisplayStyle.None;
+        if (selectedNode != null && popup.style.display.value == DisplayStyle.Flex) Inspect(selectedNode);
+        else popup.style.display = DisplayStyle.None;
     }
 
     // Runtime connections follow positions edited in UI Builder, including diagonal moves.
@@ -258,7 +281,9 @@ public sealed class SkillTreeUI : IDisposable
     {
         if (rebirthMode) { if (selectedRebirth >= 0) progress.TryPurchaseRebirth(selectedRebirth); Refresh(); return; }
         if (selectedNode == null) return;
-        progress.TryPurchase(table, selectedNode.name);
+        string id = selectedNode.name;
+        if (progress.TryPurchase(table, id) == SkillPurchaseState.Available)
+            SkillPurchased?.Invoke(id);
         Refresh();
     }
 
@@ -285,8 +310,15 @@ public sealed class SkillTreeUI : IDisposable
         if (selectedNode != null && popup.style.display.value == DisplayStyle.Flex) Inspect(selectedNode);
     }
 
-    public void Show() { Refresh(); host.style.display = DisplayStyle.Flex; popup.style.display = DisplayStyle.None; overlay.Focus(); }
-    public void Hide() { StopDrag(); host.style.display = DisplayStyle.None; opener?.Focus(); }
+    public void Show()
+    {
+        Refresh();
+        host.style.display = DisplayStyle.Flex;
+        popup.style.display = DisplayStyle.None;
+        overlay.Focus();
+        Opened?.Invoke();
+    }
+    public void Hide() { StopDrag(); tutorialSkillToCenter = null; host.style.display = DisplayStyle.None; opener?.Focus(); }
 
     public void Dispose()
     {

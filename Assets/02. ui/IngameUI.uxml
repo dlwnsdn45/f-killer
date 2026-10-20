@@ -91,6 +91,7 @@
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button"/>
+            <ui:Button name="full-reset-button" text="완전 초기화" class="full-reset-button"/>
             <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button"/>
             <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
                 <ui:VisualElement class="reset-progress-panel">
@@ -104,5 +105,15 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:Instance template="SkillTree" name="skill-tree-host" style="position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: none;"/>
+        <ui:VisualElement name="full-reset-overlay" class="reset-progress-overlay" style="display: none;">
+            <ui:VisualElement class="reset-progress-panel">
+                <ui:Label text="완전히 초기화할까요?" class="reset-progress-title"/>
+                <ui:Label text="포인트, 최고 학점, 구매한 스킬, 환생 횟수와 강화를 모두 지웁니다.&#10;되돌릴 수 없으며 처음부터 다시 시작합니다." class="reset-progress-message"/>
+                <ui:VisualElement class="reset-progress-actions">
+                    <ui:Button name="cancel-full-reset-button" text="취소" class="reset-progress-cancel"/>
+                    <ui:Button name="confirm-full-reset-button" text="완전 초기화" class="reset-progress-confirm"/>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
