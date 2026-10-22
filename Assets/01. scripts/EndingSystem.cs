@@ -7,6 +7,7 @@ public class EndingSystem : MonoBehaviour
     [SerializeField] private CanvasGroup _canvasGroupScrollView;
     [SerializeField] private CanvasGroup _canvasGroupEndingText;
     [SerializeField] private ScrollRect _scrollRect;
+    [SerializeField] private Button _mainButton;
 
     [SerializeField] private float _waitTime;
     [SerializeField] private float _scrollSpeed;
@@ -18,6 +19,9 @@ public class EndingSystem : MonoBehaviour
         _scrollRect.vertical = false;
 
         _canvasGroupEndingText.alpha = 0f;
+
+        _mainButton.onClick.RemoveAllListeners();
+        _mainButton.onClick.AddListener(() => GameManager_S.Instance().GoToMain());
     }
 
     private void Start()
