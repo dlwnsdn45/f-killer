@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [DisallowMultipleComponent]
 public sealed class AudioManager : MonoBehaviour
@@ -29,7 +29,12 @@ public sealed class AudioManager : MonoBehaviour
 
     void PlayOneShot(AudioClip clip)
     {
-        if (audioSource != null && clip != null) audioSource.PlayOneShot(clip);
+        if (OptionManager.Instance().IsMutedSFX)
+        {
+            return;
+        }
+
+        if (audioSource != null && clip != null) audioSource.PlayOneShot(clip, OptionManager.Instance().SFXVolume);
     }
 
     void OnDestroy()
