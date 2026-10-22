@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -150,6 +150,11 @@ public sealed class GameManager : MonoBehaviour
         SkillProgress.AddPoints(1000);
     }
 
+    public void UnlockAllFromButton()
+    {
+        SkillProgress.UnlockAllForTest(gameUI.SkillTable);
+    }
+
     void UpdateTimer()
     {
         float remainingSeconds = Mathf.Max(0f, (float)(deadline - Time.unscaledTimeAsDouble));
@@ -207,7 +212,7 @@ public sealed class GameManager : MonoBehaviour
         foreach (AssignmentBase other in nearby) DamageAssignment(other, 1);
     }
 
-    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
+    public void HandleMissClick(Vector2 position)
     {
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
         assignment.ApplyClick(damage);

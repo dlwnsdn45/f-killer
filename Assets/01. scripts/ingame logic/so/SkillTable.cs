@@ -6,6 +6,7 @@ public sealed class SkillTable: ScriptableObject
 {
     [SerializeField] List<SkillData> skills = new List<SkillData>();
     public SkillData Find(string id) => skills.Find(skill => skill != null && skill.Id == id);
+    public IReadOnlyList<SkillData> Skills => skills;
 
     void OnValidate()
     {

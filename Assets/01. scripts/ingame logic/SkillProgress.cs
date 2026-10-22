@@ -41,6 +41,10 @@ public sealed class SkillProgress
     public bool CanRebirth => Points >= NextRebirthCost;
     public event Action Changed;
 
+    // shortcut: 실행할 때마다 저장(포인트·스킬·환생)을 지운다. 이어하기가 필요해지면 이 메서드를 삭제.
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void ResetOnLaunch() => PlayerPrefs.DeleteKey(SaveKey);
+
     public SkillProgress()
     {
         try
@@ -113,6 +117,17 @@ public sealed class SkillProgress
         Save();
         Changed?.Invoke();
         return true;
+    }
+
+    // 테스트용: 스킬트리 전체 구매 + 환생트리 전부 최대 레벨.
+    public void UnlockAllForTest(SkillTable table)
+    {
+        if (table != null)
+            foreach (SkillData skill in table.Skills)
+                if (skill != null && !string.IsNullOrWhiteSpace(skill.Id)) purchased.Add(skill.Id);
+        for (int i = 0; i < rebirthLevels.Length; i++) rebirthLevels[i] = RebirthMaxLevels[i];
+        Save();
+        Changed?.Invoke();
     }
 
     public bool TryRebirth()

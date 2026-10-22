@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: TeamProject
   m_EditorClassIdentifier: 
   title: "\uD300 \uD504\uB85C\uC81D\uD2B8"
-  icon: {fileID: 2800000, guid: f1418eb648934bf7a12570d6d918de51, type: 3}
+  icon: {fileID: 2800000, guid: f908e2dd557c53f4e94af33244ed24c3, type: 3}
   kind: 1
-  requiredGrade: 0
+  requiredGrade: 2
   maxHp: 10
   points: 30
