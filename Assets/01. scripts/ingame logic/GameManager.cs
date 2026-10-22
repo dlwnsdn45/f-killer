@@ -212,7 +212,7 @@ public sealed class GameManager : MonoBehaviour
         foreach (AssignmentBase other in nearby) DamageAssignment(other, 1);
     }
 
-    public void HandleMissClick(Vector2 position)
+    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
     {
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
         assignment.ApplyClick(damage);
