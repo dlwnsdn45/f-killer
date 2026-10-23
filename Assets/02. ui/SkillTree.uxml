@@ -2,6 +2,7 @@
     <Style src="SkillTree.uss" />
     <ui:VisualElement name="skill-tree-overlay" class="tree-overlay" focusable="true">
         <ui:VisualElement class="tree-toolbar"><ui:Label text="스킬 트리"/><ui:Label name="tree-points" text="0 P"/><ui:Button name="tree-close" text="닫기 ×"/></ui:VisualElement>
+<<<<<<< Updated upstream
         <ui:VisualElement name="tree-viewport" class="tree-viewport"><ui:VisualElement name="skill-tree-board" class="tree-board">
             <ui:VisualElement name="tree-edge-1" picking-mode="Ignore" class="tree-line" style="left: 457px; top: 350px; width: 79px; height: 2px; background-color: rgb(255,76,79);"/>
             <ui:VisualElement name="tree-edge-2" picking-mode="Ignore" class="tree-line" style="left: 383px; top: 350px; width: 74px; height: 2px; background-color: rgb(255,76,79);"/>
@@ -1315,8 +1316,10 @@
                     <ui:VisualElement picking-mode="Ignore" class="tree-pixel" style="left: 9px; top: 18px; background-color: rgb(186,119,245);"/>
                 </ui:VisualElement></ui:Button>
         </ui:VisualElement></ui:VisualElement>
+=======
+        <!-- 노드와 연결선은 SkillTreeUI가 SkillTable의 좌표로 만든다. -->
+        <ui:VisualElement name="tree-viewport" class="tree-viewport"><ui:VisualElement name="skill-tree-board" class="tree-board"/></ui:VisualElement>
+>>>>>>> Stashed changes
         <ui:VisualElement name="skill-description" class="tree-popup" style="display: none; left: 350px; top: 250px;">
-            <ui:Label name="tree-detail-title" text="과제 폭탄" class="tree-popup-title"/><ui:Label name="tree-detail-effect" text="과제 등장 간격 -3%" class="tree-popup-description"/><ui:Label name="tree-detail-requirement" text="Lv. 0 / 1 · 선행: 시작점" class="tree-popup-requirement"/><ui:Button name="tree-buy" text="50 P 구매" class="tree-popup-price"/>
+            <ui:Label name="tree-detail-title" text="클릭 피해" class="tree-popup-title"/><ui:Label name="tree-detail-effect" text="클릭 피해 +1" class="tree-popup-description"/><ui:Label name="tree-detail-requirement" text="선행: 입학(S0)" class="tree-popup-requirement"/><ui:Button name="tree-buy" text="50 P 구매" class="tree-popup-price"/>
         </ui:VisualElement></ui:VisualElement></ui:UXML>
-
-

@@ -16,5 +16,5 @@ MonoBehaviour:
   icon: {fileID: 2800000, guid: 841b094849c52754498b978b0874ac2e, type: 3}
   kind: 5
   requiredGrade: 1
-  maxHp: 3
+  maxHp: 4
   points: 10

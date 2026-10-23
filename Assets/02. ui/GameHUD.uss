@@ -1,15 +1,38 @@
+<<<<<<< Updated upstream
 .game-root { flex-grow: 1; width: 100%; height: 100%; background-color: rgb(35, 43, 47); -unity-font-definition: url("Malgun.ttf"); }
 .background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); background-image: url("project://database/Assets/05.sprite/background.png"); -unity-background-scale-mode: scale-and-crop; }
 /* 스폰 박스 바깥만 어둡게: 박스 상하좌우에 반투명 사각형 4개를 붙인다. */
+=======
+﻿.game-root { flex-grow: 1; width: 100%; height: 100%; background-color: rgb(35, 43, 47); -unity-font-definition: url("Malgun.ttf"); }
+.tutorial-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.tutorial-shade { position: absolute; background-color: rgba(0, 0, 0, 0.84); }
+.tutorial-highlight { position: absolute; border-width: 3px; border-color: rgb(255, 210, 66); border-radius: 8px; }
+.tutorial-panel { position: absolute; padding: 12px; background-color: rgb(15, 22, 29); border-width: 1px; border-color: rgb(99, 119, 138); border-radius: 9px; }
+.tutorial-title { font-size: 18px; -unity-font-style: bold; color: rgb(255, 249, 229); white-space: normal; margin-bottom: 6px; }
+.tutorial-body { font-size: 13px; color: rgb(219, 228, 237); white-space: normal; }
+.tutorial-next { height: 32px; margin-top: 10px; background-color: rgb(255, 210, 66); color: rgb(20, 27, 32); font-size: 13px; -unity-font-style: bold; border-width: 0; border-radius: 5px; transition-property: background-color, scale; transition-duration: 0.16s; transition-timing-function: ease-out; }
+.tutorial-next:hover { background-color: rgb(255, 225, 126); scale: 1.025 1.025; }
+.tutorial-next:active { scale: 0.97 0.97; }
+.background-image-placeholder { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgb(0, 0, 0); background-image: url("project://database/Assets/05.sprite/background.png"); -unity-background-scale-mode: scale-and-crop; }
+/* 0.72배로 줄여도 화면 끝까지 차도록 상자를 1/0.72배로 키운다: (1/0.72 - 1) / 2 = 19.44% */
+.game-content { position: absolute; left: -19.44%; right: -19.44%; top: -19.44%; bottom: -19.44%; scale: 0.72 0.72; }
+/* 과제 카드는 이 중앙 박스(테두리 안쪽)에서만 나온다. game-content가 화면보다 19.44%씩 크므로
+   화면 기준으로는 가로 15~85%, 세로 31~99% 영역이다. */
+.assignment-layer { position: absolute; left: 25%; right: 25%; top: 36%; bottom: 14.5%; border-width: 3px; border-color: rgba(255, 255, 255, 0.35); }
+/* 박스 바깥을 어둡게 (GameUIController.BindUI가 네 변에 하나씩 만든다) */
+>>>>>>> Stashed changes
 .outside-dim { position: absolute; background-color: rgba(0, 0, 0, 0.5); }
 .outside-dim.top { left: -3000px; right: -3000px; bottom: 100%; height: 3000px; }
 .outside-dim.bottom { left: -3000px; right: -3000px; top: 100%; height: 3000px; }
 .outside-dim.left { top: 0; bottom: 0; right: 100%; width: 3000px; }
 .outside-dim.right { top: 0; bottom: 0; left: 100%; width: 3000px; }
+<<<<<<< Updated upstream
 /* 0.72배 축소 후 화면을 꽉 채우도록 미리 1/0.72배로 키운다: (1/0.72 - 1) / 2 = 19.444% */
 .game-content { position: absolute; left: -19.444%; right: -19.444%; top: -19.444%; bottom: -19.444%; scale: 0.72 0.72; }
 /* 과제 스폰 박스: 화면 중앙. 이펙트·팝업은 박스 밖으로 나가도 보이게 overflow는 그대로 둔다. */
 .assignment-layer { position: absolute; left: 20%; right: 20%; top: 32%; bottom: 8%; border-width: 3px; border-color: rgba(255, 255, 255, 0.35); }
+=======
+>>>>>>> Stashed changes
 .hud-panel { position: absolute; top: 10px; width: 180px; height: 80px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; padding-left: 16px; padding-top: 9px; }
 .grade-panel { left: 10px; }
 .timer-panel { right: 10px; }
@@ -38,10 +61,6 @@
 .restart-button { height: 42px; width: 190px; font-size: 17px; -unity-font-style: bold; background-color: rgb(255, 210, 66); color: rgb(25, 30, 33); border-width: 0; border-radius: 5px; }
 
 .score-value { position: absolute; left: 50%; translate: -50% 0; top: 10px; padding: 10px 18px; background-color: rgb(9, 14, 17); border-width: 2px; border-color: rgb(62, 70, 75); border-radius: 8px; color: rgb(255, 210, 66); font-size: 16px; -unity-font-style: bold; }
-.add-points-button { position: absolute; right: 12px; bottom: 58px; height: 38px; padding-left: 14px; padding-right: 14px; background-color: rgb(39, 91, 66); border-width: 1px; border-color: rgb(92, 177, 126); border-radius: 5px; color: rgb(231, 255, 236); font-size: 13px; -unity-font-style: bold; }
-.add-points-button:hover { background-color: rgb(51, 119, 84); }
-.add-points-button:active { scale: 0.96 0.96; }
-.unlock-all-button { bottom: 104px; }
 
 .hp-background { position: absolute; left: 15px; top: 65px; width: 50px; height: 5px; background-color: rgb(26, 22, 19); overflow: hidden; align-items: flex-start; }
 
@@ -115,3 +134,30 @@
 .fx-taskbreak { background-image: url("project://database/Assets/05.sprite/taskbreak.png"); }
 
 
+<<<<<<< Updated upstream
+=======
+/* 스프라이트 이펙트: GameUIController.PlaySpriteEffect가 가로 스트립을 프레임 단위로 민다. */
+.sprite-fx { position: absolute; overflow: hidden; }
+.sprite-fx-strip { position: absolute; left: 0; top: 0; -unity-background-scale-mode: stretch-to-fill; }
+.fx-click { background-image: url("project://database/Assets/05.sprite/clickhit.png"); }
+.fx-taskbreak { background-image: url("project://database/Assets/05.sprite/taskbreak.png"); }
+.fx-chain { background-image: url("project://database/Assets/05.sprite/04_effects/fx_chain_lightning_strip3.png"); }
+.fx-final-submit { background-image: url("project://database/Assets/05.sprite/04_effects/fx_final_submit_hit_strip5.png"); }
+.fx-frenzy { background-image: url("project://database/Assets/05.sprite/04_effects/fx_frenzy_aura_strip2.png"); }
+.fx-perfect { background-image: url("project://database/Assets/05.sprite/04_effects/fx_perfect_popup_strip3.png"); }
+.fx-timer-stop { background-image: url("project://database/Assets/05.sprite/04_effects/fx_timer_stop_strip2.png"); }
+.obj-cursor { background-image: url("project://database/Assets/05.sprite/03_objects/obj_cursor_clone_strip2.png"); }
+.obj-delete { background-image: url("project://database/Assets/05.sprite/03_objects/obj_delete_key_strip3.png"); }
+.obj-brush { position: absolute; width: 64px; height: 64px; background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_pixel_brush_0.png"); -unity-background-scale-mode: stretch-to-fill; }
+.obj-brush.frame-1 { background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_pixel_brush_1.png"); }
+.obj-stroke { background-image: url("project://database/Assets/05.sprite/03_objects/obj_brush_stroke_strip3.png"); }
+.obj-undo { position: absolute; opacity: 0.85; background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_undo_wave_0.png"); -unity-background-scale-mode: stretch-to-fill; }
+.robot-laser { position: absolute; background-color: rgb(255, 70, 90); }
+.chain-bolt { position: absolute; background-color: rgb(150, 220, 255); }
+.obj-highlight { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_highlight_mark_0.png"); -unity-background-scale-mode: stretch-to-fill; }
+.obj-build-banner { position: absolute; left: 50%; top: 120px; width: 240px; height: 40px; translate: -50% 0; background-image: url("project://database/Assets/05.sprite/03_objects/obj_build_banner_preview.png"); -unity-background-scale-mode: stretch-to-fill; }
+.grad-border { position: absolute; background-image: url("project://database/Assets/05.sprite/04_effects/frames/fx_grad_border_9slice_0.png"); -unity-slice-left: 4; -unity-slice-right: 4; -unity-slice-top: 4; -unity-slice-bottom: 4; -unity-slice-scale: 2px; }
+.assignment-card.diamond { background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_diamond_card_0.png"); }
+.assignment-card.grad-work { background-image: url("project://database/Assets/05.sprite/03_objects/frames/obj_grad_card_0.png"); }
+
+>>>>>>> Stashed changes

@@ -259,9 +259,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignmentTable:
   - data: {fileID: 11400000, guid: abd8f083f4634f9c9e965b17dc2b185f, type: 2}
-    weight: 1
+    weight: 6
   - data: {fileID: 11400000, guid: f6f115204c734689a13ee9a9c758e830, type: 2}
-    weight: 1
+    weight: 2
   - data: {fileID: 11400000, guid: ec2d263f38f54cfa824e324ee1b13d34, type: 2}
     weight: 1
   - data: {fileID: 11400000, guid: b7e860ccc163465580552921054bd024, type: 2}
@@ -269,11 +269,19 @@ MonoBehaviour:
   - data: {fileID: 11400000, guid: cb218d916dc14458a59500bbf201cfe2, type: 2}
     weight: 1
   - data: {fileID: 11400000, guid: 2a1c127d2cc74fbe9819b0cd76228c01, type: 2}
+<<<<<<< Updated upstream
     weight: 1
   fPlusOrLowerInterval: 2.5
   dToDPlusInterval: 2
   cToCPlusInterval: 1.6
   bPlusAndAboveInterval: 1.2
+=======
+    weight: 2
+  fPlusOrLowerInterval: 0.8
+  dToDPlusInterval: 1
+  cToCPlusInterval: 0.9
+  bPlusAndAboveInterval: 0.8
+>>>>>>> Stashed changes
 --- !u!114 &180018539
 MonoBehaviour:
   m_ObjectHideFlags: 0

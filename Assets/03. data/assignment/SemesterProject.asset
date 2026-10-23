@@ -15,6 +15,6 @@ MonoBehaviour:
   title: "\uD559\uAE30 \uC791\uD488"
   icon: {fileID: 2800000, guid: f68b1ea0fb35a2a42a47dfa4267478f8, type: 3}
   kind: 2
-  requiredGrade: 3
-  maxHp: 25
-  points: 50
+  requiredGrade: 4
+  maxHp: 300
+  points: 60

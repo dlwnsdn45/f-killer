@@ -13,70 +13,22 @@ MonoBehaviour:
   m_Name: SkillTable
   m_EditorClassIdentifier: Assembly-CSharp::SkillTable
   skills:
-  - id: skill-0
-    title: '시작점'
-    description: '연결된 이전 노드를 구매하면 다음 노드가 해금됩니다. 과제를 파괴하여 획득한 포인트(P)로 구매합니다.'
+  - id: S0
+    title: '입학'
+    description: '모든 스킬의 시작점. 과제를 부숴 얻은 P로 이어진 스킬을 구매합니다.'
     cost: 0
-    prerequisiteId: ''
-    maxLevel: 1
-  - id: skill-1
-    title: '과제 폭탄'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 50
-    prerequisiteId: 'skill-0'
-    maxLevel: 1
-    effectPercent: 3
-  - id: skill-2
-    title: '시험'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 150
-    prerequisiteId: 'skill-1'
-    maxLevel: 1
-    effectPercent: 5
-  - id: skill-3
-    title: '조별 과제'
-    description: '한 번에 나오는 과제 +1'
-    cost: 400
-    prerequisiteId: 'skill-2'
-    maxLevel: 1
-  - id: skill-4
-    title: '팀 프로젝트'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 500
-    prerequisiteId: 'skill-3'
-    maxLevel: 1
-    effectPercent: 8
-  - id: skill-5
-    title: '계절 학기'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 800
-    prerequisiteId: 'skill-4'
-    maxLevel: 1
-    effectPercent: 10
-  - id: skill-6
-    title: '공모전 준비'
-    description: '한 번에 나오는 과제 +2'
-    cost: 1200
-    prerequisiteId: 'skill-5'
-    maxLevel: 1
-  - id: skill-7
-    title: '학기 작품'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 1500
-    prerequisiteId: 'skill-6'
-    maxLevel: 1
-    effectPercent: 15
-  - id: skill-8
-    title: '졸업 작품'
-    description: '과제 등장 간격 -{percent}%'
-    cost: 2000
-    prerequisiteId: 'skill-7'
-    maxLevel: 1
-    effectPercent: 20
-  - id: skill-9
-    title: '샤프심 교체'
-    description: '클릭 파워 +1'
+    prerequisiteIds: []
+    requireAllPrerequisites: 0
+    type: 0
+    sector: -1
+    ring: 0
+    position: {x: 1000, y: 1000}
+    icon: {fileID: 0}
+  - id: A01
+    title: '클릭 피해'
+    description: '클릭 피해 +1'
     cost: 100
+<<<<<<< Updated upstream
     prerequisiteId: 'skill-0'
     maxLevel: 1
   - id: skill-10
@@ -231,30 +183,1173 @@ MonoBehaviour:
   - id: skill-34
     title: '과제 로봇'
     description: '로봇이 3초마다 무작위 과제에 피해 1을 줍니다.'
+=======
+    prerequisiteIds:
+    - S0
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 1
+    position: {x: 1119, y: 834}
+    icon: {fileID: 2800000, guid: 4115a331981817e42bba1b7c6727b451, type: 3}
+  - id: A02
+    title: '클릭 피해'
+    description: '클릭 피해 +2'
+>>>>>>> Stashed changes
     cost: 250
-    prerequisiteId: 'skill-0'
-    maxLevel: 1
-  - id: skill-35
-    title: '오버클럭'
-    description: '로봇 작동 간격 -0.5초'
-    cost: 500
-    prerequisiteId: 'skill-34'
-    maxLevel: 1
-  - id: skill-36
-    title: '무료 AI'
-    description: '로봇 피해 +1'
-    cost: 800
-    prerequisiteId: 'skill-35'
-    maxLevel: 1
-  - id: skill-37
-    title: '유료 AI 결제'
-    description: '로봇 피해 +2'
+    prerequisiteIds:
+    - A01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 2
+    position: {x: 1194, y: 786}
+    icon: {fileID: 2800000, guid: 4115a331981817e42bba1b7c6727b451, type: 3}
+  - id: A03
+    title: '치명타 확률'
+    description: '치명타 확률 +5%p'
+    cost: 250
+    prerequisiteIds:
+    - A01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 2
+    position: {x: 1143, y: 750}
+    icon: {fileID: 2800000, guid: 5ca52ab809e013c41b6fee40f793be88, type: 3}
+  - id: A04
+    title: '클릭 피해'
+    description: '클릭 피해 +3'
     cost: 1000
-    prerequisiteId: 'skill-36'
-    maxLevel: 1
-  - id: skill-38
-    title: '로봇 개발'
+    prerequisiteIds:
+    - A02
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 3
+    position: {x: 1278, y: 753}
+    icon: {fileID: 2800000, guid: 4115a331981817e42bba1b7c6727b451, type: 3}
+  - id: A05
+    title: '멀티태스킹'
+    description: '클릭 시 주변 카드 2장에도 클릭 피해의 30% 적용'
+    cost: 1000
+    prerequisiteIds:
+    - A02
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 3
+    position: {x: 1218, y: 699}
+    icon: {fileID: 2800000, guid: babc02359742aba479692a27ab9dbdf4, type: 3}
+  - id: A06
+    title: '치명타 피해'
+    description: '치명타 배율 +0.5'
+    cost: 1000
+    prerequisiteIds:
+    - A03
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 3
+    position: {x: 1149, y: 660}
+    icon: {fileID: 2800000, guid: c4c004d030bad504fb02190de98ba88c, type: 3}
+  - id: A07
+    title: '집중'
+    description: '같은 카드를 연속 클릭하면 피해가 10%씩 증가, 최대 +50%. 1초 이상 다른 카드를 클릭하지 않으면 초기화'
+    cost: 3000
+    prerequisiteIds:
+    - A04
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 4
+    position: {x: 1371, y: 738}
+    icon: {fileID: 2800000, guid: 6e27086410d71ce4bb945d1af582fd62, type: 3}
+  - id: A08
+    title: '클릭 피해'
+    description: '클릭 피해 +5'
+    cost: 3000
+    prerequisiteIds:
+    - A04
+    - A05
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 4
+    position: {x: 1308, y: 663}
+    icon: {fileID: 2800000, guid: 4115a331981817e42bba1b7c6727b451, type: 3}
+  - id: A09
+    title: '마무리 일격'
+    description: '체력 30% 이하인 카드를 클릭하면 피해 ×2'
+    cost: 3000
+    prerequisiteIds:
+    - A05
+    - A06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 4
+    position: {x: 1227, y: 603}
+    icon: {fileID: 2800000, guid: 74f8d4dcd29c21b43a10ce49ddf41576, type: 3}
+  - id: A10
+    title: '치명타 확률'
+    description: '치명타 확률 +10%p'
+    cost: 3000
+    prerequisiteIds:
+    - A06
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 4
+    position: {x: 1134, y: 564}
+    icon: {fileID: 2800000, guid: 5ca52ab809e013c41b6fee40f793be88, type: 3}
+  - id: A11
+    title: '클릭 피해'
+    description: '클릭 피해 +8'
+    cost: 10000
+    prerequisiteIds:
+    - A07
+    - A08
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 5
+    position: {x: 1440, y: 687}
+    icon: {fileID: 2800000, guid: 4115a331981817e42bba1b7c6727b451, type: 3}
+  - id: A12
+    title: '도미노'
+    description: '카드를 파괴하면 무작위 카드 3장에 클릭 피해 ×2'
+    cost: 10000
+    prerequisiteIds:
+    - A08
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 5
+    position: {x: 1362, y: 600}
+    icon: {fileID: 2800000, guid: c0982acb8acc69b4997864275244b45d, type: 3}
+  - id: A13
+    title: '연쇄 번개'
+    description: '치명타 발생 시 주변 카드 3장에 클릭 피해의 70% 적용'
+    cost: 10000
+    prerequisiteIds:
+    - A09
+    - A10
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 5
+    position: {x: 1269, y: 531}
+    icon: {fileID: 2800000, guid: ebaa55ccdac88624bb327074b4ff4ded, type: 3}
+  - id: A14
+    title: '치명타 피해'
+    description: '치명타 배율 +1'
+    cost: 10000
+    prerequisiteIds:
+    - A10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 5
+    position: {x: 1161, y: 483}
+    icon: {fileID: 2800000, guid: c4c004d030bad504fb02190de98ba88c, type: 3}
+  - id: A15
+    title: '광역 클릭'
+    description: '클릭 시 주변 카드 3장에도 클릭 피해의 50% 적용'
+    cost: 500000
+    prerequisiteIds:
+    - A11
+    - A12
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 6
+    position: {x: 1509, y: 639}
+    icon: {fileID: 2800000, guid: 71dd8b5888f47e4478bb2fa7ea320ef6, type: 3}
+  - id: A16
+    title: '일괄 처리'
+    description: '5초마다 화면의 모든 카드에 클릭 피해 ×3'
+    cost: 500000
+    prerequisiteIds:
+    - A12
+    - A13
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 6
+    position: {x: 1419, y: 537}
+    icon: {fileID: 2800000, guid: 18bd343edf7407e48953c5f151805f9c, type: 3}
+  - id: A17
+    title: '올나이트'
+    description: '남은 시간이 20% 이하일 때 클릭 1회가 2회 적용'
+    cost: 500000
+    prerequisiteIds:
+    - A12
+    - A13
+    requireAllPrerequisites: 1
+    type: 2
+    sector: 0
+    ring: 6
+    position: {x: 1311, y: 459}
+    icon: {fileID: 2800000, guid: eaadca5c84857a9429250b5bec9949e2, type: 3}
+  - id: A18
+    title: '치명타 확률'
+    description: '치명타 확률 +15%p'
+    cost: 500000
+    prerequisiteIds:
+    - A14
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 0
+    ring: 6
+    position: {x: 1185, y: 405}
+    icon: {fileID: 2800000, guid: 5ca52ab809e013c41b6fee40f793be88, type: 3}
+  - id: A19
+    title: '폭주 클릭'
+    description: '3초 안에 15번 클릭하면 5초 동안 클릭 피해 ×2, 재발동 대기시간 15초'
+    cost: 2500000
+    prerequisiteIds:
+    - A15
+    - A16
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 0
+    ring: 7
+    position: {x: 1476, y: 477}
+    icon: {fileID: 2800000, guid: ca09ffd5e0c18b1488d8256598ce19f8, type: 3}
+  - id: A20
+    title: '최종 제출'
+    description: '10초마다 클릭한 카드에 클릭 피해 ×10. 해당 공격으로 카드를 파괴하면 주변 카드 5장에 클릭 피해 ×3'
+    cost: 5000000
+    prerequisiteIds:
+    - A17
+    - A19
+    requireAllPrerequisites: 1
+    type: 4
+    sector: 0
+    ring: 8
+    position: {x: 1467, y: 360}
+    icon: {fileID: 2800000, guid: 365b2124ab9083944a96e8225e8d9915, type: 3}
+  - id: B01
+    title: '픽셀 브러시'
+    description: '[개방] 3초마다 화면을 가로지르는 브러시가 닿은 카드에 클릭 피해 ×3'
+    cost: 100
+    prerequisiteIds:
+    - S0
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 1
+    position: {x: 1194, y: 1062}
+    icon: {fileID: 2800000, guid: ecf63d50e1119184fa21e3414b1f11cb, type: 3}
+  - id: B02
+    title: '툴 속도'
+    description: '모든 개발 툴 발동 간격 -15%'
+    cost: 250
+    prerequisiteIds:
+    - B01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 2
+    position: {x: 1263, y: 1119}
+    icon: {fileID: 2800000, guid: 7e85fb739fead4d49a5081441ec2cebf, type: 3}
+  - id: B03
+    title: '커서 분신'
+    description: '[개방] 커서 분신 1개가 0.5초마다 근처 카드 자동 클릭'
+    cost: 250
+    prerequisiteIds:
+    - B01
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 2
+    position: {x: 1281, y: 1059}
+    icon: {fileID: 2800000, guid: 77bcacca5632d194798a2f655eba2cef, type: 3}
+  - id: B04
+    title: '툴 피해'
+    description: '모든 개발 툴 피해 ×1.5'
+    cost: 1000
+    prerequisiteIds:
+    - B02
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 3
+    position: {x: 1320, y: 1188}
+    icon: {fileID: 2800000, guid: e7a378e4d3fe92449951b6ffe51d0773, type: 3}
+  - id: B05
+    title: 'Delete 키'
+    description: '[개방] 6초마다 일반 카드 1장 즉시 삭제.'
+    cost: 1000
+    prerequisiteIds:
+    - B02
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 3
+    position: {x: 1353, y: 1116}
+    icon: {fileID: 2800000, guid: 3062955bb4485284185204f70d6d7c61, type: 3}
+  - id: B06
+    title: '커서 복제'
+    description: '커서 분신 +1개'
+    cost: 1000
+    prerequisiteIds:
+    - B03
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 3
+    position: {x: 1371, y: 1035}
+    icon: {fileID: 2800000, guid: 5a3b43e997d52fe4aa2bd8371180e06a, type: 3}
+  - id: B07
+    title: '레이어 3장'
+    description: '픽셀 브러시가 가로·세로·대각선으로 발동'
+    cost: 3000
+    prerequisiteIds:
+    - B04
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 4
+    position: {x: 1365, y: 1272}
+    icon: {fileID: 2800000, guid: 009bfaf2df48be84da2cf96cab58ae74, type: 3}
+  - id: B08
+    title: '툴 피해'
+    description: '모든 개발 툴 피해 ×1.5'
+    cost: 3000
+    prerequisiteIds:
+    - B04
+    - B05
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 4
+    position: {x: 1416, y: 1188}
+    icon: {fileID: 2800000, guid: e7a378e4d3fe92449951b6ffe51d0773, type: 3}
+  - id: B09
+    title: '단축키'
+    description: '모든 개발 툴 발동 간격 -15%'
+    cost: 3000
+    prerequisiteIds:
+    - B05
+    - B06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 4
+    position: {x: 1446, y: 1092}
+    icon: {fileID: 2800000, guid: 6fa499f27e3bce64285bf7b962277f5e, type: 3}
+  - id: B10
+    title: '분신 피해'
+    description: '커서 분신 피해 ×2'
+    cost: 3000
+    prerequisiteIds:
+    - B06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 4
+    position: {x: 1455, y: 993}
+    icon: {fileID: 2800000, guid: 87b70ac0ae020434e86bebfbe69aa045, type: 3}
+  - id: B11
+    title: '자동 저장'
+    description: '개발 툴이 카드를 파괴하면 30% 확률로 해당 툴이 즉시 한 번 더 발동'
+    cost: 10000
+    prerequisiteIds:
+    - B07
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 5
+    position: {x: 1434, y: 1323}
+    icon: {fileID: 2800000, guid: f76a4e8a86339ee4bbe27b07f6a999f1, type: 3}
+  - id: B12
+    title: '하이라이트'
+    description: '개발 툴에 맞은 카드는 3초 동안 받는 클릭 피해 +50%'
+    cost: 10000
+    prerequisiteIds:
+    - B08
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 5
+    position: {x: 1491, y: 1221}
+    icon: {fileID: 2800000, guid: e03f81bf6594d884e8c78f661c90d8d9, type: 3}
+  - id: B13
+    title: 'Ctrl+Z'
+    description: '[개방] 8초마다 화면을 가로지르는 파동이 발생해 체력 30% 이하인 일반 카드를 즉시 제거'
+    cost: 10000
+    prerequisiteIds:
+    - B09
+    - B10
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 5
+    position: {x: 1530, y: 1110}
+    icon: {fileID: 2800000, guid: 683b29bec9506bd4a9d0545c0f299dc8, type: 3}
+  - id: B14
+    title: '커서 복제'
+    description: '커서 분신 +2개'
+    cost: 10000
+    prerequisiteIds:
+    - B10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 5
+    position: {x: 1539, y: 993}
+    icon: {fileID: 2800000, guid: 5a3b43e997d52fe4aa2bd8371180e06a, type: 3}
+  - id: B15
+    title: '툴 속도'
+    description: '모든 개발 툴 발동 간격 -20%'
+    cost: 500000
+    prerequisiteIds:
+    - B11
+    - B12
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 1
+    ring: 6
+    position: {x: 1500, y: 1374}
+    icon: {fileID: 2800000, guid: 7e85fb739fead4d49a5081441ec2cebf, type: 3}
+  - id: B16
+    title: '툴 연계'
+    description: '개발 툴이 발동하면 다른 개발 툴 하나의 남은 대기시간 -1초'
+    cost: 500000
+    prerequisiteIds:
+    - B12
+    - B13
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 6
+    position: {x: 1611, y: 1128}
+    icon: {fileID: 2800000, guid: 254de89687890ee48a75e4516e37e89d, type: 3}
+  - id: B17
+    title: '빌드 성공'
+    description: '8초마다 모든 개발 툴이 동시에 한 번 발동'
+    cost: 500000
+    prerequisiteIds:
+    - B15
+    - B16
+    requireAllPrerequisites: 1
+    type: 2
+    sector: 1
+    ring: 6
+    position: {x: 1569, y: 1257}
+    icon: {fileID: 2800000, guid: 49892aeaa8115f84aa3e6db9e8f59488, type: 3}
+  - id: B18
+    title: '분신 폭주'
+    description: '커서 분신이 10번 공격할 때마다 다음 공격이 주변 카드 3장에 적용'
+    cost: 500000
+    prerequisiteIds:
+    - B14
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 6
+    position: {x: 1623, y: 993}
+    icon: {fileID: 2800000, guid: 2b44c0999c0fea6459b222b0fa1f7674, type: 3}
+  - id: B19
+    title: '백그라운드 실행'
+    description: '개발 툴의 자동 공격 속도 +25%'
+    cost: 2500000
+    prerequisiteIds:
+    - B15
+    - B18
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 1
+    ring: 7
+    position: {x: 1674, y: 1218}
+    icon: {fileID: 2800000, guid: f9a2861d76132bd4fb511453d0f46d0b, type: 3}
+  - id: B20
+    title: '무한 자동화'
+    description: '15초마다 5초 동안 모든 개발 툴 발동 간격 -50%, 피해 ×2'
+    cost: 5000000
+    prerequisiteIds:
+    - B17
+    - B19
+    requireAllPrerequisites: 1
+    type: 4
+    sector: 1
+    ring: 8
+    position: {x: 1722, y: 1326}
+    icon: {fileID: 2800000, guid: 52142df97b3ed42418a68633f998cf9d, type: 3}
+  - id: C01
+    title: '마감 연장'
+    description: '마감 시간 +2초'
+    cost: 100
+    prerequisiteIds:
+    - S0
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 1
+    position: {x: 999, y: 1203}
+    icon: {fileID: 2800000, guid: 7afd2aeb136de4d429ff22e7962f19e1, type: 3}
+  - id: C02
+    title: '등장 간격'
+    description: '과제 등장 간격 -10%'
+    cost: 250
+    prerequisiteIds:
+    - C01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 2
+    position: {x: 969, y: 1287}
+    icon: {fileID: 2800000, guid: 641ca5cdc77c418469dbd044101143db, type: 3}
+  - id: C03
+    title: '동시 등장'
+    description: '한 번에 등장하는 과제 +1개'
+    cost: 250
+    prerequisiteIds:
+    - C01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 2
+    position: {x: 1032, y: 1287}
+    icon: {fileID: 2800000, guid: fd6b173f1f4774b4e8819630a0aed637, type: 3}
+  - id: C04
+    title: '마감 연장'
+    description: '마감 시간 +3초'
+    cost: 1000
+    prerequisiteIds:
+    - C02
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 3
+    position: {x: 918, y: 1362}
+    icon: {fileID: 2800000, guid: 7afd2aeb136de4d429ff22e7962f19e1, type: 3}
+  - id: C05
+    title: '황금 과제'
+    description: '[개방] 황금 과제 등장. 체력 ×2, 획득 P ×5'
+    cost: 1000
+    prerequisiteIds:
+    - C02
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 3
+    position: {x: 999, y: 1371}
+    icon: {fileID: 2800000, guid: 6e44dc079cfd34548876bbf778cf84e2, type: 3}
+  - id: C06
+    title: '등장 간격'
+    description: '과제 등장 간격 -15%'
+    cost: 1000
+    prerequisiteIds:
+    - C03
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 3
+    position: {x: 1080, y: 1362}
+    icon: {fileID: 2800000, guid: 641ca5cdc77c418469dbd044101143db, type: 3}
+  - id: C07
+    title: '조별 과제'
+    description: '팀 프로젝트 파괴 시 주변 카드 3장에 클릭 피해 ×3'
+    cost: 3000
+    prerequisiteIds:
+    - C04
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 4
+    position: {x: 852, y: 1431}
+    icon: {fileID: 2800000, guid: 605338075755a2f4eb9eeb87ebecc603, type: 3}
+  - id: C08
+    title: '마감 연장'
+    description: '마감 시간 +5초'
+    cost: 3000
+    prerequisiteIds:
+    - C04
+    - C05
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 4
+    position: {x: 951, y: 1452}
+    icon: {fileID: 2800000, guid: 7afd2aeb136de4d429ff22e7962f19e1, type: 3}
+  - id: C09
+    title: '벼락치기'
+    description: '남은 시간이 적을수록 클릭 피해 증가. 마지막 1초에 최대 +200%'
+    cost: 3000
+    prerequisiteIds:
+    - C05
+    - C06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 4
+    position: {x: 1050, y: 1452}
+    icon: {fileID: 2800000, guid: 1a16aa643be2cdc4eb504b3ecc627b9a, type: 3}
+  - id: C10
+    title: '데드라인'
+    description: '마지막 5초 동안 과제 등장 속도 ×2, 모든 피해 ×2'
+    cost: 3000
+    prerequisiteIds:
+    - C06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 4
+    position: {x: 1146, y: 1431}
+    icon: {fileID: 2800000, guid: dc252081e20ee5d41a72e6ea4993cb44, type: 3}
+  - id: C11
+    title: '동시 등장'
+    description: '한 번에 등장하는 과제 +2개'
+    cost: 10000
+    prerequisiteIds:
+    - C07
+    - C08
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 5
+    position: {x: 825, y: 1512}
+    icon: {fileID: 2800000, guid: fd6b173f1f4774b4e8819630a0aed637, type: 3}
+  - id: C12
+    title: '작품 제출'
+    description: '학기 작품 파괴 시 마감 타이머 2초 정지'
+    cost: 10000
+    prerequisiteIds:
+    - C08
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 5
+    position: {x: 942, y: 1536}
+    icon: {fileID: 2800000, guid: ea69db79e83360e4fabf39b785845d2f, type: 3}
+  - id: C13
+    title: '연장 신청'
+    description: '시간이 0이 되면 라운드당 1회 마감 시간 +10초'
+    cost: 10000
+    prerequisiteIds:
+    - C09
+    - C10
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 5
+    position: {x: 1059, y: 1536}
+    icon: {fileID: 2800000, guid: 704d70070713c1b4ca870d114dc4ee75, type: 3}
+  - id: C14
+    title: '마감 연장'
+    description: '마감 시간 +5초'
+    cost: 10000
+    prerequisiteIds:
+    - C10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 5
+    position: {x: 1173, y: 1512}
+    icon: {fileID: 2800000, guid: 7afd2aeb136de4d429ff22e7962f19e1, type: 3}
+  - id: C15
+    title: '황금 확률'
+    description: '황금 과제 등장 확률 +10%p'
+    cost: 500000
+    prerequisiteIds:
+    - C11
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 6
+    position: {x: 798, y: 1590}
+    icon: {fileID: 2800000, guid: c0dd8d35e6d5a0e47bf461996521eb0a, type: 3}
+  - id: C16
+    title: '다이아 과제'
+    description: '[개방] 다이아 과제 등장. 체력 ×3, 획득 P ×20'
+    cost: 500000
+    prerequisiteIds:
+    - C11
+    - C12
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 6
+    position: {x: 933, y: 1620}
+    icon: {fileID: 2800000, guid: 65b88ee4fb2fcba4da58e5cf992d86b4, type: 3}
+  - id: C17
+    title: '공모전 수상'
+    description: '공모전 파괴 시 화면의 모든 일반 카드 즉시 파괴'
+    cost: 500000
+    prerequisiteIds:
+    - C12
+    - C13
+    requireAllPrerequisites: 1
+    type: 2
+    sector: 2
+    ring: 6
+    position: {x: 1068, y: 1620}
+    icon: {fileID: 2800000, guid: 78005058f783a9846a9a1f7a850c865d, type: 3}
+  - id: C18
+    title: '마감 연장'
+    description: '마감 시간 +10초'
+    cost: 500000
+    prerequisiteIds:
+    - C14
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 2
+    ring: 6
+    position: {x: 1200, y: 1590}
+    icon: {fileID: 2800000, guid: 7afd2aeb136de4d429ff22e7962f19e1, type: 3}
+  - id: C19
+    title: '추가 과제'
+    description: '과제 파괴 시 20% 확률로 새로운 과제 1개 즉시 등장'
+    cost: 2500000
+    prerequisiteIds:
+    - C15
+    - C16
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 2
+    ring: 7
+    position: {x: 924, y: 1704}
+    icon: {fileID: 2800000, guid: b9dd62f0250287f4da6a67a60e6c8053, type: 3}
+  - id: C20
+    title: '졸업 작품'
+    description: '라운드당 1회, 마지막 5초에 졸업 작품 등장. 제한 시간 내 파괴 시 획득 P ×5, 마감 시간 +5초'
+    cost: 5000000
+    prerequisiteIds:
+    - C17
+    - C19
+    requireAllPrerequisites: 1
+    type: 4
+    sector: 2
+    ring: 8
+    position: {x: 999, y: 1791}
+    icon: {fileID: 2800000, guid: f3fd6f7b93d386e49bff15e5ab53031d, type: 3}
+  - id: D01
+    title: '포인트'
+    description: '획득 P +25%'
+    cost: 100
+    prerequisiteIds:
+    - S0
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 1
+    position: {x: 807, y: 1062}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D02
+    title: '수강료 할인'
+    description: '스킬 구매 비용 -10%'
+    cost: 250
+    prerequisiteIds:
+    - D01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 2
+    position: {x: 717, y: 1059}
+    icon: {fileID: 2800000, guid: ec1730f4597df9144b90dcb871d9af97, type: 3}
+  - id: D03
+    title: '포인트'
+    description: '획득 P +25%'
+    cost: 250
+    prerequisiteIds:
+    - D01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 2
+    position: {x: 738, y: 1119}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D04
+    title: '포인트'
+    description: '획득 P +50%'
+    cost: 1000
+    prerequisiteIds:
+    - D02
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 3
+    position: {x: 630, y: 1035}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D05
+    title: '출석 점수'
+    description: '클릭 10번마다 현재 학점 단계 ×10 P 추가 획득'
+    cost: 1000
+    prerequisiteIds:
+    - D02
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 3
+    position: {x: 645, y: 1116}
+    icon: {fileID: 2800000, guid: 7a8d2cbc01a4aac40b11a1b97c23c182, type: 3}
+  - id: D06
+    title: '가산점'
+    description: '현재 학점 단계마다 획득 P +2%'
+    cost: 1000
+    prerequisiteIds:
+    - D03
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 3
+    position: {x: 678, y: 1188}
+    icon: {fileID: 2800000, guid: 857b01b3c75c5464a910d6ec479e272c, type: 3}
+  - id: D07
+    title: '성적 향상'
+    description: '직전 라운드보다 높은 점수 달성 시 해당 라운드 획득 P ×1.5'
+    cost: 3000
+    prerequisiteIds:
+    - D04
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 4
+    position: {x: 543, y: 993}
+    icon: {fileID: 2800000, guid: d2c2e07002a9bd14dbcb8df743c59426, type: 3}
+  - id: D08
+    title: '포인트'
+    description: '획득 P +50%'
+    cost: 3000
+    prerequisiteIds:
+    - D04
+    - D05
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 4
+    position: {x: 555, y: 1092}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D09
+    title: '치명타 수당'
+    description: '과제 파괴 보상에 치명타 확률 적용. 발동 시 P ×2'
+    cost: 3000
+    prerequisiteIds:
+    - D05
+    - D06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 4
+    position: {x: 585, y: 1188}
+    icon: {fileID: 2800000, guid: 982971101feebb8449138e692e74490c, type: 3}
+  - id: D10
+    title: '과제 할당량'
+    description: '과제 10개 파괴 시 해당 10개에서 얻은 P의 50% 추가 획득'
+    cost: 3000
+    prerequisiteIds:
+    - D06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 4
+    position: {x: 636, y: 1272}
+    icon: {fileID: 2800000, guid: 0d1916471d780f247aefdefd604d2e1b, type: 3}
+  - id: D11
+    title: '포인트'
+    description: '획득 P +100%'
+    cost: 10000
+    prerequisiteIds:
+    - D07
+    - D08
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 5
+    position: {x: 459, y: 993}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D12
+    title: '선이수'
+    description: '라운드를 최고 학점보다 두 단계 낮은 학점에서 시작'
+    cost: 10000
+    prerequisiteIds:
+    - D08
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 5
+    position: {x: 471, y: 1110}
+    icon: {fileID: 2800000, guid: 85378da77ed5ed143987ba5e5e3a61fd, type: 3}
+  - id: D13
+    title: '가산점'
+    description: '현재 학점 단계마다 획득 P +3%'
+    cost: 10000
+    prerequisiteIds:
+    - D09
+    - D10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 5
+    position: {x: 507, y: 1221}
+    icon: {fileID: 2800000, guid: 857b01b3c75c5464a910d6ec479e272c, type: 3}
+  - id: D14
+    title: '수강료 할인'
+    description: '스킬 구매 비용 -15%'
+    cost: 10000
+    prerequisiteIds:
+    - D10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 5
+    position: {x: 567, y: 1323}
+    icon: {fileID: 2800000, guid: ec1730f4597df9144b90dcb871d9af97, type: 3}
+  - id: D15
+    title: '장학금'
+    description: '라운드 종료 시 해당 라운드에서 얻은 P의 20% 추가 획득'
+    cost: 500000
+    prerequisiteIds:
+    - D11
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 6
+    position: {x: 375, y: 993}
+    icon: {fileID: 2800000, guid: 081c5602386d7884aa3855da33e3933b, type: 3}
+  - id: D16
+    title: '포인트'
+    description: '획득 P +100%'
+    cost: 500000
+    prerequisiteIds:
+    - D11
+    - D12
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 6
+    position: {x: 390, y: 1128}
+    icon: {fileID: 2800000, guid: 47b56e26a02cbaa4486f3fdfb425ac82, type: 3}
+  - id: D17
+    title: '만점 리포트'
+    description: '과제 파괴 시 5% 확률로 해당 과제 보상 P ×10'
+    cost: 500000
+    prerequisiteIds:
+    - D12
+    - D13
+    requireAllPrerequisites: 1
+    type: 2
+    sector: 3
+    ring: 6
+    position: {x: 432, y: 1257}
+    icon: {fileID: 2800000, guid: cbaaa67bfba3c9e48a60c987f9bae6e6, type: 3}
+  - id: D18
+    title: '가산점'
+    description: '현재 학점 단계마다 획득 P +5%'
+    cost: 500000
+    prerequisiteIds:
+    - D14
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 3
+    ring: 6
+    position: {x: 501, y: 1374}
+    icon: {fileID: 2800000, guid: 857b01b3c75c5464a910d6ec479e272c, type: 3}
+  - id: D19
+    title: '복리 성장'
+    description: '라운드 클리어마다 획득 P +5%, 최대 +50%'
+    cost: 2500000
+    prerequisiteIds:
+    - D15
+    - D16
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 3
+    ring: 7
+    position: {x: 306, y: 1143}
+    icon: {fileID: 2800000, guid: 9e6ad6e2d5b5bda40a8c9adf78659915, type: 3}
+  - id: D20
+    title: '전액 장학금'
+    description: '획득 P 최종 ×1.5'
+    cost: 5000000
+    prerequisiteIds:
+    - D17
+    - D19
+    requireAllPrerequisites: 1
+    type: 4
+    sector: 3
+    ring: 8
+    position: {x: 246, y: 1245}
+    icon: {fileID: 2800000, guid: ed045f447b3089049a5e208c2578b9e4, type: 3}
+  - id: E01
+    title: '로봇 조교'
+    description: '[개방] 로봇 1대가 일정 간격마다 무작위 과제 자동 공격'
+    cost: 100
+    prerequisiteIds:
+    - S0
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 1
+    position: {x: 879, y: 834}
+    icon: {fileID: 2800000, guid: 30ab886c5c91db943841e2d3559bbe22, type: 3}
+  - id: E02
+    title: '로봇 속도'
+    description: '로봇 공격 간격 -20%'
+    cost: 250
+    prerequisiteIds:
+    - E01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 2
+    position: {x: 858, y: 750}
+    icon: {fileID: 2800000, guid: 6f0b2bda2d6654f469e704493514a18d, type: 3}
+  - id: E03
+    title: '로봇 피해'
+    description: '로봇 피해 +0.5'
+    cost: 250
+    prerequisiteIds:
+    - E01
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 2
+    position: {x: 807, y: 786}
+    icon: {fileID: 2800000, guid: 7c70bb1dfa2dcef43922c93f6c8f7266, type: 3}
+  - id: E04
+    title: '로봇 증원'
+    description: '로봇 +1대'
+    cost: 1000
+    prerequisiteIds:
+    - E02
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 3
+    position: {x: 852, y: 660}
+    icon: {fileID: 2800000, guid: 5196de082971b1747ad450ffd374db00, type: 3}
+  - id: E05
+    title: '호출'
+    description: '클릭 5번마다 모든 로봇이 즉시 1회 공격'
+    cost: 1000
+    prerequisiteIds:
+    - E02
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 3
+    position: {x: 780, y: 699}
+    icon: {fileID: 2800000, guid: 4e674ed512890b742b70baacc05649f7, type: 3}
+  - id: E06
+    title: '로봇 피해'
+    description: '로봇 피해 +1'
+    cost: 1000
+    prerequisiteIds:
+    - E03
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 3
+    position: {x: 720, y: 753}
+    icon: {fileID: 2800000, guid: 7c70bb1dfa2dcef43922c93f6c8f7266, type: 3}
+  - id: E07
+    title: '로봇 치명'
+    description: '로봇 공격에도 치명타 확률과 배율 적용'
+    cost: 3000
+    prerequisiteIds:
+    - E04
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 4
+    position: {x: 864, y: 564}
+    icon: {fileID: 2800000, guid: bb1a78b19af962447b90884536468481, type: 3}
+  - id: E08
+    title: '로봇 속도'
+    description: '로봇 공격 간격 -20%'
+    cost: 3000
+    prerequisiteIds:
+    - E04
+    - E05
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 4
+    position: {x: 774, y: 603}
+    icon: {fileID: 2800000, guid: 6f0b2bda2d6654f469e704493514a18d, type: 3}
+  - id: E09
+    title: '마무리 담당'
+    description: '로봇이 체력이 가장 낮은 카드를 우선 공격'
+    cost: 3000
+    prerequisiteIds:
+    - E05
+    - E06
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 4
+    position: {x: 693, y: 663}
+    icon: {fileID: 2800000, guid: bc1ffbae37eff3840a9a5f243ebec677, type: 3}
+  - id: E10
+    title: '로봇 속도'
+    description: '로봇 공격 간격 -20%'
+    cost: 3000
+    prerequisiteIds:
+    - E06
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 4
+    position: {x: 627, y: 738}
+    icon: {fileID: 2800000, guid: 6f0b2bda2d6654f469e704493514a18d, type: 3}
+  - id: E11
+    title: '로봇 증원'
+    description: '로봇 +1대'
+    cost: 10000
+    prerequisiteIds:
+    - E07
+    - E08
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 5
+    position: {x: 840, y: 483}
+    icon: {fileID: 2800000, guid: 5196de082971b1747ad450ffd374db00, type: 3}
+  - id: E12
+    title: '멀티 타겟'
+    description: '로봇 1대가 한 번에 과제 2개 공격'
+    cost: 10000
+    prerequisiteIds:
+    - E08
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 5
+    position: {x: 732, y: 531}
+    icon: {fileID: 2800000, guid: 4c426328729f79f44a6ac7935b96a523, type: 3}
+  - id: E13
+    title: '과열'
+    description: '남은 시간이 줄어들수록 로봇 공격 속도 증가. 마지막 5초에 최대 ×2'
+    cost: 10000
+    prerequisiteIds:
+    - E09
+    - E10
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 5
+    position: {x: 636, y: 600}
+    icon: {fileID: 2800000, guid: dc17d42f09864e3478a3ce146a3b310b, type: 3}
+  - id: E14
+    title: '로봇 피해'
+    description: '로봇 피해 +1.5'
+    cost: 10000
+    prerequisiteIds:
+    - E10
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 5
+    position: {x: 558, y: 687}
+    icon: {fileID: 2800000, guid: 7c70bb1dfa2dcef43922c93f6c8f7266, type: 3}
+  - id: E15
+    title: '로봇 증원'
     description: '로봇 +2대'
+<<<<<<< Updated upstream
     cost: 2000
     prerequisiteId: 'skill-37'
     maxLevel: 1
@@ -295,3 +1390,159 @@ MonoBehaviour:
     prerequisiteId: 'skill-43'
     maxLevel: 1
 
+=======
+    cost: 500000
+    prerequisiteIds:
+    - E11
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 6
+    position: {x: 816, y: 405}
+    icon: {fileID: 2800000, guid: 5196de082971b1747ad450ffd374db00, type: 3}
+  - id: E16
+    title: '로봇 피해'
+    description: '로봇 피해 +2.5'
+    cost: 500000
+    prerequisiteIds:
+    - E11
+    - E12
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 6
+    position: {x: 690, y: 459}
+    icon: {fileID: 2800000, guid: 7c70bb1dfa2dcef43922c93f6c8f7266, type: 3}
+  - id: E17
+    title: '레이저 연결'
+    description: '로봇이 공격한 카드 2개를 레이저로 연결해 사이의 카드에도 로봇 피해 적용'
+    cost: 500000
+    prerequisiteIds:
+    - E12
+    - E13
+    requireAllPrerequisites: 1
+    type: 2
+    sector: 4
+    ring: 6
+    position: {x: 579, y: 537}
+    icon: {fileID: 2800000, guid: 7e131ff0d04f37a4fad12b5c1ec5d86d, type: 3}
+  - id: E18
+    title: '로봇 속도'
+    description: '로봇 공격 간격 -25%'
+    cost: 500000
+    prerequisiteIds:
+    - E14
+    requireAllPrerequisites: 0
+    type: 1
+    sector: 4
+    ring: 6
+    position: {x: 489, y: 639}
+    icon: {fileID: 2800000, guid: 6f0b2bda2d6654f469e704493514a18d, type: 3}
+  - id: E19
+    title: '집중 포화'
+    description: '모든 로봇이 같은 카드를 공격하면 해당 카드가 받는 로봇 피해 +50%'
+    cost: 2500000
+    prerequisiteIds:
+    - E15
+    - E16
+    requireAllPrerequisites: 0
+    type: 2
+    sector: 4
+    ring: 7
+    position: {x: 648, y: 384}
+    icon: {fileID: 2800000, guid: 67d153a4e3a2ec14ca5d5509ca15c37d, type: 3}
+  - id: E20
+    title: 'AI 조교 군단'
+    description: '로봇 공격 속도 ×2, 로봇 +3대. 로봇이 카드를 파괴하면 즉시 다른 카드 공격'
+    cost: 5000000
+    prerequisiteIds:
+    - E17
+    - E19
+    requireAllPrerequisites: 1
+    type: 4
+    sector: 4
+    ring: 8
+    position: {x: 534, y: 360}
+    icon: {fileID: 2800000, guid: 1126a3e6fda8b9e4b8790a361570a252, type: 3}
+  - id: AB01
+    title: '더블 클릭'
+    description: '내가 클릭한 카드를 커서 분신이 즉시 한 번 더 클릭'
+    cost: 700000
+    prerequisiteIds:
+    - A07
+    - B10
+    requireAllPrerequisites: 1
+    type: 3
+    sector: -1
+    ring: 4
+    position: {x: 1473, y: 846}
+    icon: {fileID: 2800000, guid: 20314e9fd16dc6249b044a2b8cf56d40, type: 3}
+  - id: BC01
+    title: '마감 크런치'
+    description: '마지막 5초 동안 개발 툴 발동 간격 -50%'
+    cost: 700000
+    prerequisiteIds:
+    - B07
+    - C10
+    requireAllPrerequisites: 1
+    type: 3
+    sector: -1
+    ring: 4
+    position: {x: 1293, y: 1404}
+    icon: {fileID: 2800000, guid: b797975b67d34ca4ab1dcf88f24061e9, type: 3}
+  - id: CD01
+    title: '야근 수당'
+    description: '라운드 마지막 5초 동안 획득 P ×3'
+    cost: 700000
+    prerequisiteIds:
+    - C07
+    - D10
+    requireAllPrerequisites: 1
+    type: 3
+    sector: -1
+    ring: 4
+    position: {x: 708, y: 1404}
+    icon: {fileID: 2800000, guid: 8d509e3151979474b907df86ce846d77, type: 3}
+  - id: DE01
+    title: '황금 장학금'
+    description: '황금 과제 파괴 시 획득 P ×3, 로봇이 황금 과제 우선 공격'
+    cost: 700000
+    prerequisiteIds:
+    - D07
+    - E10
+    requireAllPrerequisites: 1
+    type: 3
+    sector: -1
+    ring: 4
+    position: {x: 525, y: 846}
+    icon: {fileID: 2800000, guid: bf0a18f90276d7341aa88ad911a0eabc, type: 3}
+  - id: EA01
+    title: '협동 과제'
+    description: '로봇 공격 직후 0.5초 이내 클릭 시 무조건 치명타'
+    cost: 700000
+    prerequisiteIds:
+    - E07
+    - A10
+    requireAllPrerequisites: 1
+    type: 3
+    sector: -1
+    ring: 4
+    position: {x: 999, y: 501}
+    icon: {fileID: 2800000, guid: 572a181bed891244197ee87b85aca424, type: 3}
+  - id: ABCDE01
+    title: '졸업 프로젝트'
+    description: '모든 섹터의 최종 스킬을 구매하면 개방. 20초마다 화면의 모든 일반 카드에 클릭 피해 ×10, 개발 툴 피해 ×5, 로봇 피해 ×5 적용'
+    cost: 50000000
+    prerequisiteIds:
+    - A20
+    - B20
+    - C20
+    - D20
+    - E20
+    requireAllPrerequisites: 1
+    type: 5
+    sector: -1
+    ring: 9
+    position: {x: 999, y: 99}
+    icon: {fileID: 2800000, guid: 8311b9666f165b14b92a9bb2a3e12198, type: 3}
+>>>>>>> Stashed changes

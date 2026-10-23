@@ -8,5 +8,17 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/0. scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+<<<<<<< Updated upstream
+=======
+  - enabled: 1
+    path: Assets/0. scenes/TitleScene.unity
+    guid: 373a7edb3e526cf48a14f9edb39d628e
+  - enabled: 1
+    path: Assets/0. scenes/TestScene2.unity
+    guid: 52f35178063cd154ba0277b3acc678f2
+  - enabled: 1
+    path: Assets/0. scenes/EndingScene.unity
+    guid: 836d1814ff16fdc429f0ef1891bfdbe6
+>>>>>>> Stashed changes
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

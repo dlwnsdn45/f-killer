@@ -26,9 +26,13 @@
                     <ui:Button name="skill-tree-button" text="스킬 트리" class="skill-button"/>
                 </ui:VisualElement>
             </ui:VisualElement>
+<<<<<<< Updated upstream
             <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button"/>
             <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button"/>
             <ui:Button name="unlock-all-button" text="전부 해금 (테스트)" class="add-points-button unlock-all-button"/>
+=======
+            <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button" style="display: none;"/>
+>>>>>>> Stashed changes
             <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
                 <ui:VisualElement class="reset-progress-panel">
                     <ui:Label text="환생할까요?" class="reset-progress-title"/>

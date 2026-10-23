@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: '과제'
   icon: {fileID: 2800000, guid: 8fed8ae7fc3eaf94db0f6e198d1d1324, type: 3}
-  maxHp: 3
+  maxHp: 5
   points: 10
 
   kind: 0

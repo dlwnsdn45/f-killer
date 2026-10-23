@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: "\uACF5\uBAA8\uC804"
   icon: {fileID: 2800000, guid: 064acfaca77372a4ca9c2534c729333a, type: 3}
-  kind: 0
-  requiredGrade: 6
-  maxHp: 120
-  points: 100
+  kind: 4
+  requiredGrade: 7
+  maxHp: 2000
+  points: 200

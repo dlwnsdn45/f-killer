@@ -44,4 +44,7 @@ public sealed class AssignmentData : ScriptableObject
     public int Points => Mathf.Max(1, points);
     public const int GoldHpMultiplier = 2;
     public const int GoldPointMultiplier = 5;
+    public const int DiamondHpMultiplier = 3;
+    public const int DiamondPointMultiplier = 20;
+    public const int GradWorkPointMultiplier = 5;
 }

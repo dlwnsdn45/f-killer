@@ -20,79 +20,77 @@ public sealed class AssignmentSpawner : MonoBehaviour
     [SerializeField, Min(0.05f)] float dToDPlusInterval = 1.2f;
     [SerializeField, Min(0.05f)] float cToCPlusInterval = 1f;
     [SerializeField, Min(0.05f)] float bPlusAndAboveInterval = 0.5f;
+    [Header("학점별 과제 체력·포인트 배율 (F, F+, D, D+, C, C+, B, B+, A, A+)")]
+    [SerializeField] float[] hpScaleByGrade = { 1f, 1.1f, 1.2f, 1.35f, 1.5f, 1.7f, 1.9f, 2.2f, 2.5f, 2.8f };
+    [SerializeField] float[] pointScaleByGrade = { 1f, 1.1f, 1.25f, 1.4f, 1.6f, 1.85f, 2.1f, 2.5f, 2.9f, 3.3f };
 
-    public float GetInterval(int gradeIndex, Func<string, bool> hasSkill, SkillTable skillTable)
+    static float ScaleAt(float[] scales, int gradeIndex)
+        => scales == null || scales.Length == 0 ? 1f : scales[Mathf.Clamp(gradeIndex, 0, scales.Length - 1)];
+
+    // intervalScale: 스킬로 줄어든 등장 간격 배율 (1 = 기본)
+    public float GetInterval(int gradeIndex, float intervalScale)
     {
-        float reduction = hasSkill == null ? 0f
-            : GetOwnedSkillRate(skillTable, hasSkill, "skill-1")
-                + GetOwnedSkillRate(skillTable, hasSkill, "skill-2")
-                + GetOwnedSkillRate(skillTable, hasSkill, "skill-4")
-                + GetOwnedSkillRate(skillTable, hasSkill, "skill-5")
-                + GetOwnedSkillRate(skillTable, hasSkill, "skill-7")
-                + GetOwnedSkillRate(skillTable, hasSkill, "skill-8");
         float gradeInterval = gradeIndex <= 1 ? fPlusOrLowerInterval
             : gradeIndex <= 3 ? dToDPlusInterval
             : gradeIndex <= 5 ? cToCPlusInterval
             : bPlusAndAboveInterval;
-        return Mathf.Max(0.05f, gradeInterval * (1f - Mathf.Clamp01(reduction)));
+        return Mathf.Max(0.05f, gradeInterval * Mathf.Clamp01(intervalScale));
     }
 
-    public void Spawn(int gradeIndex, Func<string, bool> hasSkill, SkillTable skillTable,
+    public void Spawn(int gradeIndex, int extraCount, float goldChance, float diamondChance,
         Action<AssignmentBase> registerAssignment)
     {
         if (registerAssignment == null) return;
 
-        // 학점에 따라 기본 생성 과제 수를 계산
-        int count = gradeIndex <= 3 ? 1
+        // 학점에 따라 기본 생성 과제 수를 계산하고 동시 등장 스킬 보너스를 더한다
+        int count = (gradeIndex <= 3 ? 1
             : gradeIndex <= 5 ? UnityEngine.Random.Range(1, 3)
-            : UnityEngine.Random.Range(2, 4);
-        // 추가 과제 스킬 보너스를 생성 수에 반영
-        if (hasSkill != null)
-            count += (hasSkill("skill-3") ? 1 : 0) + (hasSkill("skill-6") ? 2 : 0);
-
+            : UnityEngine.Random.Range(2, 4)) + extraCount;
         for (int i = 0; i < count; i++)
-        {
-            // 현재 학점에서 출제 가능한 과목 중 하나를 선택
-            AssignmentData data = GetSpawnObject(gradeIndex);
-            if (data == null) return;
-
-            // 과목 종류와 보유 스킬에 따라 골드 확률을 계산
-            float goldChance = 0f;
-            if (hasSkill != null)
-            {
-                string goldSkillId = null;
-                switch (data.Kind)
-                {
-                    case AssignmentKind.Regular:
-                        goldSkillId = hasSkill("skill-30") ? "skill-30"
-                            : hasSkill("skill-29") ? "skill-29" : null;
-                        break;
-                    case AssignmentKind.TeamProject:
-                        goldSkillId = "skill-31";
-                        break;
-                    case AssignmentKind.SemesterProject:
-                        goldSkillId = "skill-32";
-                        break;
-                    case AssignmentKind.GraduationProject:
-                        goldSkillId = "skill-33";
-                        break;
-                }
-                goldChance = GetOwnedSkillRate(skillTable, hasSkill, goldSkillId);
-            }
-
-            // 골드 여부를 정하고 과제를 생성해 게임에 등록
-            bool isGolden = goldChance > 0f && UnityEngine.Random.value < goldChance;
-            var assignment = new AssignmentBase();
-            assignment.Initialize(data, isGolden);
-            registerAssignment(assignment);
-        }
+            SpawnOne(gradeIndex, goldChance, diamondChance, registerAssignment);
     }
 
+    public void SpawnOne(int gradeIndex, float goldChance, float diamondChance, Action<AssignmentBase> registerAssignment)
+    {
+        // 현재 학점에서 출제 가능한 과목 중 하나를 선택
+        AssignmentData data = GetSpawnObject(gradeIndex);
+        if (data == null || registerAssignment == null) return;
+        // 다이아를 먼저 굴리고, 아니면 황금을 굴린다
+        float roll = UnityEngine.Random.value;
+        AssignmentRarity rarity = roll < diamondChance ? AssignmentRarity.Diamond
+            : roll < diamondChance + goldChance ? AssignmentRarity.Golden : AssignmentRarity.Normal;
+        var assignment = new AssignmentBase();
+        assignment.Initialize(data, rarity, ScaleAt(hpScaleByGrade, gradeIndex), ScaleAt(pointScaleByGrade, gradeIndex));
+        registerAssignment(assignment);
+    }
+
+    // 졸업 작품 스킬(C20)이 마지막 5초에 내보내는 특수 카드
+    public AssignmentBase CreateGradWork(int gradeIndex)
+    {
+        SpawnEntry entry = assignmentTable.Find(item => item != null && item.data != null
+            && item.data.Kind == AssignmentKind.GraduationProject);
+        if (entry == null) return null;
+        var assignment = new AssignmentBase();
+        assignment.Initialize(entry.data, AssignmentRarity.GradWork,
+            ScaleAt(hpScaleByGrade, gradeIndex), ScaleAt(pointScaleByGrade, gradeIndex));
+        return assignment;
+    }
+
+<<<<<<< Updated upstream
     static float GetOwnedSkillRate(SkillTable skillTable, Func<string, bool> hasSkill, string skillId)
     {
         if (skillTable == null || hasSkill == null || string.IsNullOrEmpty(skillId) || !hasSkill(skillId)) return 0f;
         SkillData skill = skillTable.Find(skillId);
         return skill == null ? 0f : skill.EffectPercent / 100f;
+=======
+    public AssignmentBase CreateTutorialAssignment()
+    {
+        AssignmentData data = GetSpawnObject(0);
+        if (data == null) return null;
+        var assignment = new AssignmentBase();
+        assignment.Initialize(data);
+        return assignment;
+>>>>>>> Stashed changes
     }
 
     AssignmentData GetSpawnObject(int gradeIndex)
