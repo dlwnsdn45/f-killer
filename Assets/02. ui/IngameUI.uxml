@@ -26,17 +26,11 @@
                     <ui:Button name="skill-tree-button" text="스킬 트리" class="skill-button"/>
                 </ui:VisualElement>
             </ui:VisualElement>
-<<<<<<< Updated upstream
-            <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button"/>
-            <ui:Button name="add-points-button" text="포인트 +1,000" class="add-points-button"/>
-            <ui:Button name="unlock-all-button" text="전부 해금 (테스트)" class="add-points-button unlock-all-button"/>
-=======
             <ui:Button name="reset-progress-button" text="환생" class="reset-progress-button" style="display: none;"/>
->>>>>>> Stashed changes
             <ui:VisualElement name="reset-progress-overlay" class="reset-progress-overlay" style="display: none;">
                 <ui:VisualElement class="reset-progress-panel">
                     <ui:Label text="환생할까요?" class="reset-progress-title"/>
-                    <ui:Label name="rebirth-message" text="50,000 × 환생 회차만큼 보유 포인트가 필요합니다." class="reset-progress-message"/>
+                    <ui:Label name="rebirth-message" text="10,000 × 환생 회차만큼 보유 포인트가 필요합니다." class="reset-progress-message"/>
                     <ui:VisualElement class="reset-progress-actions">
                         <ui:Button name="cancel-reset-progress-button" text="취소" class="reset-progress-cancel"/>
                         <ui:Button name="confirm-reset-progress-button" text="환생" class="reset-progress-confirm"/>

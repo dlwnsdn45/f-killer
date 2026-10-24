@@ -45,8 +45,6 @@ public sealed class SkillTreeUI : IDisposable
     Vector2 pan, dragStart, panStart;
     int dragPointer = -1;
     bool centered;
-<<<<<<< Updated upstream
-=======
     string tutorialSkillToCenter;
     public event Action<string> SkillInspected;
     public event Action<string> SkillPurchased;
@@ -67,7 +65,6 @@ public sealed class SkillTreeUI : IDisposable
         pan = new Vector2(width / 2, height * 0.3f) - skill.Position * zoom;
         ApplyPan();
     }
->>>>>>> Stashed changes
 
     // 교차·졸업 프로젝트·시작 노드는 흰색(틴트 없음)
     static Color ColorOf(SkillData skill) => skill.Type != SkillNodeType.Cross && skill.Sector >= 0 && skill.Sector < SectorColors.Length
@@ -176,8 +173,8 @@ public sealed class SkillTreeUI : IDisposable
         rebirthBoard.style.display = DisplayStyle.None;
         viewport.Add(rebirthBoard);
         Vector2 center = new Vector2(510, 360);
-        Vector2[] positions = { new Vector2(240, 170), new Vector2(190, 510), new Vector2(700, 110), new Vector2(510, 650), new Vector2(840, 350) };
-        for (int i = 0; i < 5; i++)
+        Vector2[] positions = { new Vector2(240, 170), new Vector2(190, 510), new Vector2(700, 110), new Vector2(510, 650) };
+        for (int i = 0; i < SkillProgress.RebirthNames.Length; i++)
         {
             Vector2 delta = positions[i] - center;
             var edge = new VisualElement { pickingMode = PickingMode.Ignore };
@@ -196,7 +193,7 @@ public sealed class SkillTreeUI : IDisposable
         origin.style.left = center.x;
         origin.style.top = center.y;
         rebirthBoard.Add(origin);
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < SkillProgress.RebirthNames.Length; i++)
         {
             int index = i;
             var node = new Button { name = "rebirth-" + i };
@@ -296,6 +293,7 @@ public sealed class SkillTreeUI : IDisposable
         popup.style.left = Mathf.Clamp(anchor.x - popupWidth / 2, 12, Mathf.Max(12, width - popupWidth - 12));
         popup.style.top = Mathf.Clamp(anchor.y > height / 2 ? anchor.y - 220 : anchor.y + 26, 60, Mathf.Max(60, height - 210));
         popup.style.display = DisplayStyle.Flex;
+        SkillInspected?.Invoke(skill.Id);
     }
 
     void OnPointerDown(PointerDownEvent evt)
@@ -345,7 +343,8 @@ public sealed class SkillTreeUI : IDisposable
 
     void OnViewportGeometry(GeometryChangedEvent evt)
     {
-        if (!centered && evt.newRect.width > 0 && evt.newRect.height > 0)
+        if (tutorialSkillToCenter != null) CenterTutorialSkill();
+        else if (!centered && evt.newRect.width > 0 && evt.newRect.height > 0)
         {
             // 처음 열면 가운데 [입학]이 화면 중앙에 오게 한다.
             SkillData start = table.Find("S0");
@@ -354,7 +353,8 @@ public sealed class SkillTreeUI : IDisposable
             ApplyPan();
             centered = true;
         }
-        popup.style.display = DisplayStyle.None;
+        if (selectedNode != null && popup.style.display.value == DisplayStyle.Flex) Inspect(selectedNode);
+        else popup.style.display = DisplayStyle.None;
     }
 
     // 마우스 위치를 기준으로 한 단계씩 확대·축소 (도트 1~4배)
@@ -380,7 +380,9 @@ public sealed class SkillTreeUI : IDisposable
     {
         if (rebirthMode) { if (selectedRebirth >= 0) progress.TryPurchaseRebirth(selectedRebirth); Refresh(); return; }
         if (selectedNode == null) return;
-        progress.TryPurchase(table, selectedNode.name);
+        string id = selectedNode.name;
+        if (progress.TryPurchase(table, id) == SkillPurchaseState.Available)
+            SkillPurchased?.Invoke(id);
         Refresh();
     }
 
@@ -426,8 +428,15 @@ public sealed class SkillTreeUI : IDisposable
         if (selectedNode != null && popup.style.display.value == DisplayStyle.Flex) Inspect(selectedNode);
     }
 
-    public void Show() { Refresh(); host.style.display = DisplayStyle.Flex; popup.style.display = DisplayStyle.None; overlay.Focus(); }
-    public void Hide() { StopDrag(); host.style.display = DisplayStyle.None; opener?.Focus(); }
+    public void Show()
+    {
+        Refresh();
+        host.style.display = DisplayStyle.Flex;
+        popup.style.display = DisplayStyle.None;
+        overlay.Focus();
+        Opened?.Invoke();
+    }
+    public void Hide() { StopDrag(); tutorialSkillToCenter = null; host.style.display = DisplayStyle.None; opener?.Focus(); }
 
     public void Dispose()
     {

@@ -133,17 +133,11 @@ MonoBehaviour:
     cost: 200
     prerequisiteId: 'skill-0'
     maxLevel: 1
-  - id: skill-20
-    title: '손목 보호대'
-    description: '과부하 한도 +3'
-    cost: 500
-    prerequisiteId: 'skill-19'
-    maxLevel: 1
   - id: skill-21
     title: '밤샘'
     description: '마감 시간 +5초'
     cost: 800
-    prerequisiteId: 'skill-20'
+    prerequisiteId: 'skill-19'
     maxLevel: 1
   - id: skill-22
     title: '실습실 신청'
@@ -151,17 +145,11 @@ MonoBehaviour:
     cost: 1400
     prerequisiteId: 'skill-21'
     maxLevel: 1
-  - id: skill-23
-    title: '과제 연장'
-    description: '과부하 한도 +5'
-    cost: 1600
-    prerequisiteId: 'skill-22'
-    maxLevel: 1
   - id: skill-24
     title: '휴강'
     description: '마감 시간 +10초'
     cost: 2000
-    prerequisiteId: 'skill-23'
+    prerequisiteId: 'skill-22'
     maxLevel: 1
   - id: skill-25
     title: '추가 학점'
@@ -253,17 +241,11 @@ MonoBehaviour:
     cost: 300
     prerequisiteId: 'skill-35'
     maxLevel: 1
-  - id: skill-40
-    title: '술 약속 캔슬'
-    description: '술 약속을 한 번 파괴해도 막아줍니다.'
-    cost: 500
-    prerequisiteId: 'skill-39'
-    maxLevel: 1
   - id: skill-41
     title: '코드 수정'
     description: '버그, 수정의 내구도 -1'
     cost: 700
-    prerequisiteId: 'skill-40'
+    prerequisiteId: 'skill-39'
     maxLevel: 1
   - id: skill-42
     title: '지인 찬스'
@@ -271,16 +253,10 @@ MonoBehaviour:
     cost: 800
     prerequisiteId: 'skill-41'
     maxLevel: 1
-  - id: skill-43
-    title: '일어나!'
-    description: '잠을 클릭하여 한 번 파괴해도 팀원의 전화 찬스로 일어납니다.'
-    cost: 1000
-    prerequisiteId: 'skill-42'
-    maxLevel: 1
   - id: skill-44
     title: '자동 테스트'
     description: '버그 처치 시 주변 과제 모두의 내구도 -2'
     cost: 1200
-    prerequisiteId: 'skill-43'
+    prerequisiteId: 'skill-42'
     maxLevel: 1
 

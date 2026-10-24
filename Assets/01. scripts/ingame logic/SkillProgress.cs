@@ -11,38 +11,36 @@ public sealed class SkillProgress
     [Serializable] sealed class SaveData
     {
         public int points;
+        public bool tutorialCompleted;
+        public bool tutorialRewardGranted;
         public int bestGradeIndex;
         public int rebirthCount;
         public int rebirthPoints;
-        public int[] rebirthLevels = new int[5];
+        public int[] rebirthLevels = new int[4];
         public List<string> purchased = new List<string>();
         public int compoundRounds;
     }
 
     readonly HashSet<string> purchased = new HashSet<string>();
     public int Points { get; private set; }
+    public bool TutorialCompleted { get; private set; }
+    bool tutorialRewardGranted;
     public int BestGradeIndex { get; private set; }
     public int RebirthCount { get; private set; }
     public int RebirthPoints { get; private set; }
-<<<<<<< Updated upstream
-    readonly int[] rebirthLevels = new int[5];
-    public static readonly string[] RebirthNames = { "속성 강의", "학위의 무게", "교수의 자비", "기본 탑재 로봇", "면재권" };
-=======
     // 복리 성장(D19): 이번 생에서 끝낸 라운드 수. 환생하면 초기화.
     public int CompoundRounds { get; private set; }
     readonly int[] rebirthLevels = new int[4];
     public static readonly string[] RebirthNames = { "속성 강의", "학위의 무게", "교수의 자비", "기본 탑재 로봇" };
->>>>>>> Stashed changes
     public static readonly string[] RebirthDescriptions = {
         "F~D+ 승급 필요량 영구 감소: Lv.1 -15%, Lv.2 -30%",
         "과제 파괴 보상 P 영구 증가: 레벨당 +20%",
         "기본 마감 시간 증가: Lv.1 +5초, Lv.2 +10초",
-        "일반 스킬 초기화 후에도 레벨당 과제 로봇 1대 기본 작동",
-        "공타 마감 차감 무시 확률: Lv.1 30%, Lv.2 50%" };
-    public static readonly int[] RebirthMaxLevels = { 2, 5, 2, 3, 2 };
+        "일반 스킬 초기화 후에도 레벨당 과제 로봇 1대 기본 작동" };
+    public static readonly int[] RebirthMaxLevels = { 2, 5, 2, 3 };
     public int RebirthLevel(int index) => rebirthLevels[index];
-    public int RebirthCost(int index) => (index == 3 ? 3 : 2) + rebirthLevels[index] * (index == 4 ? 2 : 1);
-    public long NextRebirthCost => 50000L * (RebirthCount + 1L);
+    public int RebirthCost(int index) => (index == 3 ? 3 : 2) + rebirthLevels[index];
+    public long NextRebirthCost => 10000L * (RebirthCount + 1L);
     public bool CanRebirth => Points >= NextRebirthCost;
     public event Action Changed;
 
@@ -57,12 +55,14 @@ public sealed class SkillProgress
             var data = JsonUtility.FromJson<SaveData>(PlayerPrefs.GetString(SaveKey, "{}"));
             if (data == null) return;
             Points = Math.Max(0, data.points);
+            TutorialCompleted = data.tutorialCompleted;
+            tutorialRewardGranted = data.tutorialRewardGranted;
             BestGradeIndex = Math.Max(0, data.bestGradeIndex);
             RebirthCount = Math.Max(0, data.rebirthCount);
             RebirthPoints = Math.Max(0, data.rebirthPoints);
             CompoundRounds = Math.Max(0, data.compoundRounds);
             if (data.rebirthLevels != null)
-                for (int i = 0; i < Math.Min(5, data.rebirthLevels.Length); i++)
+                for (int i = 0; i < Math.Min(rebirthLevels.Length, data.rebirthLevels.Length); i++)
                     rebirthLevels[i] = Mathf.Clamp(data.rebirthLevels[i], 0, RebirthMaxLevels[i]);
             if (data.purchased != null)
                 foreach (string id in data.purchased)
@@ -137,7 +137,7 @@ public sealed class SkillProgress
 
     public bool TryPurchaseRebirth(int index)
     {
-        if (index < 0 || index >= 5 || rebirthLevels[index] >= RebirthMaxLevels[index]
+        if (index < 0 || index >= rebirthLevels.Length || rebirthLevels[index] >= RebirthMaxLevels[index]
             || RebirthPoints < RebirthCost(index)) return false;
         RebirthPoints -= RebirthCost(index);
         rebirthLevels[index]++;
@@ -173,8 +173,6 @@ public sealed class SkillProgress
         return true;
     }
 
-<<<<<<< Updated upstream
-=======
     // 테스트용(F3): 스킬트리 전체 구매.
     public void UnlockAllForTest(SkillTable table)
     {
@@ -192,20 +190,30 @@ public sealed class SkillProgress
         Save();
     }
 
->>>>>>> Stashed changes
     void Save()
     {
         PlayerPrefs.SetString(SaveKey, JsonUtility.ToJson(new SaveData
         {
             points = Points, bestGradeIndex = BestGradeIndex, purchased = new List<string>(purchased),
-<<<<<<< Updated upstream
-            rebirthCount = RebirthCount, rebirthPoints = RebirthPoints, rebirthLevels = rebirthLevels
-=======
             tutorialCompleted = TutorialCompleted, tutorialRewardGranted = tutorialRewardGranted,
             rebirthCount = RebirthCount, rebirthPoints = RebirthPoints, rebirthLevels = rebirthLevels,
             compoundRounds = CompoundRounds
->>>>>>> Stashed changes
         }));
         PlayerPrefs.Save();
+    }
+
+    public void GrantTutorialReward(int minimumPoints)
+    {
+        if (tutorialRewardGranted) return;
+        tutorialRewardGranted = true;
+        Points = Math.Max(Points, minimumPoints);
+        Save();
+        Changed?.Invoke();
+    }
+
+    public void CompleteTutorial()
+    {
+        TutorialCompleted = true;
+        Save();
     }
 }

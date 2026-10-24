@@ -1,7 +1,12 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/02. ui/Malgun SDF.asset.meta
+guid: fc5844f3d510d754895a94898a188bf6
+NativeFormatImporter:
+========
 guid: a4e691649db3b6c4a8cf29030b7a6281
 folderAsset: yes
 DefaultImporter:
+>>>>>>>> origin/khj:Assets/05.sprite.meta
   externalObjects: {}
   userData: 
   assetBundleName: 

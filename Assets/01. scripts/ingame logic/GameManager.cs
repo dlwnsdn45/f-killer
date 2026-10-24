@@ -16,8 +16,6 @@ public sealed partial class GameManager : MonoBehaviour
     [SerializeField] GameUIController gameUI;
     [SerializeField] AssignmentSpawner assignmentSpawner;
     [SerializeField] AudioManager audioManager;
-    [Header("과부하")]
-    [SerializeField, Min(0f)] float missClickPenaltySeconds = 0.5f;
 
     bool isPlaying;
     bool hasStarted;
@@ -31,9 +29,6 @@ public sealed partial class GameManager : MonoBehaviour
     bool extensionUsed;
     bool gradWorkSpawned;
     int totalPoints;
-<<<<<<< Updated upstream
-    int overloadBlocksRemaining;
-=======
     int roundEarnedPoints;
     int lastRoundScore = -1;
     int clickCount;
@@ -46,10 +41,10 @@ public sealed partial class GameManager : MonoBehaviour
     bool frenzyWasActive;
     double finalSubmitReadyAt;
     float batchTimer, graduationTimer;
->>>>>>> Stashed changes
     SkillProgress skillProgress;
     public SkillProgress SkillProgress => skillProgress ?? (skillProgress = new SkillProgress());
     readonly List<AssignmentBase> activeAssignments = new List<AssignmentBase>();
+    AssignmentBase tutorialAssignment;
 
     bool HasSkill(string id) => SkillProgress.IsOwned(gameUI != null ? gameUI.SkillTable : null, id);
     float Remaining => Mathf.Max(0f, (float)(deadline - Time.unscaledTimeAsDouble));
@@ -193,21 +188,13 @@ public sealed partial class GameManager : MonoBehaviour
         ResetToolState();
         gameUI.SetFeverVisual(false);
         gameUI.UpdateFeverState(false, 0f);
-<<<<<<< Updated upstream
-        overloadBlocksRemaining = (HasSkill("skill-20") ? 3 : 0) + (HasSkill("skill-23") ? 5 : 0);
-        deadline = Time.unscaledTimeAsDouble + RoundDuration;
-=======
         roundDuration = RoundDuration;
         deadline = Time.unscaledTimeAsDouble + roundDuration;
->>>>>>> Stashed changes
         isPlaying = true;
         hasStarted = true;
         gameUI.ShowGame();
         gameUI.UpdatePoints(SkillProgress.Points);
         UpdateAcademicGrade();
-<<<<<<< Updated upstream
-        gameUI.UpdateTimer(RoundDuration);
-=======
         gameUI.UpdateTimer(roundDuration);
         if (!SkillProgress.TutorialCompleted)
         {
@@ -219,7 +206,6 @@ public sealed partial class GameManager : MonoBehaviour
                 gameUI.UpdateTimer(roundDuration);
             });
         }
->>>>>>> Stashed changes
     }
 
     void UpdateTimer()
@@ -245,8 +231,23 @@ public sealed partial class GameManager : MonoBehaviour
         gameUI.AddAssignment(assignment);
     }
 
+    public AssignmentBase PrepareTutorialAssignment()
+    {
+        if (tutorialAssignment != null) return tutorialAssignment;
+        tutorialAssignment = assignmentSpawner != null ? assignmentSpawner.CreateTutorialAssignment() : null;
+        if (tutorialAssignment == null) return null;
+        activeAssignments.Add(tutorialAssignment);
+        gameUI.AddAssignment(tutorialAssignment);
+        return tutorialAssignment;
+    }
+
     public void HandleAssignmentClicked(AssignmentBase assignment)
     {
+        if (assignment != null && assignment == tutorialAssignment)
+        {
+            tutorialAssignment = null;
+            gameUI.OnTutorialAssignmentClicked();
+        }
         if (!isPlaying) return;
         UpdateTimer();
         if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
@@ -264,56 +265,6 @@ public sealed partial class GameManager : MonoBehaviour
             focusLastClick = now;
             damage *= 1f + 0.1f * focusStacks;
         }
-<<<<<<< Updated upstream
-        audioManager.PlayAssignmentHit(feverActive);
-        if (feverActive) gameUI.PlayFeverHitEffect(assignment);
-
-        var nearby = new List<AssignmentBase>();
-        if (HasSkill("skill-13"))
-            foreach (AssignmentBase other in activeAssignments)
-                if (other != assignment && gameUI.AreAssignmentsNear(assignment, other, 180f)) nearby.Add(other);
-        DamageAssignment(assignment, damage, true);
-        foreach (AssignmentBase other in nearby) DamageAssignment(other, 1);
-    }
-
-    public void HandleMissClick(Vector2 position)
-    {
-        if (!isPlaying) return;
-        audioManager.PlayMissClickWarning();
-        int immunity = SkillProgress.RebirthLevel(4);
-        if (immunity > 0 && UnityEngine.Random.value < (immunity == 1 ? 0.3f : 0.5f))
-        {
-            gameUI.ShowOverloadFeedback(position, true, overloadBlocksRemaining);
-            return;
-        }
-        if (overloadBlocksRemaining > 0)
-        {
-            overloadBlocksRemaining--;
-            gameUI.ShowOverloadFeedback(position, true, overloadBlocksRemaining);
-            return;
-        }
-
-        deadline -= Mathf.Max(0f, missClickPenaltySeconds);
-        UpdateTimer();
-        gameUI.ShowOverloadFeedback(position, false, overloadBlocksRemaining);
-    }
-
-    void DamageAssignment(AssignmentBase assignment, int damage, bool manualHit = false)
-    {
-        if (!isPlaying || assignment == null || !activeAssignments.Contains(assignment)) return;
-        assignment.ApplyClick(damage);
-        if (assignment.IsCompleted) CompleteAssignment(assignment, manualHit);
-        else gameUI.RefreshAssignment(assignment);
-    }
-
-    void UpdateRobots()
-    {
-        int robotCount = SkillProgress.RebirthLevel(3) + (HasSkill("skill-34") ? 1 : 0) + (HasSkill("skill-38") ? 2 : 0);
-        if (robotCount == 0 || activeAssignments.Count == 0) return;
-        float interval = Mathf.Max(0.25f, 3f - (HasSkill("skill-35") ? 0.5f : 0f));
-        elapsedRobotSeconds += Time.unscaledDeltaTime;
-        while (isPlaying && elapsedRobotSeconds >= interval && activeAssignments.Count > 0)
-=======
         if (HasSkill("A09") && assignment.HpRatio <= 0.3f) damage *= 2f;
         // 벼락치기: 남은 시간이 줄수록 증가, 마지막 1초에 +200%
         if (HasSkill("C09")) damage *= 1f + 2f * Mathf.Clamp01((roundDuration - Remaining) / Mathf.Max(1f, roundDuration - 1f));
@@ -322,7 +273,6 @@ public sealed partial class GameManager : MonoBehaviour
         if (critical) damage *= CritMultiplier;
         bool finalSubmit = HasSkill("A20") && now >= finalSubmitReadyAt;
         if (finalSubmit)
->>>>>>> Stashed changes
         {
             damage *= 10f;
             finalSubmitReadyAt = now + 10.0;
@@ -508,31 +458,10 @@ public sealed partial class GameManager : MonoBehaviour
         }
         else if (HasSkill("D10")) quotaPoints += reward;
         gameUI.RemoveAssignment(assignment);
-<<<<<<< Updated upstream
-    }
-
-    void RegisterComboBreak()
-    {
-        if (!HasSkill("skill-26")) return;
-        double now = Time.unscaledTimeAsDouble;
-        comboCount = comboCount > 0 && now <= comboExpiresAt ? comboCount + 1 : 1;
-        comboExpiresAt = now + 1.3 + (HasSkill("skill-27") ? 2.0 : 0.0);
-        if (HasSkill("skill-28") && comboCount >= 25 && comboCount % 25 == 0)
-            feverExpiresAt = now + 2.0;
-    }
-
-    void UpdateComboAndFever()
-    {
-        double now = Time.unscaledTimeAsDouble;
-        if (comboCount > 0 && now >= comboExpiresAt) comboCount = 0;
-        bool feverActive = now < feverExpiresAt;
-        if (feverActive != feverWasActive)
-=======
 
         if (assignment.Rarity == AssignmentRarity.GradWork) deadline += 5.0;
         // 작품 제출: 2초 정지. 쌓이면 라운드가 끝나지 않으므로 라운드당 합계 10초까지만.
         if (HasSkill("C12") && assignment.Data.Kind == AssignmentKind.SemesterProject && pauseGranted < MaxPausePerRound)
->>>>>>> Stashed changes
         {
             float pause = Mathf.Min(2f, MaxPausePerRound - pauseGranted);
             pauseGranted += pause;
@@ -591,6 +520,7 @@ public sealed partial class GameManager : MonoBehaviour
 
     void ClearAssignments()
     {
+        tutorialAssignment = null;
         activeAssignments.Clear();
         gameUI.ClearAssignments();
     }

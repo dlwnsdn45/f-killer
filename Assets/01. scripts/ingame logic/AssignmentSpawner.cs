@@ -76,13 +76,6 @@ public sealed class AssignmentSpawner : MonoBehaviour
         return assignment;
     }
 
-<<<<<<< Updated upstream
-    static float GetOwnedSkillRate(SkillTable skillTable, Func<string, bool> hasSkill, string skillId)
-    {
-        if (skillTable == null || hasSkill == null || string.IsNullOrEmpty(skillId) || !hasSkill(skillId)) return 0f;
-        SkillData skill = skillTable.Find(skillId);
-        return skill == null ? 0f : skill.EffectPercent / 100f;
-=======
     public AssignmentBase CreateTutorialAssignment()
     {
         AssignmentData data = GetSpawnObject(0);
@@ -90,7 +83,6 @@ public sealed class AssignmentSpawner : MonoBehaviour
         var assignment = new AssignmentBase();
         assignment.Initialize(data);
         return assignment;
->>>>>>> Stashed changes
     }
 
     AssignmentData GetSpawnObject(int gradeIndex)

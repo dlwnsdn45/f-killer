@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -17,11 +17,7 @@ public sealed class GameUIController : MonoBehaviour
     Label gradeValue;
     Label nextGradeValue;
     VisualElement resultOverlay;
-<<<<<<< Updated upstream
-    VisualElement timerPanel;
-=======
     IVisualElementScheduledItem resultAnimation;
->>>>>>> Stashed changes
     VisualElement feverOutline;
     VisualElement feverInnerOutline;
     Label feverCountdown;
@@ -37,6 +33,7 @@ public sealed class GameUIController : MonoBehaviour
     bool reloadRegistered;
     int uiVersion = -1;
     SkillTreeUI skillTree;
+    IngameTutorial tutorial;
     public bool IsBound => isBound;
     public SkillTable SkillTable => skillTable;
 
@@ -91,7 +88,6 @@ public sealed class GameUIController : MonoBehaviour
         timerValue = root.Q<Label>("timer-value");
         gradeValue = root.Q<Label>("grade-value");
         nextGradeValue = root.Q<Label>("next-grade-value");
-        timerPanel = root.Q<VisualElement>("timer-panel");
         resultOverlay = root.Q<VisualElement>("result-overlay");
         finalPointsValue = root.Q<Label>("final-points");
         restartButton = root.Q<Button>("restart-button");
@@ -125,10 +121,6 @@ public sealed class GameUIController : MonoBehaviour
         confirmResetProgressButton.clicked += ResetProgress;
         cancelResetProgressButton.clicked += HideResetProgressConfirmation;
         HideResetProgressConfirmation();
-<<<<<<< Updated upstream
-        root.RegisterCallback<PointerDownEvent>(PlayClickEffect, TrickleDown.TrickleDown);
-=======
->>>>>>> Stashed changes
         if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
         isBound = true;
@@ -136,18 +128,14 @@ public sealed class GameUIController : MonoBehaviour
 
     public void UnbindUI()
     {
+        tutorial?.Dispose();
+        tutorial = null;
         skillTree?.Dispose();
         skillTree = null;
         if (restartButton != null) restartButton.clicked -= gameManager.StartGame;
         if (resetProgressButton != null) resetProgressButton.clicked -= ShowResetProgressConfirmation;
         if (confirmResetProgressButton != null) confirmResetProgressButton.clicked -= ResetProgress;
         if (cancelResetProgressButton != null) cancelResetProgressButton.clicked -= HideResetProgressConfirmation;
-<<<<<<< Updated upstream
-        root?.UnregisterCallback<PointerDownEvent>(PlayClickEffect, TrickleDown.TrickleDown);
-        effectLayer?.RemoveFromHierarchy();
-        effectLayer = null;
-=======
->>>>>>> Stashed changes
         feverOutline?.RemoveFromHierarchy();
         feverInnerOutline?.RemoveFromHierarchy();
         feverCountdown?.RemoveFromHierarchy();
@@ -175,11 +163,7 @@ public sealed class GameUIController : MonoBehaviour
 
     void ResetProgress()
     {
-<<<<<<< Updated upstream
-        if (!gameManager.SkillProgress.TryRebirth()) { ShowResetProgressConfirmation(); return; }
-=======
         if (!gameManager.SkillProgress.TryRebirth(skillTable)) { ShowResetProgressConfirmation(); return; }
->>>>>>> Stashed changes
         HideResetProgressConfirmation();
         gameManager.StartGame();
     }
@@ -187,16 +171,30 @@ public sealed class GameUIController : MonoBehaviour
     public void ShowGame()
     {
         if (!isBound) return;
-<<<<<<< Updated upstream
-=======
         tutorial?.Dispose();
         tutorial = null;
         resultAnimation?.Pause();
->>>>>>> Stashed changes
         resultOverlay.style.display = DisplayStyle.None;
         skillTree?.Hide();
         assignmentLayer.SetEnabled(true);
     }
+
+    public void BeginTutorial(Action startPlaying)
+    {
+        tutorial = new IngameTutorial(root, skillTree, gameManager.SkillProgress, skillTable,
+            PrepareTutorialAssignmentCard, startPlaying);
+    }
+
+    VisualElement PrepareTutorialAssignmentCard()
+    {
+        AssignmentBase assignment = gameManager.PrepareTutorialAssignment();
+        if (assignment == null || !assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return null;
+        binding.card.style.left = Length.Percent(45);
+        binding.card.style.top = Length.Percent(30);
+        return binding.card;
+    }
+
+    public void OnTutorialAssignmentClicked() => tutorial?.OnAssignmentClicked();
 
     public void UpdateTimer(float remainingSeconds)
     {
@@ -204,30 +202,6 @@ public sealed class GameUIController : MonoBehaviour
         float seconds = Mathf.Max(0f, remainingSeconds);
         timerValue.text = $"{(int)(seconds / 60):00}:{seconds % 60:00.0}";
         timerValue.EnableInClassList("timer-warning", seconds <= 3f);
-    }
-
-    public void ShowOverloadFeedback(Vector2 position, bool blocked, int remainingBlocks)
-    {
-        if (!isBound) return;
-        if (timerPanel != null)
-        {
-            timerPanel.AddToClassList("overload-flash");
-            timerPanel.style.right = 14;
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 6).StartingIn(35);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 14).StartingIn(70);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 6).StartingIn(105);
-            timerPanel.schedule.Execute(() => timerPanel.style.right = 10).StartingIn(140);
-            timerPanel.schedule.Execute(() => timerPanel.RemoveFromClassList("overload-flash")).StartingIn(220);
-        }
-
-        var popup = new Label(blocked ? $"방어! 남은 횟수 {remainingBlocks}" : "-0.5s");
-        popup.AddToClassList("overload-popup");
-        popup.pickingMode = PickingMode.Ignore;
-        Vector2 localPosition = assignmentLayer.WorldToLocal(position);
-        popup.style.left = Mathf.Clamp(localPosition.x - 25, 8, Mathf.Max(8, assignmentLayer.resolvedStyle.width - 110));
-        popup.style.top = Mathf.Clamp(localPosition.y - 28, 96, Mathf.Max(96, assignmentLayer.resolvedStyle.height - 40));
-        assignmentLayer.Add(popup);
-        popup.schedule.Execute(() => popup.RemoveFromHierarchy()).StartingIn(700);
     }
 
     void CreateFeverHud()
@@ -668,8 +642,6 @@ public sealed class GameUIController : MonoBehaviour
         assignmentLayer.SetEnabled(false);
         finalPointsValue.text = $"최종 {finalPoints}점: {finalGrade}";
         resultOverlay.style.display = DisplayStyle.Flex;
-<<<<<<< Updated upstream
-=======
 
         // 클릭하던 손으로 재시작을 바로 누르지 않도록: 화면이 먼저 어두워지고,
         // 패널이 아래에서 올라와 살짝 넘쳤다가 제자리로 온다. 그동안 버튼은 눌리지 않는다.
@@ -695,6 +667,5 @@ public sealed class GameUIController : MonoBehaviour
             buttons.ForEach(button => button.pickingMode = PickingMode.Position);
             tutorial?.OnRoundEnded();
         }).Every(16);
->>>>>>> Stashed changes
     }
 }
