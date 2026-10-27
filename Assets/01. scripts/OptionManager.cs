@@ -114,6 +114,12 @@ public class OptionManager : Singleton<OptionManager>
     {
         InitData();
 
+        // 슬라이더/토글 콜백이 SaveData를 부르므로, 아직 안 읽은 값이 기본값으로 덮어써지지 않게 먼저 전부 읽어둔다
+        SFXVolume = PlayerPrefs.GetFloat("sfx");
+        BGMVolume = PlayerPrefs.GetFloat("bgm");
+        IsMutedSFX = PlayerPrefs.GetInt("sfx_muted") == 1;
+        IsMutedBGM = PlayerPrefs.GetInt("bgm_muted") == 1;
+
         _sfxSlider.value = PlayerPrefs.GetFloat("sfx");
         _bgmSlider.value = PlayerPrefs.GetFloat("bgm");
 
