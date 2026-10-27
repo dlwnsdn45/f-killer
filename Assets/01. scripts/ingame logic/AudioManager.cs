@@ -3,28 +3,65 @@
 [DisallowMultipleComponent]
 public sealed class AudioManager : MonoBehaviour
 {
+    // 비워두면 Resources/Sounds의 8비트 사운드를 사용
     [SerializeField] AudioClip assignmentHitSound;
     [SerializeField] AudioClip feverHitSound;
+    [SerializeField] AudioClip gradeUpSound;
+    [SerializeField] AudioClip roundEndSound;
+    [SerializeField] AudioClip buySound;
+    [SerializeField] AudioClip bgm;
 
     [SerializeField] AudioSource audioSource;
-    AudioClip generatedHitClip;
-    AudioClip generatedFeverHitClip;
+    AudioSource bgmSource;
+    // 부수는 소리: 공격 주체별 폴더에서 무작위 변주
+    AudioClip[] clearSounds, robotClearSounds, toolClearSounds;
+    float lastClearAt = -1f;
 
     void Awake()
     {
         audioSource.playOnAwake = false;
         audioSource.spatialBlend = 0f;
 
-        if (assignmentHitSound == null) generatedHitClip = CreateToneClip("Assignment Hit", 430f, 0.075f, 0.24f);
-        if (feverHitSound == null) generatedFeverHitClip = CreateToneClip("Fever Hit", 980f, 0.095f, 0.30f);
+        assignmentHitSound = Load(assignmentHitSound, "hit");
+        feverHitSound = Load(feverHitSound, "fever_hit");
+        clearSounds = Resources.LoadAll<AudioClip>("Sounds/Clear");
+        robotClearSounds = Resources.LoadAll<AudioClip>("Sounds/ClearRobot");
+        toolClearSounds = Resources.LoadAll<AudioClip>("Sounds/ClearTool");
+        gradeUpSound = Load(gradeUpSound, "gradeup");
+        roundEndSound = Load(roundEndSound, "round_end");
+        buySound = Load(buySound, "buy");
+        bgm = Load(bgm, "bgm");
+
+        bgmSource = gameObject.AddComponent<AudioSource>();
+        bgmSource.clip = bgm;
+        bgmSource.loop = true;
+        bgmSource.spatialBlend = 0f;
+        bgmSource.Play();
     }
 
-    public void PlayAssignmentHit(bool feverActive)
+    void Update()
     {
-        AudioClip clip = feverActive
-            ? (feverHitSound != null ? feverHitSound : generatedFeverHitClip)
-            : (assignmentHitSound != null ? assignmentHitSound : generatedHitClip);
-        PlayOneShot(clip);
+        // 옵션 변경을 바로 반영
+        OptionManager option = OptionManager.Instance();
+        bgmSource.volume = option.IsMutedBGM ? 0f : option.BGMVolume * 0.5f;
+    }
+
+    static AudioClip Load(AudioClip clip, string name) => clip != null ? clip : Resources.Load<AudioClip>("Sounds/" + name);
+
+    public void PlayAssignmentHit(bool feverActive) => PlayOneShot(feverActive ? feverHitSound : assignmentHitSound);
+    public void PlayClear() => PlayClearFrom(clearSounds);
+    public void PlayRobotClear() => PlayClearFrom(robotClearSounds);
+    public void PlayToolClear() => PlayClearFrom(toolClearSounds);
+    public void PlayGradeUp() => PlayOneShot(gradeUpSound);
+    public void PlayRoundEnd() => PlayOneShot(roundEndSound);
+    public void PlayBuy() => PlayOneShot(buySound);
+
+    void PlayClearFrom(AudioClip[] clips)
+    {
+        // 한꺼번에 여러 장이 부서지면 소리가 뭉개지므로 0.04초에 한 번만
+        if (clips.Length == 0 || Time.unscaledTime - lastClearAt < 0.04f) return;
+        lastClearAt = Time.unscaledTime;
+        PlayOneShot(clips[Random.Range(0, clips.Length)]);
     }
 
     void PlayOneShot(AudioClip clip)
@@ -35,27 +72,5 @@ public sealed class AudioManager : MonoBehaviour
         }
 
         if (audioSource != null && clip != null) audioSource.PlayOneShot(clip, OptionManager.Instance().SFXVolume);
-    }
-
-    void OnDestroy()
-    {
-        Destroy(generatedHitClip);
-        Destroy(generatedFeverHitClip);
-    }
-
-    static AudioClip CreateToneClip(string clipName, float frequency, float duration, float volume)
-    {
-        const int sampleRate = 44100;
-        int sampleCount = Mathf.CeilToInt(sampleRate * duration);
-        var samples = new float[sampleCount];
-        for (int i = 0; i < sampleCount; i++)
-        {
-            float time = i / (float)sampleRate;
-            float envelope = Mathf.Min(1f, time * 100f) * Mathf.Min(1f, (duration - time) * 45f);
-            samples[i] = Mathf.Sin(2f * Mathf.PI * frequency * time) * envelope * volume;
-        }
-        AudioClip clip = AudioClip.Create(clipName, sampleCount, 1, sampleRate, false);
-        clip.SetData(samples, 0);
-        return clip;
     }
 }

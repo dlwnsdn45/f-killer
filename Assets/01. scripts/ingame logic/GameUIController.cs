@@ -121,7 +121,11 @@ public sealed class GameUIController : MonoBehaviour
         confirmResetProgressButton.clicked += ResetProgress;
         cancelResetProgressButton.clicked += HideResetProgressConfirmation;
         HideResetProgressConfirmation();
-        if (skillTable != null) skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
+        if (skillTable != null)
+        {
+            skillTree = new SkillTreeUI(root, skillTable, gameManager.SkillProgress);
+            skillTree.SkillPurchased += _ => gameManager.GetComponent<AudioManager>().PlayBuy();
+        }
         else Debug.LogError("GameUIController에 SkillTable을 연결해주세요.", this);
         isBound = true;
     }
@@ -266,7 +270,7 @@ public sealed class GameUIController : MonoBehaviour
         binding.card.AddToClassList("robot-hit");
         binding.card.schedule.Execute(() => binding.card.RemoveFromClassList("robot-hit")).StartingIn(180);
 
-        Vector2 center = assignmentLayer.WorldToLocal(binding.card.worldBound.center);
+        Vector2 center = assignmentLayer.WorldToLocal(CardCenter(binding));
         var ring = new VisualElement { pickingMode = PickingMode.Ignore };
         ring.AddToClassList("robot-hit-ring");
         ring.style.left = center.x - 14f;
@@ -400,8 +404,18 @@ public sealed class GameUIController : MonoBehaviour
     {
         center = default;
         if (assignment == null || !assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return false;
-        center = binding.card.worldBound.center;
+        center = CardCenter(binding);
         return true;
+    }
+
+    // 이번 프레임에 생긴 카드는 아직 레이아웃 전이라 worldBound가 NaN → 스타일 위치로 계산 (로봇·분신이 바로 부술 때 이펙트가 안 보이던 문제)
+    Vector2 CardCenter(AssignmentCardBinding binding)
+    {
+        Rect bound = binding.card.worldBound;
+        if (bound.width > 0f) return bound.center;
+        var local = new Vector2(binding.card.style.left.value.value + 40f + assignmentLayer.resolvedStyle.borderLeftWidth,
+            binding.card.style.top.value.value + 40f + assignmentLayer.resolvedStyle.borderTopWidth);  // 40 = 카드 크기(80)의 절반
+        return assignmentLayer.LocalToWorld(local);
     }
 
     public Rect FieldRect => assignmentLayer.LocalToWorld(assignmentLayer.contentRect);
@@ -446,7 +460,7 @@ public sealed class GameUIController : MonoBehaviour
     public void RemoveAssignment(AssignmentBase assignment)
     {
         if (!assignmentCards.TryGetValue(assignment, out AssignmentCardBinding binding)) return;
-        PlaySpriteEffect("fx-taskbreak", 6, binding.card.worldBound.center, 96f, 96f);
+        PlaySpriteEffect("fx-taskbreak", 6, CardCenter(binding), 96f, 96f);
         binding.card.clicked -= binding.clickedCallback;
         binding.card.RemoveFromHierarchy();
         assignmentCards.Remove(assignment);

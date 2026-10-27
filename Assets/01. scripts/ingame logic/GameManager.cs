@@ -126,8 +126,12 @@ public sealed partial class GameManager : MonoBehaviour
     void Update()
     {
         if (!hasStarted && gameUI.IsBound) StartGame();
-        // 테스트: F3 → 스킬트리 전부 해금
-        if (UnityEngine.InputSystem.Keyboard.current?.f3Key.wasPressedThisFrame == true)
+        // 테스트 키 (영상 촬영용, 출시 전 삭제): F1 다음 학점까지 점수, F2 판 즉시 종료, F3 스킬트리 전부 해금
+        var keyboard = UnityEngine.InputSystem.Keyboard.current;
+        if (keyboard != null && isPlaying && keyboard.f1Key.wasPressedThisFrame)
+            GainPoints(GradeThresholds[Mathf.Min(CurrentGradeIndex + 1, GradeThresholds.Length - 1)] - totalPoints);
+        if (keyboard != null && keyboard.f2Key.wasPressedThisFrame) EndGame();
+        if (keyboard?.f3Key.wasPressedThisFrame == true)
             SkillProgress.UnlockAllForTest(gameUI.SkillTable);
         if (!isPlaying) return;
         float deltaTime = Time.unscaledDeltaTime;
@@ -450,6 +454,9 @@ public sealed partial class GameManager : MonoBehaviour
             gameUI.PlayCardEffect(assignment, "fx-perfect", 3, 72f, 48f);
         }
         int reward = Mathf.Max(1, Mathf.RoundToInt(assignment.Points * multiplier));
+        if (source == HitSource.Robot) audioManager.PlayRobotClear();
+        else if (source == HitSource.Tool) audioManager.PlayToolClear();
+        else audioManager.PlayClear();
         GainPoints(reward);
         if (HasSkill("D10") && ++quotaCount >= 10)
         {
@@ -485,7 +492,9 @@ public sealed partial class GameManager : MonoBehaviour
     void GainPoints(int amount)
     {
         if (amount <= 0) return;
+        int prevGradeIndex = CurrentGradeIndex;
         totalPoints += amount;
+        if (CurrentGradeIndex > prevGradeIndex) audioManager.PlayGradeUp();
         roundEarnedPoints += amount;
         SkillProgress.RecordBestGrade(CurrentGradeIndex);
         SkillProgress.AddPoints(amount);
@@ -515,6 +524,7 @@ public sealed partial class GameManager : MonoBehaviour
             SceneLoader.Instance().LoadScene("EndingScene");
             return;
         }
+        audioManager.PlayRoundEnd();
         gameUI.ShowResult(totalPoints, finalGrade);
     }
 

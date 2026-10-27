@@ -1,17 +1,21 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using TMPro;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class TitleScene : MonoBehaviour
 {
-    [SerializeField] private Button _gameStartButton;
-    [SerializeField] private Button _settingButton;
+    [SerializeField] private TMP_Text _tapText;
+    [SerializeField] private float _blinkSpeed = 1.5f;
 
-    private void Awake()
+    private void Update()
     {
-        _gameStartButton.onClick.RemoveAllListeners();
-        _gameStartButton.onClick.AddListener(() => SceneLoader.Instance().LoadScene("SampleScene")); // 씬 이름 변경 시 여기도 바꾸기
+        _tapText.alpha = Mathf.PingPong(Time.time * _blinkSpeed, 1f);
 
-        _settingButton.onClick.RemoveAllListeners();
-        _settingButton.onClick.AddListener(() => OptionManager.Instance().OpenUI());
+        if (Pointer.current != null && Pointer.current.press.wasReleasedThisFrame && !SceneLoader.Instance().IsLoading)
+        {
+            if (!OptionManager.Instance().IsMutedSFX)
+                AudioSource.PlayClipAtPoint(Resources.Load<AudioClip>("Sounds/start"), Camera.main.transform.position, OptionManager.Instance().SFXVolume);
+            SceneLoader.Instance().LoadScene("SampleScene"); // 씬 이름 변경 시 여기도 바꾸기
+        }
     }
 }
